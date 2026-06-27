@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { projects } from "@/content/projects";
@@ -160,6 +161,8 @@ export function WorkPosters({
               const delta = clamp(p - i, -1, 1);
               const rot = delta * -90;
               const hidden = Math.abs(p - i) >= 1;
+              const loadCover = Math.abs(p - i) < 1.35;
+              const priority = Math.abs(p - i) < 0.5;
               return (
                 <button
                   key={proj.slug}
@@ -168,9 +171,7 @@ export function WorkPosters({
                   aria-label={title}
                   className="absolute inset-0 overflow-hidden rounded-3xl border border-line text-left shadow-2xl"
                   style={{
-                    background: proj.cover
-                      ? `url(${proj.cover}) center/cover no-repeat`
-                      : proj.gradient,
+                    background: proj.cover ? proj.gradient : proj.gradient,
                     transform: `rotateX(${rot}deg)`,
                     transformOrigin: "center",
                     backfaceVisibility: "hidden",
@@ -180,6 +181,20 @@ export function WorkPosters({
                     cursor: "pointer",
                   }}
                 >
+                  {proj.cover && loadCover ? (
+                    <Image
+                      src={proj.cover}
+                      alt={title}
+                      fill
+                      sizes="(max-width: 767px) 100vw, 420px"
+                      priority={priority}
+                      loading={priority ? "eager" : "lazy"}
+                      decoding="async"
+                      className="object-cover"
+                      unoptimized
+                    />
+                  ) : null}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/8 via-transparent to-transparent" />
                   <span className="absolute left-5 top-4 font-mono text-sm font-bold tracking-widest text-black/65">
                     {proj.glyph}
                   </span>

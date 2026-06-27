@@ -39,6 +39,8 @@ export function ProjectCard({
               fill
               sizes="(max-width: 767px) 100vw, 33vw"
               className="object-cover"
+              loading={index < 1 ? "eager" : "lazy"}
+              decoding="async"
               unoptimized
             />
           ) : null}

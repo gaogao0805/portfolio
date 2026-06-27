@@ -23,7 +23,7 @@ export function Nav({
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const { toggle } = useLanyard();
+  const { toggle, warm } = useLanyard();
 
   const path = norm(pathname);
   const isHome = path === norm(`/${locale}`);
@@ -142,6 +142,8 @@ export function Nav({
           <button
             type="button"
             onClick={toggle}
+            onPointerEnter={warm}
+            onFocus={warm}
             className="flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-fg"
           >
             <span
@@ -227,6 +229,8 @@ export function Nav({
                   setOpen(false);
                   toggle();
                 }}
+                onPointerEnter={warm}
+                onFocus={warm}
                 className="flex items-center gap-3 py-2 text-left text-lg text-fg"
               >
                 <span

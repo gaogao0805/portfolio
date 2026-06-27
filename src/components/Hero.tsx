@@ -16,7 +16,7 @@ export function Hero({
   home: Dictionary["home"];
 }) {
   const byChar = locale === "zh";
-  const { show } = useLanyard();
+  const { show, warm } = useLanyard();
 
   return (
     <section className="relative mx-auto flex max-w-6xl flex-col items-center px-5 pb-16 pt-16 text-center sm:px-8 sm:pb-24 sm:pt-20">
@@ -89,6 +89,8 @@ export function Hero({
         <button
           type="button"
           onClick={show}
+          onPointerEnter={warm}
+          onFocus={warm}
           className="rounded-full border border-line px-6 py-3 text-sm font-semibold text-fg transition-colors hover:border-accent hover:text-accent"
         >
           {home.ctaContact}

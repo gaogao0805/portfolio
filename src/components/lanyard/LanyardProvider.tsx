@@ -24,6 +24,7 @@ type LanyardCtx = {
   toggle: () => void;
   show: () => void;
   hide: () => void;
+  warm: () => void;
 };
 
 const Ctx = createContext<LanyardCtx>({
@@ -31,6 +32,7 @@ const Ctx = createContext<LanyardCtx>({
   toggle: () => {},
   show: () => {},
   hide: () => {},
+  warm: () => {},
 });
 
 export const useLanyard = () => useContext(Ctx);
@@ -44,11 +46,37 @@ export function LanyardProvider({
 }) {
   const [open, setOpen] = useState(false);
   const [front, setFront] = useState<string | null>(null);
+  const [warmed, setWarmed] = useState(false);
   const pathname = usePathname();
+  const warmPromise = useRef<Promise<void> | null>(null);
 
   const toggle = useCallback(() => setOpen((o) => !o), []);
   const show = useCallback(() => setOpen(true), []);
   const hide = useCallback(() => setOpen(false), []);
+
+  const warm = useCallback(() => {
+    if (warmed) return;
+    setWarmed(true);
+    if (!warmPromise.current) {
+      warmPromise.current = import("./Lanyard").then(() => undefined);
+    }
+    if (!front) {
+      const make = async () => {
+        const { createBadgeTexture } = await import("./createBadgeTexture");
+        const avatar = site.avatar ? await loadAvatar(site.avatar) : null;
+        setFront(
+          createBadgeTexture({
+            name: site.name,
+            role,
+            email: site.email,
+            phone: site.showPhone ? site.phone : undefined,
+            avatar,
+          })
+        );
+      };
+      void make();
+    }
+  }, [front, role, warmed]);
 
   // 切换页面时自动收起工牌（首次挂载不触发）
   const firstRender = useRef(true);
@@ -72,35 +100,11 @@ export function LanyardProvider({
   // 只有在打开时才生成工牌正面（之前是进页面就预生成，会有残留）
   useEffect(() => {
     if (!open) return;
-    let cancelled = false;
-    const make = (avatar: HTMLImageElement | null) => {
-      if (!cancelled)
-        setFront(
-          createBadgeTexture({
-            name: site.name,
-            role,
-            email: site.email,
-            phone: site.showPhone ? site.phone : undefined,
-            avatar,
-          })
-        );
-    };
-    if (site.avatar) {
-      const img = new Image();
-      img.crossOrigin = "anonymous";
-      img.onload = () => make(img);
-      img.onerror = () => make(null);
-      img.src = site.avatar;
-    } else {
-      make(null);
-    }
-    return () => {
-      cancelled = true;
-    };
-  }, [open, role]);
+    warm();
+  }, [open, warm]);
 
   return (
-    <Ctx.Provider value={{ open, toggle, show, hide }}>
+    <Ctx.Provider value={{ open, toggle, show, hide, warm }}>
       {children}
       {open && front ? (
         <div className="pointer-events-none fixed inset-0 z-30">
@@ -116,4 +120,14 @@ export function LanyardProvider({
       ) : null}
     </Ctx.Provider>
   );
+}
+
+function loadAvatar(src: string) {
+  return new Promise<HTMLImageElement | null>((resolve) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => resolve(img);
+    img.onerror = () => resolve(null);
+    img.src = src;
+  });
 }

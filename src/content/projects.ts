@@ -404,7 +404,6 @@ export const projects: Project[] = [
     slug: "event-visual",
     year: "2026",
     gradient: "linear-gradient(135deg,#FF4D6A 0%,#FF9A44 100%)",
-    cover: "/images/operational-visuals/cover.jpg",
     glyph: "📣",
     title: {
       zh: "运营视觉",
