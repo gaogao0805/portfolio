@@ -1,0 +1,401 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { isLocale } from "@/i18n/config";
+import type { Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
+import { projects, getProject, getAdjacent } from "@/content/projects";
+import type { Project } from "@/content/projects";
+import { Reveal } from "@/components/Reveal";
+import { NewsDanmaku } from "@/components/work/NewsDanmaku";
+import { CyberGameRules } from "@/components/work/CyberGameRules";
+import { CyberGameComponents } from "@/components/work/CyberGameComponents";
+import { OperationalVisualGallery } from "@/components/work/OperationalVisualGallery";
+import { GameCollectionShowcase } from "@/components/work/GameCollectionShowcase";
+
+export function generateStaticParams() {
+  return projects.map((p) => ({ slug: p.slug }));
+}
+
+// 静态导出：只生成上面列出的项目页，未知 slug 返回 404
+export const dynamicParams = false;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const project = getProject(slug);
+  if (!isLocale(locale) || !project) return {};
+  return {
+    title: `${project.title[locale]} · Zoey`,
+    description: project.summary[locale],
+  };
+}
+
+export default async function ProjectPage({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}) {
+  const { locale, slug } = await params;
+  if (!isLocale(locale)) notFound();
+  const project = getProject(slug);
+  if (!project) notFound();
+  const dict = getDictionary(locale);
+  const { prev, next } = getAdjacent(slug);
+
+  const meta = [
+    { label: dict.project.role, value: project.role[locale] },
+    { label: dict.project.team, value: project.team[locale] },
+    { label: dict.project.tools, value: project.tools[locale] },
+    { label: dict.project.duration, value: project.duration[locale] },
+    { label: dict.project.year, value: project.year },
+  ].filter((m) => m.value.trim().length > 0);
+  const isPosterCollection = slug === "event-visual";
+
+  return (
+    <article data-nav-theme="dark" className="overflow-x-clip">
+      {/* 头部 */}
+      <header data-nav-theme="dark" className="border-b border-line">
+        <div className="mx-auto max-w-4xl px-4 py-12 sm:px-8 sm:py-24">
+          <Link
+            href={`/${locale}#work`}
+            className="text-xs text-muted transition-colors hover:text-accent sm:text-sm"
+          >
+            ← {dict.project.backToWork}
+          </Link>
+          <p className="kicker mt-6 sm:mt-8">{project.category[locale]}</p>
+          <h1 className="display mt-4 max-w-3xl text-4xl leading-[0.95] sm:text-7xl">
+            {project.title[locale]}
+          </h1>
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted sm:mt-6 sm:text-xl">
+            {project.summary[locale]}
+          </p>
+          {project.link ? (
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-7 inline-block rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-black transition-transform hover:-translate-y-0.5 sm:mt-8"
+            >
+              {dict.project.visit} ↗
+            </a>
+          ) : null}
+        </div>
+      </header>
+
+      {/* 弹幕式项目背景（仅部分项目有） */}
+      {project.introImages && project.introQuote ? (
+        <NewsDanmaku
+          images={project.introImages}
+          quote={project.introQuote[locale]}
+          question={locale === "zh"
+            ? "我们如何保护个人权益，避免隐私被窥探？"
+            : "How can we protect our personal rights and stop living under surveillance?"}
+          answer={locale === "zh"
+            ? "让更多人意识到信息泄露的危害、建立防范意识——这就是这个项目的初衷。我们选择用游戏卡牌这种轻松的形式，让玩家在对抗中理解隐私安全的重要性。"
+            : "Raising awareness of information leakage and building a sense of prevention — that's the purpose of this project. We chose a card game format so players can grasp the importance of privacy security through play."}
+        />
+      ) : null}
+
+      {/* 封面占位（仅无弹幕区且无真实画廊的项目显示） */}
+      {!project.introImages && !project.gallery?.length && !project.video && !project.gameItems?.length ? (
+        <div
+          data-nav-theme="dark"
+          className="mx-auto mt-10 aspect-[16/9] w-full max-w-5xl rounded-3xl border border-line sm:mt-12"
+          style={{ background: project.gradient }}
+        />
+      ) : null}
+
+      {project.video ? (
+        <GameVideoShowcase locale={locale} video={project.video} />
+      ) : null}
+
+      {project.metrics?.length || project.socialProof ? (
+        <ProjectImpactShowcase locale={locale} project={project} />
+      ) : null}
+
+      {project.gameItems?.length ? (
+        <GameCollectionShowcase locale={locale} items={project.gameItems} />
+      ) : null}
+
+      {isPosterCollection && project.gallery?.length ? (
+        <OperationalVisualGallery
+          locale={locale}
+          title={locale === "zh" ? "浙里等你" : "Travel in Zhejiang"}
+          description={
+            locale === "zh"
+              ? "浙江旅游推广海报和相关周边设计。"
+              : "A poster and merchandise design project for Zhejiang tourism."
+          }
+          images={project.gallery}
+        />
+      ) : null}
+
+      {/* 游戏规则 */}
+      {project.gameRules ? (
+        <CyberGameRules locale={locale} rules={project.gameRules} />
+      ) : null}
+
+      {slug === "cyber-warfare" ? (
+        <CyberGameComponents locale={locale} />
+      ) : null}
+
+      {/* 正文章节 */}
+      <div>
+        {project.sections.map((s, i) => (
+          <section
+            key={s.heading[locale]}
+            data-nav-theme="dark"
+            className={i % 2 === 0 ? "bg-[#101017]" : "bg-bg"}
+          >
+            <div className="mx-auto max-w-4xl px-4 py-14 sm:px-8 sm:py-24">
+              <Reveal>
+                <div className="grid gap-4 md:grid-cols-[180px_1fr] md:gap-10">
+                  <h2 className="display text-xl text-accent sm:text-2xl">
+                    {s.heading[locale]}
+                  </h2>
+                  <div className="space-y-4">
+                    {s.body[locale].map((para, j) => (
+                      <p key={j} className="text-base leading-relaxed text-muted sm:text-lg">
+                        {para}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+          </section>
+        ))}
+      </div>
+
+      {/* 项目概览 */}
+      {!project.gameItems?.length && !isPosterCollection ? (
+        <section data-nav-theme="dark" className="bg-bg-soft">
+          <div className="mx-auto max-w-4xl px-4 py-12 sm:px-8 sm:py-16">
+            <dl className="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 md:grid-cols-3">
+              {meta.map((m) => (
+                <div key={m.label}>
+                  <dt className="font-mono text-xs uppercase tracking-wider text-muted">
+                    {m.label}
+                  </dt>
+                  <dd className="mt-2 text-sm text-fg">{m.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
+      ) : null}
+
+      {/* 上一个 / 下一个 */}
+      <nav data-nav-theme="dark" className="border-t border-line">
+        <div className="mx-auto grid max-w-4xl grid-cols-1 gap-6 px-4 py-12 sm:grid-cols-2 sm:px-8">
+          <Link href={`/${locale}/work/${prev.slug}`} className="group">
+            <span className="font-mono text-xs uppercase tracking-wider text-muted">
+              ← {dict.project.prev}
+            </span>
+            <p className="display mt-2 text-lg transition-colors group-hover:text-accent sm:text-xl">
+              {prev.title[locale]}
+            </p>
+          </Link>
+          <Link
+            href={`/${locale}/work/${next.slug}`}
+            className="group text-right"
+          >
+            <span className="font-mono text-xs uppercase tracking-wider text-muted">
+              {dict.project.next} →
+            </span>
+            <p className="display mt-2 text-lg transition-colors group-hover:text-accent sm:text-xl">
+              {next.title[locale]}
+            </p>
+          </Link>
+        </div>
+      </nav>
+    </article>
+  );
+}
+
+function ProjectImpactShowcase({
+  locale,
+  project,
+}: {
+  locale: Locale;
+  project: Project;
+}) {
+  return (
+    <section data-nav-theme="dark" className="bg-bg-soft">
+      <div className="mx-auto max-w-5xl px-4 py-14 sm:px-8 sm:py-20">
+        <div className="grid gap-10 lg:grid-cols-[360px_1fr] lg:items-start">
+          <div className="lg:sticky lg:top-24">
+            <span className="font-mono text-xs uppercase tracking-wider text-muted">
+              {locale === "zh" ? "上线表现" : "Launch impact"}
+            </span>
+            <h2 className="display mt-2 text-2xl sm:text-4xl">
+              {locale === "zh" ? "数据与玩家反馈" : "Metrics and player feedback"}
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-muted">
+              {locale === "zh"
+                ? "用上线后的真实数据和社媒讨论补充说明这个小游戏的传播表现。"
+                : "Post-launch metrics and social discussion show how the mini game performed beyond the build itself."}
+            </p>
+
+            {project.link ? (
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 inline-block rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-black transition-transform hover:-translate-y-0.5"
+              >
+                {locale === "zh" ? "体验游戏" : "Play the game"} ↗
+              </a>
+            ) : null}
+          </div>
+
+          <div className="space-y-8">
+            {project.metrics?.length ? (
+              <MetricGrid locale={locale} metrics={project.metrics} />
+            ) : null}
+
+            {project.socialProof ? (
+              <SocialProofGallery
+                locale={locale}
+                socialProof={project.socialProof}
+              />
+            ) : null}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function MetricGrid({
+  locale,
+  metrics,
+}: {
+  locale: Locale;
+  metrics: NonNullable<Project["metrics"]>;
+}) {
+  return (
+    <div className="mt-8 grid gap-3 sm:grid-cols-3">
+      {metrics.map((metric) => (
+        <div
+          key={`${metric.value[locale]}-${metric.label[locale]}`}
+          className="border border-line bg-bg px-4 py-5"
+        >
+          <p className="display text-3xl text-accent sm:text-4xl">
+            {metric.value[locale]}
+          </p>
+          <p className="mt-2 font-mono text-xs uppercase tracking-wider text-fg">
+            {metric.label[locale]}
+          </p>
+          {metric.description ? (
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              {metric.description[locale]}
+            </p>
+          ) : null}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function SocialProofGallery({
+  locale,
+  socialProof,
+}: {
+  locale: Locale;
+  socialProof: NonNullable<Project["socialProof"]>;
+}) {
+  return (
+    <div className="mt-10">
+      <span className="font-mono text-xs uppercase tracking-wider text-muted">
+        {socialProof.eyebrow[locale]}
+      </span>
+      <h3 className="display mt-2 text-xl sm:text-3xl">
+        {socialProof.heading[locale]}
+      </h3>
+      <p className="mt-3 text-sm leading-relaxed text-muted sm:text-base">
+        {socialProof.body[locale]}
+      </p>
+
+      <div className="mt-6 columns-1 gap-4 sm:columns-2">
+        {socialProof.images.map((image) => (
+          <div
+            key={image.src}
+            className="mb-4 break-inside-avoid overflow-hidden border border-line bg-bg"
+          >
+            <Image
+              src={image.src}
+              alt={image.alt[locale]}
+              width={image.width}
+              height={image.height}
+              sizes="(max-width: 639px) 100vw, 360px"
+              className="h-auto w-full"
+              unoptimized
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function GameVideoShowcase({
+  locale,
+  video,
+}: {
+  locale: Locale;
+  video: NonNullable<Project["video"]>;
+}) {
+  return (
+    <section data-nav-theme="dark" className="bg-bg">
+      <div className="mx-auto grid max-w-5xl gap-8 px-4 py-14 sm:px-8 sm:py-20 lg:grid-cols-[minmax(0,1fr)_minmax(280px,420px)] lg:items-center">
+        <div className="max-w-xl">
+          <span className="font-mono text-xs uppercase tracking-wider text-muted">
+            {locale === "zh" ? "实机展示" : "Live Demo"}
+          </span>
+          <h2 className="display mt-2 text-2xl sm:text-4xl">
+            {video.title[locale]}
+          </h2>
+          {video.caption ? (
+            <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
+              {video.caption[locale]}
+            </p>
+          ) : null}
+        </div>
+
+        <GameVideoPlayer locale={locale} video={video} />
+      </div>
+    </section>
+  );
+}
+
+function GameVideoPlayer({
+  locale,
+  video,
+}: {
+  locale: Locale;
+  video: NonNullable<Project["video"]>;
+}) {
+  return (
+    <div className="mx-auto w-full max-w-[420px] overflow-hidden rounded-[28px] border border-line bg-black p-2 shadow-2xl">
+      <video
+        controls
+        playsInline
+        preload="metadata"
+        poster={video.poster}
+        aria-label={video.title[locale]}
+        className="aspect-[603/1108] max-h-[78vh] w-full rounded-[20px] bg-black object-contain"
+      >
+        <source src={video.src} type="video/mp4" />
+        {locale === "zh"
+          ? "你的浏览器不支持视频播放。"
+          : "Your browser does not support video playback."}
+      </video>
+    </div>
+  );
+}

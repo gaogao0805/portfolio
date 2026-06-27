@@ -1,26 +1,356 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Muyao";
+  src: url("/fonts/Muyao-Softbrush-2.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ZibangWanku";
+  src: url("/fonts/ZibangWanku.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ----------------------------------------------------------------
+   主题 token —— 「大胆 / 个性化」深色基调 + 电光绿强调色
+   想换配色：改下面几个变量即可。
+----------------------------------------------------------------- */
+@theme {
+  --color-bg: #0b0b0f;
+  --color-bg-soft: #14141b;
+  --color-bg-light: #ffffff;
+  --color-bg-gray: #f5f5f5;
+  --color-fg: #f4f4f0;
+  --color-muted: #8a8a99;
+  --color-accent: #19ffe7; /* 青色，品牌色 */
+  --color-accent-2: #6d5bff; /* 紫，次强调 */
+  --color-line: #26262f;
+
+  /* 字体栈 —— 不依赖外部网络，开箱即用。
+     想用自定义字体（如 Space Grotesk）：把它加到 --font-display 最前面，
+     并在 layout 里用 next/font 引入即可。 */
+  --font-display: var(--font-zibang), "Space Grotesk", ui-sans-serif, system-ui,
+    -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-sans: var(--font-zibang), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC",
+    "Microsoft YaHei", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas,
+    monospace;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* 自定义鼠标光标（public/cursor.svg）。尖端对齐点击位置 (0,0)。
+   想换图：替换 public/cursor.svg 即可。 */
+html,
+body {
+  cursor: url("/cursor.svg") 0 0, auto;
+}
+a,
+button,
+[role="button"],
+label,
+summary,
+input,
+textarea,
+select {
+  cursor: url("/cursor.svg") 0 0, auto;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #000;
+}
+
+/* 细微噪点纹理覆盖层（个性化签名细节之一） */
+.noise::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.theme-light {
+  --color-fg: #1a1a1a !important;
+  --color-muted: #666666 !important;
+  --color-line: #e0e0e0 !important;
+  --color-bg-soft: #f0f0f0 !important;
+  --color-accent: #0db5a2 !important;
+  color: #1a1a1a !important;
+}
+
+/* 超大展示标题 */
+.display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+}
+
+/* 小标签 kicker */
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* 描边文字（hover 时填充） */
+.outline-text {
+  -webkit-text-stroke: 1.5px var(--color-fg);
+  color: transparent;
+  transition: color 0.3s ease;
+}
+.outline-text:hover {
+  color: var(--color-fg);
+}
+
+/* ----------------------------------------------------------------
+   Gooey 粘性导航点击效果（配合 components/GooeyNav.tsx）
+   配色用站点品牌色：药丸/气泡 = 电光绿，文字激活 = 黑
+----------------------------------------------------------------- */
+.gooey-nav-container {
+  position: relative;
+  /* 粒子颜色池（GooeyNav 的 colors 数组引用 --color-1..4） */
+  --color-1: var(--color-accent);
+  --color-2: #ffffff;
+  --color-3: var(--color-accent-2);
+  --color-4: var(--color-accent);
+  --pill: var(--color-accent);
+}
+
+.gooey-nav-container nav {
+  display: flex;
+  position: relative;
+  transform: translate3d(0, 0, 0.01px);
+}
+
+.gooey-nav-container nav ul {
+  display: flex;
+  gap: 0.5em;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  z-index: 3;
+  color: var(--color-fg);
+}
+
+.gooey-nav-container nav ul li {
+  border-radius: 100vw;
+  position: relative;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  color: var(--color-fg);
+}
+
+.gooey-nav-container nav ul li a,
+.gooey-nav-container nav ul li button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0.45em 0.9em;
+  font-size: 0.875rem;
+  text-decoration: none;
+  color: inherit;
+  background: none;
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.gooey-nav-container nav ul li::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 100vw;
+  background: var(--pill);
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.3s ease;
+  z-index: -1;
+}
+
+.gooey-nav-container nav ul li.active {
+  color: #000;
+}
+
+.gooey-nav-container nav ul li.active::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.gooey-nav-container .effect {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  opacity: 1;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45em;
+  z-index: 1;
+}
+
+.gooey-nav-container .effect.text {
+  color: var(--color-fg);
+  font-size: 0.875rem;
+  transition: color 0.3s ease;
+}
+
+.gooey-nav-container .effect.text.active {
+  color: #000;
+}
+
+/* 注意：原版 gooey「液态融合」用 blur+contrast 元球 + 黑色背景块 + mix-blend-mode
+   实现，但在 sticky 导航（自成层叠上下文）里那个黑块会在导航下方透出暗块。
+   这里去掉元球与黑块，保留药丸点亮 + 粒子迸射。 */
+.gooey-nav-container .effect.filter::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--pill);
+  transform: scale(0);
+  opacity: 0;
+  z-index: -1;
+  border-radius: 100vw;
+}
+
+.gooey-nav-container .effect.active::after {
+  animation: pill 0.3s ease both;
+}
+
+@keyframes pill {
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.gooey-nav-container .particle,
+.gooey-nav-container .point {
+  display: block;
+  opacity: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  transform-origin: center;
+}
+
+.gooey-nav-container .particle {
+  --time: 5s;
+  position: absolute;
+  top: calc(50% - 8px);
+  left: calc(50% - 8px);
+  animation: particle calc(var(--time)) ease 1 -350ms;
+}
+
+.gooey-nav-container .point {
+  background: var(--color);
+  opacity: 1;
+  animation: point calc(var(--time)) ease 1 -350ms;
+}
+
+@keyframes particle {
+  0% {
+    transform: rotate(0deg)
+      translate(calc(var(--start-x)), calc(var(--start-y)));
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45);
+  }
+  70% {
+    transform: rotate(calc(var(--rotate) * 0.5))
+      translate(calc(var(--end-x) * 1.2), calc(var(--end-y) * 1.2));
+    opacity: 1;
+    animation-timing-function: ease;
+  }
+  85% {
+    transform: rotate(calc(var(--rotate) * 0.66))
+      translate(calc(var(--end-x)), calc(var(--end-y)));
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(calc(var(--rotate) * 1.2))
+      translate(calc(var(--end-x) * 0.5), calc(var(--end-y) * 0.5));
+    opacity: 1;
+  }
+}
+
+@keyframes point {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45);
+  }
+  25% {
+    transform: scale(calc(var(--scale) * 0.25));
+  }
+  38% {
+    opacity: 1;
+  }
+  65% {
+    transform: scale(var(--scale));
+    opacity: 1;
+    animation-timing-function: ease;
+  }
+  85% {
+    transform: scale(var(--scale));
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+/* 单色图标：用 mask 把任意 SVG 染成 currentColor（跟随文字颜色）。
+   用法：<span class="nav-ico" style="--icon:url(/icons/home.svg)"></span> */
+.nav-ico {
+  display: inline-block;
+  width: 1.05em;
+  height: 1.05em;
+  flex: none;
+  vertical-align: -0.15em;
+  background-color: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+
+/* 尊重「减少动态效果」偏好 */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
 }
