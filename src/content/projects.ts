@@ -319,32 +319,6 @@ export const projects: Project[] = [
           ],
         },
       },
-      {
-        theme: "light",
-        title: {
-          zh: "高考志愿模拟器",
-          en: "College Application Simulator",
-        },
-        subtitle: {
-          zh: "志愿填报主题手游项目，占位整理中",
-          en: "A mobile game about college application choices, placeholder in progress",
-        },
-        description: {
-          zh: [
-            "一个围绕高考志愿选择展开的模拟器项目，后续会补充具体玩法、录屏和上线表现。",
-            "这个案例会用于展示我在手游链路、选择反馈、信息层级和数值体验上的设计整理。",
-          ],
-          en: [
-            "A simulator project built around college application choices. Gameplay details, recordings, and launch performance will be added later.",
-            "This case will document my work on mobile game flow, choice feedback, information hierarchy, and value tuning.",
-          ],
-        },
-        role: {
-          zh: "UI 设计、游戏链路梳理、反馈体验优化",
-          en: "UI design, game flow mapping, and feedback UX optimization",
-        },
-        duration: { zh: "整理中", en: "In progress" },
-      },
     ],
     sections: [],
   },

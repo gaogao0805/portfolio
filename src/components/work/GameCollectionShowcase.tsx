@@ -477,26 +477,7 @@ export function GameCollectionShowcase({
 
                     {item.video ? (
                       <GameVideoPlayer locale={locale} video={item.video} />
-                    ) : (
-                      <motion.div
-                        variants={itemVariants}
-                        className="flex min-h-[360px] items-center justify-center border border-line bg-[#f3f3f3] p-6 text-center"
-                      >
-                        <div>
-                          <p className="font-mono text-xs uppercase tracking-wider text-[#777]">
-                            {locale === "zh" ? "占位" : "Placeholder"}
-                          </p>
-                          <p className="display mt-3 text-3xl text-[#171717] sm:text-4xl">
-                            {locale === "zh" ? "高考志愿模拟器" : "Application Simulator"}
-                          </p>
-                          <p className="mx-auto mt-4 max-w-xs text-sm leading-relaxed text-[#666]">
-                            {locale === "zh"
-                              ? "后续补充录屏、核心玩法和上线反馈。"
-                              : "Recording, gameplay details, and launch feedback will be added later."}
-                          </p>
-                        </div>
-                      </motion.div>
-                    )}
+                    ) : null}
                   </div>
 
                   {item.metrics?.length ? (
@@ -511,6 +492,24 @@ export function GameCollectionShowcase({
             </motion.article>
           );
         })}
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-90px" }}
+          transition={{ duration: 0.55, ease: EASE }}
+          data-nav-theme="light"
+          className="border-t border-line bg-white text-center"
+        >
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-8 sm:py-24">
+            <p className="font-mono text-xs uppercase tracking-wider text-muted">
+              {locale === "zh" ? "更多游戏" : "More games"}
+            </p>
+            <p className="display mt-3 text-3xl text-[#171717] sm:text-4xl">
+              {locale === "zh" ? "未完待续" : "To be continued"}
+            </p>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
