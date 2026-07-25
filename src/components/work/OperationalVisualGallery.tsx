@@ -36,7 +36,7 @@ export function OperationalVisualGallery({
         locale === "zh"
           ? "围绕「就绪」AI 求职招聘产品的推广海报设计，用轻盈的科技感、人物卡片和线下物料场景建立品牌识别。"
           : "Promotional poster design for Ready, an AI recruitment product, using a light tech tone, character cards, and offline display context to build brand recognition.",
-      images: ["/images/event-visual-cover.png"],
+      images: ["https://github.com/gaogao0805/picx-images-hosting/raw/master/event-visual-cover.51eurnkl4z.webp"],
       tone: "dark",
     },
     {

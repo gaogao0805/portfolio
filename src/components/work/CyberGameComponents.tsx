@@ -29,28 +29,28 @@ type ScoreTable = {
 };
 
 const lowInformationBlocks: InformationBlock[] = [
-  { key: "low-1223", src: "/images/cyber-info-blocks/low-1223.png", label: "Low-level information block" },
-  { key: "low-1224", src: "/images/cyber-info-blocks/low-1224.png", label: "Low-level information block" },
-  { key: "low-1227", src: "/images/cyber-info-blocks/low-1227.png", label: "Low-level information block" },
-  { key: "low-1228", src: "/images/cyber-info-blocks/low-1228.png", label: "Low-level information block" },
-  { key: "low-1234", src: "/images/cyber-info-blocks/low-1234.png", label: "Low-level information block" },
-  { key: "low-1235", src: "/images/cyber-info-blocks/low-1235.png", label: "Low-level information block" },
-  { key: "low-1236", src: "/images/cyber-info-blocks/low-1236.png", label: "Low-level information block" },
-  { key: "low-1237", src: "/images/cyber-info-blocks/low-1237.png", label: "Low-level information block" },
+  { key: "low-1223", src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/low-1223.1sfqv0ir8v.webp", label: "Low-level information block" },
+  { key: "low-1224", src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/low-1224.1ow4xapoj2.webp", label: "Low-level information block" },
+  { key: "low-1227", src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/low-1227.9ddnz7pkdm.webp", label: "Low-level information block" },
+  { key: "low-1228", src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/low-1228.3d5huhfyp8.webp", label: "Low-level information block" },
+  { key: "low-1234", src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/low-1234.51euro68vf.webp", label: "Low-level information block" },
+  { key: "low-1235", src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/low-1235.6wrfkaioh4.webp", label: "Low-level information block" },
+  { key: "low-1236", src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/low-1236.8okef721d1.webp", label: "Low-level information block" },
+  { key: "low-1237", src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/low-1237.45idc7wkfd.webp", label: "Low-level information block" },
 ];
 
 const highInformationBlocks: InformationBlock[] = [
-  { key: "high-1225", src: "/images/cyber-info-blocks/high-1225.png", label: "High-level information block" },
-  { key: "high-1226", src: "/images/cyber-info-blocks/high-1226.png", label: "High-level information block" },
-  { key: "high-1229", src: "/images/cyber-info-blocks/high-1229.png", label: "High-level information block" },
-  { key: "high-1233", src: "/images/cyber-info-blocks/high-1233.png", label: "High-level information block" },
-  { key: "high-1238", src: "/images/cyber-info-blocks/high-1238.png", label: "High-level information block" },
+  { key: "high-1225", src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/high-1225.8hh6jreqv6.webp", label: "High-level information block" },
+  { key: "high-1226", src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/high-1226.9gx9wxhi15.webp", label: "High-level information block" },
+  { key: "high-1229", src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/high-1229.96ag3s29vl.webp", label: "High-level information block" },
+  { key: "high-1233", src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/high-1233.lwfmespkw.webp", label: "High-level information block" },
+  { key: "high-1238", src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/high-1238.7ehh8viwzj.webp", label: "High-level information block" },
 ];
 
 const scoreTables: ScoreTable[] = [
   {
     key: "credit-score-table",
-    src: "/images/cyber-score-tables/credit-score-table.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/credit-score-table.60uy4ty9iz.webp",
     width: 1094,
     height: 1094,
     alt: { zh: "Credit score table", en: "Credit score table" },
@@ -62,7 +62,7 @@ const scoreTables: ScoreTable[] = [
   },
   {
     key: "information-value-score-table",
-    src: "/images/cyber-score-tables/information-value-score-table.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/information-value-score-table.2dpehb2h1b.webp",
     width: 1341,
     height: 493,
     alt: { zh: "Information value score table", en: "Information value score table" },
@@ -79,7 +79,7 @@ const roleCards: CardItem[] = [
     key: "hacker",
     zh: "黑客",
     en: "Hacker",
-    src: "/images/cyber-character-hacker.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-character-hacker.64ek2hpqlq.webp",
     description: {
       zh: "窃取用户信息、攻击公司系统，并在不被发现的前提下扩大影响。",
       en: "Steal user information, attack company systems, and expand influence without being discovered.",
@@ -89,7 +89,7 @@ const roleCards: CardItem[] = [
     key: "user",
     zh: "网民",
     en: "User",
-    src: "/images/cyber-character-user.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-character-user.4cll7l6dpl.webp",
     description: {
       zh: "选择公司获取信息点，识别隐藏的黑客，并通过举报追回信息。",
       en: "Choose companies for information points, identify hidden hackers, and recover data through reporting.",
@@ -99,7 +99,7 @@ const roleCards: CardItem[] = [
     key: "company",
     zh: "公司",
     en: "Company",
-    src: "/images/cyber-character-company.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-character-company.pg1k2al7z.webp",
     description: {
       zh: "提交信息块、累积信任值，并在关键回合开启防火墙抵御攻击。",
       en: "Submit information blocks, build trust, and activate firewall skills in key rounds.",
@@ -109,7 +109,7 @@ const roleCards: CardItem[] = [
     key: "brain",
     zh: "智慧大脑",
     en: "Wisdom Brain",
-    src: "/images/cyber-character-brain.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-character-brain.9kgvukzdo0.webp",
     description: {
       zh: "负责主持与计分，整理信息流程，不加入任何阵营。",
       en: "Host and score the game, organize information flow, and stay outside any faction.",
@@ -122,7 +122,7 @@ const roleSkillCards: CardItem[] = [
     key: "company-firewall",
     zh: "防火墙卡",
     en: "Firewall card",
-    src: "/images/cyber-ability-firewall.png",
+    src: "https://raw.githubusercontent.com/gaogao0805/picx-images-hosting/master/cyber-ability-firewall.3yf5gpehvw.webp",
     description: {
       zh: "公司在第四回合仍然存活时获得，可建立防火墙抵挡一次攻击。",
       en: "Granted when the company survives to round four; it can build a firewall to block one attack.",
@@ -132,7 +132,7 @@ const roleSkillCards: CardItem[] = [
     key: "hacker-attack",
     zh: "攻击卡",
     en: "Attack cards",
-    src: "/images/cyber-ability-attack.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-ability-attack.3d5huf3mk6.webp",
     description: {
       zh: "黑客在第三回合仍然存活时获得，可突破防火墙并发动攻击。",
       en: "Granted when the hacker survives to round three; it can breach firewalls and launch attacks.",
@@ -142,7 +142,7 @@ const roleSkillCards: CardItem[] = [
     key: "user-hearsay",
     zh: "小道消息卡",
     en: "Hearsay",
-    src: "/images/cyber-ability-hearsay.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-ability-hearsay.1e9b42y48k.webp",
     description: {
       zh: "网民在第五回合仍然存活时获得，可根据线索推断在场身份。",
       en: "Granted when the user survives to round five; it helps infer identities from clues.",
@@ -155,7 +155,7 @@ const privacyCards: CardItem[] = [
     key: "privacy-browsing-history",
     zh: "获取浏览历史",
     en: "Get browsing history",
-    src: "/images/cyber-privacy-low-browsing-history.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-privacy-low-browsing-history.1app6dtv18.webp",
     description: {
       zh: "低等级隐私协议卡。用户提供低等级信息，计 1 个信息点。",
       en: "Lower-level privacy agreement card. The user provides low-level information worth 1 information point.",
@@ -165,7 +165,7 @@ const privacyCards: CardItem[] = [
     key: "privacy-network-info",
     zh: "获取网络信息",
     en: "Obtain network information",
-    src: "/images/cyber-privacy-low-network-info.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-privacy-low-network-info.et7qxk6l7.webp",
     description: {
       zh: "低等级隐私协议卡。用户提供低等级信息，计 1 个信息点。",
       en: "Lower-level privacy agreement card. The user provides low-level information worth 1 information point.",
@@ -175,7 +175,7 @@ const privacyCards: CardItem[] = [
     key: "privacy-address",
     zh: "提供具体地址信息",
     en: "Provide specific address information",
-    src: "/images/cyber-privacy-high-address.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-privacy-high-address.32io1ad7xc.webp",
     description: {
       zh: "高等级隐私协议卡。用户提供高等级信息，计 2 个信息点。",
       en: "Higher-level privacy agreement card. The user provides high-level information worth 2 information points.",
@@ -185,7 +185,7 @@ const privacyCards: CardItem[] = [
     key: "privacy-identity",
     zh: "提供身份验证信息",
     en: "Provide personal information for verification of identity",
-    src: "/images/cyber-privacy-high-identity.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-privacy-high-identity.2ksmcpbuca.webp",
     description: {
       zh: "高等级隐私协议卡。内容涉及身份证等敏感个人信息，计 2 个信息点。",
       en: "Higher-level privacy agreement card involving sensitive personal information such as ID cards, worth 2 information points.",
@@ -198,7 +198,7 @@ const ordinaryCards: CardItem[] = [
     key: "same-attribution",
     zh: "同归于尽卡",
     en: "Same Attribution Card",
-    src: "/images/cyber-skill-perish-together.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-skill-perish-together.8dxkm04qdj.webp",
     description: {
       zh: "清空对方与自己的数值；当场上只剩黑客和另一名玩家时，黑客可凭此获得胜利。",
       en: "Zeros the value of the other party and oneself; when only the hacker and one other player remain, the hacker can win with this card.",
@@ -208,7 +208,7 @@ const ordinaryCards: CardItem[] = [
     key: "average-information",
     zh: "平均信息卡",
     en: "Average Information",
-    src: "/images/cyber-skill-average-info.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-skill-average-info.83aqsupi89.webp",
     description: {
       zh: "所有网民的信息点会被平均分配。",
       en: "All users share the information points equally.",
@@ -218,7 +218,7 @@ const ordinaryCards: CardItem[] = [
     key: "firewall",
     zh: "防火墙卡",
     en: "Firewall card",
-    src: "/images/cyber-skill-firewall.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-skill-firewall.2oc8afacui.webp",
     description: {
       zh: "无论哪一方抽到这张卡，公司都可以建立一次防火墙，抵挡单次攻击。",
       en: "Regardless of who draws it, the company can set up a firewall to block a single attack.",
@@ -228,7 +228,7 @@ const ordinaryCards: CardItem[] = [
     key: "replace",
     zh: "替换卡",
     en: "Replace card",
-    src: "/images/cyber-skill-replace.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-skill-replace.2vfg5uwia0.webp",
     description: {
       zh: "可以和另一位网民交换手中全部卡牌。",
       en: "You can exchange all cards in hand with another user.",
@@ -241,7 +241,7 @@ const eventCards: CardItem[] = [
     key: "event-security-vulnerability",
     zh: "安全漏洞攻击",
     en: "Security vulnerability attack",
-    src: "/images/cyber-event-security-vulnerability.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-event-security-vulnerability.1e9b43d08m.webp",
     description: {
       zh: "黑客利用系统安全漏洞发动攻击，用户信息泄露，黑客信息值 +1，用户信息值 -1，公司信任值 -1。",
       en: "A hacker attack caused by security system vulnerabilities leaks user information. Hacker information value +1, user information value -1, company trust value -1.",
@@ -251,7 +251,7 @@ const eventCards: CardItem[] = [
     key: "event-photo-leak",
     zh: "私人照片泄露",
     en: "Private photo leak",
-    src: "/images/cyber-event-photo-leak.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-event-photo-leak.9rk3q10f3r.webp",
     description: {
       zh: "公司因软件漏洞泄露用户私人照片，用户信息值 -1，公司信任值 -1。",
       en: "The company leaks the user's private photos due to software vulnerabilities. User information value -1, company trust value -1.",
@@ -261,7 +261,7 @@ const eventCards: CardItem[] = [
     key: "event-privacy-law",
     zh: "隐私保护法完善",
     en: "Privacy protection law improved",
-    src: "/images/cyber-event-privacy-law.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-event-privacy-law.7axvb3tj78.webp",
     description: {
       zh: "网络隐私保护法律完善，平台监管加强，所有玩家本轮不能前往信息泄露盒抽取信息点。",
       en: "Network privacy protection law is improved and platform supervision increases. All players cannot go to the information disclosure box to draw information points this round.",
@@ -271,7 +271,7 @@ const eventCards: CardItem[] = [
     key: "event-awareness",
     zh: "隐私保护意识增强",
     en: "Privacy awareness strengthened",
-    src: "/images/cyber-event-awareness.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-event-awareness.99u21fz1iw.webp",
     description: {
       zh: "用户增强隐私保护意识，下一轮市民不需要提供信息点。",
       en: "Users strengthen their awareness of privacy protection, and citizens do not need to provide information points in the next round.",
@@ -282,7 +282,7 @@ const eventCards: CardItem[] = [
 const finalShowcaseImages = [
   {
     key: "board",
-    src: "/images/cyber-showcase-board.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-showcase-board.99u21hatxl.webp",
     alt: {
       zh: "CYBER WARFARE 棋盘与卡牌实物展示",
       en: "CYBER WARFARE board and cards physical showcase",
@@ -290,7 +290,7 @@ const finalShowcaseImages = [
   },
   {
     key: "cards",
-    src: "/images/cyber-showcase-cards.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-showcase-cards.2h90f0kmiv.webp",
     alt: {
       zh: "CYBER WARFARE 技能卡与事件卡实物展示",
       en: "CYBER WARFARE skill and event cards physical showcase",
@@ -306,7 +306,7 @@ const finalShowcaseImages = [
   },
   {
     key: "hands",
-    src: "/images/cyber-showcase-hands.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-showcase-hands.4xv8txrifc.webp",
     alt: {
       zh: "玩家手中的 CYBER WARFARE 信息块",
       en: "CYBER WARFARE information blocks in a player's hands",
@@ -314,7 +314,7 @@ const finalShowcaseImages = [
   },
   {
     key: "manual",
-    src: "/images/cyber-showcase-manual.png",
+    src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-showcase-manual.2h90f0kmiu.webp",
     alt: {
       zh: "CYBER WARFARE 说明书与角色卡实物展示",
       en: "CYBER WARFARE manual and character cards physical showcase",

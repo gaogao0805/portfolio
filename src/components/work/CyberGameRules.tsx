@@ -6,17 +6,17 @@ const roles = {
   company: {
     zh: "公司",
     en: "Company",
-    image: "/images/cyber-role-company.png",
+    image: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-role-company.wj9fiwlfl.webp",
   },
   user: {
     zh: "网民",
     en: "User",
-    image: "/images/cyber-role-user.png",
+    image: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-role-user.2rvu85911f.webp",
   },
   hacker: {
     zh: "黑客",
     en: "Hacker",
-    image: "/images/cyber-role-hacker.png",
+    image: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-role-hacker.60uy4swinz.webp",
   },
 } as const;
 
@@ -273,13 +273,13 @@ export function CyberGameRules({
                   <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
                     <div className="min-w-0 overflow-hidden border border-[#f7aa3a]/70 p-2 sm:p-3">
                       <div className="relative mx-auto h-36 w-[103px] max-w-full sm:h-44 sm:w-[126px]">
-                        <Image src="/images/cyber-card-user.png" alt={isZh ? "网民身份卡" : "User role card"} fill sizes="(max-width: 639px) 103px, 126px" className="object-contain" />
+                        <Image src="https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-card-user.92qu5zy035.webp" alt={isZh ? "网民身份卡" : "User role card"} fill sizes="(max-width: 639px) 103px, 126px" className="object-contain" />
                       </div>
                       <p className="mt-2 text-center text-xs sm:mt-3 sm:text-sm">{isZh ? "网民 2–3 人" : "Users, 2–3 players"}</p>
                     </div>
                     <div className="min-w-0 overflow-hidden border border-[#f7aa3a]/70 p-2 sm:p-3">
                       <div className="relative mx-auto h-36 w-[103px] max-w-full sm:h-44 sm:w-[126px]">
-                        <Image src="/images/cyber-card-hacker.png" alt={isZh ? "黑客身份卡" : "Hacker role card"} fill sizes="(max-width: 639px) 103px, 126px" className="object-contain" />
+                        <Image src="https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-card-hacker.5flaih27lf.webp" alt={isZh ? "黑客身份卡" : "Hacker role card"} fill sizes="(max-width: 639px) 103px, 126px" className="object-contain" />
                       </div>
                       <p className="mt-2 text-center text-xs sm:mt-3 sm:text-sm">{isZh ? "黑客 1–2 人" : "Hackers, 1–2 players"}</p>
                     </div>
@@ -297,10 +297,10 @@ export function CyberGameRules({
                     {isZh ? "初始信息块" : "Initial information"}
                   </p>
                   <div className="mt-4 grid grid-cols-2 gap-x-5 gap-y-4">
-                    <Token src="/images/cyber-token-user.png" count="×9" alt={isZh ? "网民普通信息块" : "User information token"} />
-                    <Token src="/images/cyber-token-user.png" count="×3" alt={isZh ? "网民高级信息块" : "Advanced user information token"} outlined />
-                    <Token src="/images/cyber-token-hacker.png" count="×9" alt={isZh ? "黑客普通信息块" : "Hacker information token"} />
-                    <Token src="/images/cyber-token-hacker.png" count="×3" alt={isZh ? "黑客高级信息块" : "Advanced hacker information token"} outlined />
+                    <Token src="https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-token-user.96ag3qrh1m.webp" count="×9" alt={isZh ? "网民普通信息块" : "User information token"} />
+                    <Token src="https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-token-user.96ag3qrh1m.webp" count="×3" alt={isZh ? "网民高级信息块" : "Advanced user information token"} outlined />
+                    <Token src="https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-token-hacker.1hsx1trl6y.webp" count="×9" alt={isZh ? "黑客普通信息块" : "Hacker information token"} />
+                    <Token src="https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-token-hacker.1hsx1trl6y.webp" count="×3" alt={isZh ? "黑客高级信息块" : "Advanced hacker information token"} outlined />
                   </div>
                   <div className="mt-3 grid grid-cols-2 gap-x-5 text-center text-[11px] leading-tight text-white/45">
                     <span>{isZh ? "普通信息块" : "Standard"}</span>
@@ -321,7 +321,7 @@ export function CyberGameRules({
               <div className="grid flex-1 grid-rows-[168px_44px_1fr] pt-5 sm:grid-rows-[196px_52px_1fr] sm:pt-6">
                 <div className="flex items-start justify-center">
                   <div className="relative h-40 w-[114px] max-w-full sm:h-44 sm:w-[126px]">
-                    <Image src="/images/cyber-card-company.png" alt={isZh ? "公司身份卡" : "Company role card"} fill sizes="(max-width: 639px) 114px, 126px" className="object-contain" />
+                    <Image src="https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-card-company.491z9vdb05.webp" alt={isZh ? "公司身份卡" : "Company role card"} fill sizes="(max-width: 639px) 114px, 126px" className="object-contain" />
                   </div>
                 </div>
                 <p className="flex items-center justify-center text-center text-sm">
@@ -355,7 +355,7 @@ export function CyberGameRules({
               <div className="grid flex-1 grid-rows-[168px_44px_1fr] pt-5 sm:grid-rows-[196px_52px_1fr] sm:pt-6">
                 <div className="flex items-start justify-center">
                   <div className="relative h-40 w-[114px] max-w-full sm:h-44 sm:w-[126px]">
-                    <Image src="/images/cyber-card-moderator.png" alt={isZh ? "智慧大脑主持人身份卡" : "Moderator role card"} fill sizes="(max-width: 639px) 114px, 126px" className="object-contain" />
+                    <Image src="https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-card-moderator.1lcizik9o2.webp" alt={isZh ? "智慧大脑主持人身份卡" : "Moderator role card"} fill sizes="(max-width: 639px) 114px, 126px" className="object-contain" />
                   </div>
                 </div>
                 <p className="flex items-center justify-center text-center text-sm">

@@ -281,7 +281,7 @@ export const projects: Project[] = [
           },
           images: [
         {
-          src: "/images/goose-fortune/xhs-search-discussion.jpg",
+          src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/xhs-search-discussion.5q84bnv5i9.webp",
           width: 852,
           height: 1636,
           alt: {
@@ -290,7 +290,7 @@ export const projects: Project[] = [
           },
         },
         {
-          src: "/images/goose-fortune/xhs-video-comments.jpg",
+          src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/xhs-video-comments.7w7ixfmt9b.webp",
           width: 1400,
           height: 1078,
           alt: {
@@ -299,7 +299,7 @@ export const projects: Project[] = [
           },
         },
         {
-          src: "/images/goose-fortune/xhs-positive-feedback.jpg",
+          src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/xhs-positive-feedback.4cll7mk3hf.webp",
           width: 1400,
           height: 1150,
           alt: {
@@ -308,7 +308,7 @@ export const projects: Project[] = [
           },
         },
         {
-          src: "/images/goose-fortune/xhs-fan-content.jpg",
+          src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/xhs-fan-content.8vnmalpkfa.webp",
           width: 1400,
           height: 1074,
           alt: {
@@ -351,7 +351,7 @@ export const projects: Project[] = [
   {
     slug: "cyber-warfare",
     year: "2023",
-    cover: "/images/cyber-warfare-cover.jpg",
+    cover: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-warfare-cover.3629z0hvd4.webp",
     gradient: "linear-gradient(135deg,#0A2E4D 0%,#00FF88 50%,#0A2E4D 100%)",
     glyph: "🃏",
     title: {
@@ -380,11 +380,11 @@ export const projects: Project[] = [
     duration: { zh: "2~3 周", en: "2-3 weeks" },
     link: "",
     introImages: [
-      "/images/cyber-news-1.png",
-      "/images/cyber-news-2.png",
-      "/images/cyber-news-3.png",
-      "/images/cyber-news-4.png",
-      "/images/cyber-news-5.png",
+      "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-news-1.2yz23l211z.webp",
+      "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-news-2.2vfg5v8yc5.webp",
+      "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-news-3.7w7ixffsuv.webp",
+      "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-news-4.2dpeha7kra.webp",
+      "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-news-5.8dxkm0h6fn.webp",
     ],
     introQuote: {
       zh: "无论我们做什么，似乎总有人在窥探我们的生活。信息泄露已成为不可回避的现实——尤其在互联网时代，大数据催生了海量信息。",
@@ -424,15 +424,15 @@ export const projects: Project[] = [
     duration: { zh: "持续整理中", en: "Ongoing" },
     link: "",
     gallery: [
-      "/images/operational-visuals/cover.jpg",
-      "/images/operational-visuals/frame-8.jpg",
-      "/images/operational-visuals/frame-6.jpg",
-      "/images/operational-visuals/frame-7.jpg",
-      "/images/operational-visuals/rectangle-5.jpg",
-      "/images/operational-visuals/rectangle-6.jpg",
-      "/images/operational-visuals/rectangle-7.jpg",
-      "/images/operational-visuals/rectangle-2.jpg",
-      "/images/operational-visuals/rectangle-3.jpg",
+      "https://github.com/gaogao0805/picx-images-hosting/raw/master/cover.7w7ixgeh8m.webp",
+      "https://github.com/gaogao0805/picx-images-hosting/raw/master/frame-8.70b1i04ssk.webp",
+      "https://github.com/gaogao0805/picx-images-hosting/raw/master/frame-6.8l0shh2093.webp",
+      "https://github.com/gaogao0805/picx-images-hosting/raw/master/frame-7.99u21hpj9g.webp",
+      "https://github.com/gaogao0805/picx-images-hosting/raw/master/rectangle-5.2ksmcqsekj.webp",
+      "https://github.com/gaogao0805/picx-images-hosting/raw/master/rectangle-6.8adyobms3c.webp",
+      "https://github.com/gaogao0805/picx-images-hosting/raw/master/rectangle-7.5j4wg90o1h.webp",
+      "https://github.com/gaogao0805/picx-images-hosting/raw/master/rectangle-2.5xbc748ywp.webp",
+      "https://github.com/gaogao0805/picx-images-hosting/raw/master/rectangle-3.2rvu86ejzv.webp",
     ],
     sections: [],
   },
