@@ -281,7 +281,7 @@ export const projects: Project[] = [
           },
           images: [
         {
-          src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/xhs-search-discussion.5q84bnv5i9.webp",
+          src: "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/xhs-search-discussion.5q84bnv5i9.webp",
           width: 852,
           height: 1636,
           alt: {
@@ -290,7 +290,7 @@ export const projects: Project[] = [
           },
         },
         {
-          src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/xhs-video-comments.7w7ixfmt9b.webp",
+          src: "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/xhs-video-comments.7w7ixfmt9b.webp",
           width: 1400,
           height: 1078,
           alt: {
@@ -299,7 +299,7 @@ export const projects: Project[] = [
           },
         },
         {
-          src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/xhs-positive-feedback.4cll7mk3hf.webp",
+          src: "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/xhs-positive-feedback.4cll7mk3hf.webp",
           width: 1400,
           height: 1150,
           alt: {
@@ -308,7 +308,7 @@ export const projects: Project[] = [
           },
         },
         {
-          src: "https://github.com/gaogao0805/picx-images-hosting/raw/master/xhs-fan-content.8vnmalpkfa.webp",
+          src: "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/xhs-fan-content.8vnmalpkfa.webp",
           width: 1400,
           height: 1074,
           alt: {
@@ -325,7 +325,7 @@ export const projects: Project[] = [
   {
     slug: "cyber-warfare",
     year: "2023",
-    cover: "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-warfare-cover.3629z0hvd4.webp",
+    cover: "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/cyber-warfare-cover.3629z0hvd4.webp",
     gradient: "linear-gradient(135deg,#0A2E4D 0%,#00FF88 50%,#0A2E4D 100%)",
     glyph: "🃏",
     title: {
@@ -354,11 +354,11 @@ export const projects: Project[] = [
     duration: { zh: "2~3 周", en: "2-3 weeks" },
     link: "",
     introImages: [
-      "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-news-1.2yz23l211z.webp",
-      "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-news-2.2vfg5v8yc5.webp",
-      "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-news-3.7w7ixffsuv.webp",
-      "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-news-4.2dpeha7kra.webp",
-      "https://github.com/gaogao0805/picx-images-hosting/raw/master/cyber-news-5.8dxkm0h6fn.webp",
+      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/cyber-news-1.2yz23l211z.webp",
+      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/cyber-news-2.2vfg5v8yc5.webp",
+      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/cyber-news-3.7w7ixffsuv.webp",
+      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/cyber-news-4.2dpeha7kra.webp",
+      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/cyber-news-5.8dxkm0h6fn.webp",
     ],
     introQuote: {
       zh: "无论我们做什么，似乎总有人在窥探我们的生活。信息泄露已成为不可回避的现实——尤其在互联网时代，大数据催生了海量信息。",
@@ -398,15 +398,15 @@ export const projects: Project[] = [
     duration: { zh: "持续整理中", en: "Ongoing" },
     link: "",
     gallery: [
-      "https://github.com/gaogao0805/picx-images-hosting/raw/master/cover.7w7ixgeh8m.webp",
-      "https://github.com/gaogao0805/picx-images-hosting/raw/master/frame-8.70b1i04ssk.webp",
-      "https://github.com/gaogao0805/picx-images-hosting/raw/master/frame-6.8l0shh2093.webp",
-      "https://github.com/gaogao0805/picx-images-hosting/raw/master/frame-7.99u21hpj9g.webp",
-      "https://github.com/gaogao0805/picx-images-hosting/raw/master/rectangle-5.2ksmcqsekj.webp",
-      "https://github.com/gaogao0805/picx-images-hosting/raw/master/rectangle-6.8adyobms3c.webp",
-      "https://github.com/gaogao0805/picx-images-hosting/raw/master/rectangle-7.5j4wg90o1h.webp",
-      "https://github.com/gaogao0805/picx-images-hosting/raw/master/rectangle-2.5xbc748ywp.webp",
-      "https://github.com/gaogao0805/picx-images-hosting/raw/master/rectangle-3.2rvu86ejzv.webp",
+      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/cover.7w7ixgeh8m.webp",
+      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/frame-8.70b1i04ssk.webp",
+      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/frame-6.8l0shh2093.webp",
+      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/frame-7.99u21hpj9g.webp",
+      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/rectangle-5.2ksmcqsekj.webp",
+      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/rectangle-6.8adyobms3c.webp",
+      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/rectangle-7.5j4wg90o1h.webp",
+      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/rectangle-2.5xbc748ywp.webp",
+      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/rectangle-3.2rvu86ejzv.webp",
     ],
     sections: [],
   },
