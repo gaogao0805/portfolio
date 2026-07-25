@@ -48,36 +48,49 @@ export function WorkPosters({
     md.addEventListener("change", applyHeight);
 
     let snapTimer: ReturnType<typeof setTimeout> | undefined;
+    let rafId = 0;
+    // 只在挂载和 resize 时测量一次，避免 scroll 回调里强制同步布局
     const measure = () => {
       const rect = el.getBoundingClientRect();
-      const absTop = rect.top + window.scrollY;
-      const total = Math.max(el.offsetHeight - window.innerHeight, 1);
-      metricsRef.current = { absTop, total };
-      return { absTop, total };
+      metricsRef.current = {
+        absTop: rect.top + window.scrollY,
+        total: Math.max(el.offsetHeight - window.innerHeight, 1),
+      };
     };
-    const onScroll = () => {
-      const m = measure();
-      if (!m) return;
-      const scrolled = clamp(window.scrollY - m.absTop, 0, m.total);
-      const prog = (scrolled / m.total) * span;
+    const update = () => {
+      rafId = 0;
+      const { absTop, total } = metricsRef.current;
+      const scrolled = clamp(window.scrollY - absTop, 0, total);
+      const prog = (scrolled / total) * span;
       setP(prog);
       if (snapTimer) clearTimeout(snapTimer);
       snapTimer = setTimeout(() => {
         const nearest = Math.round(prog);
         if (Math.abs(prog - nearest) > 0.02) {
+          const m = metricsRef.current;
           window.scrollTo({ top: m.absTop + (nearest / span) * m.total, behavior: "smooth" });
         }
       }, 150);
     };
+    // scroll 事件可能一帧触发多次，用 rAF 对齐到每帧一次更新
+    const onScroll = () => {
+      if (!rafId) rafId = requestAnimationFrame(update);
+    };
+    const onResize = () => {
+      measure();
+      onScroll();
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", measure);
+    window.addEventListener("resize", onResize);
     applyHeight();
-    onScroll();
+    measure();
+    update();
     return () => {
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", measure);
+      window.removeEventListener("resize", onResize);
       md.removeEventListener("change", applyHeight);
       if (snapTimer) clearTimeout(snapTimer);
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, [span, N]);
 
@@ -161,7 +174,6 @@ export function WorkPosters({
               const delta = clamp(p - i, -1, 1);
               const rot = delta * -90;
               const hidden = Math.abs(p - i) >= 1;
-              const loadCover = Math.abs(p - i) < 1.35;
               const priority = Math.abs(p - i) < 0.5;
               return (
                 <button
@@ -177,11 +189,11 @@ export function WorkPosters({
                     backfaceVisibility: "hidden",
                     opacity: hidden ? 0 : 1,
                     zIndex: 20 - Math.round(Math.abs(p - i) * 10),
-                    transition: "transform 0.15s ease, opacity 0.25s ease",
                     cursor: "pointer",
                   }}
                 >
-                  {proj.cover && loadCover ? (
+                  {/* 封面常驻挂载，避免滚动途中反复挂载/卸载大图造成卡顿 */}
+                  {proj.cover ? (
                     <Image
                       src={proj.cover}
                       alt={title}
