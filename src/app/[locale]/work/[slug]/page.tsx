@@ -13,6 +13,14 @@ import { CyberGameRules } from "@/components/work/CyberGameRules";
 import { CyberGameComponents } from "@/components/work/CyberGameComponents";
 import { OperationalVisualGallery } from "@/components/work/OperationalVisualGallery";
 import { GameCollectionShowcase } from "@/components/work/GameCollectionShowcase";
+import { AgentWheelShowcase } from "@/components/work/AgentWheelShowcase";
+import { AgentChatShowcase } from "@/components/work/AgentChatShowcase";
+import { AgentHomeShowcase } from "@/components/work/AgentHomeShowcase";
+import { AgentDelegateShowcase } from "@/components/work/AgentDelegateShowcase";
+import { AgentPrivacyShowcase } from "@/components/work/AgentPrivacyShowcase";
+import { AgentSelectionProvider } from "@/components/work/AgentSelectionContext";
+import { AgentJourney } from "@/components/work/AgentJourney";
+import { AgentScreensShowcase } from "@/components/work/AgentScreensShowcase";
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -101,15 +109,6 @@ export default async function ProjectPage({
         />
       ) : null}
 
-      {/* 封面占位（仅无弹幕区且无真实画廊的项目显示） */}
-      {!project.introImages && !project.gallery?.length && !project.video && !project.gameItems?.length ? (
-        <div
-          data-nav-theme="dark"
-          className="mx-auto mt-10 aspect-[16/9] w-full max-w-5xl rounded-3xl border border-line sm:mt-12"
-          style={{ background: project.gradient }}
-        />
-      ) : null}
-
       {project.video ? (
         <GameVideoShowcase locale={locale} video={project.video} />
       ) : null}
@@ -142,6 +141,19 @@ export default async function ProjectPage({
 
       {slug === "cyber-warfare" ? (
         <CyberGameComponents locale={locale} />
+      ) : null}
+
+      {slug === "shipped-app" ? (
+        <AgentSelectionProvider>
+          <AgentJourney>
+            <AgentWheelShowcase locale={locale} />
+            <AgentHomeShowcase locale={locale} />
+            <AgentDelegateShowcase locale={locale} />
+            <AgentChatShowcase locale={locale} />
+            <AgentPrivacyShowcase locale={locale} />
+          </AgentJourney>
+          <AgentScreensShowcase locale={locale} />
+        </AgentSelectionProvider>
       ) : null}
 
       {/* 正文章节 */}

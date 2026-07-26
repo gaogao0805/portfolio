@@ -130,48 +130,7 @@ export const projects: Project[] = [
     tools: { zh: "Figma、Principle", en: "Figma, Principle" },
     duration: { zh: "TODO：如 3 个月", en: "TODO: e.g. 3 months" },
     link: "", // TODO: App Store / 官网链接
-    sections: [
-      {
-        heading: { zh: "背景与挑战", en: "Background & challenge" },
-        body: {
-          zh: [
-            "TODO：这个产品要解决什么问题？目标用户是谁？当时面临的核心挑战是什么？",
-            "用一两段把背景讲清楚，让没有上下文的人也能看懂。",
-          ],
-          en: [
-            "TODO: What problem does this product solve? Who is it for? What was the core challenge?",
-            "Set the context in a paragraph or two so anyone can follow.",
-          ],
-        },
-      },
-      {
-        heading: { zh: "设计过程", en: "Design process" },
-        body: {
-          zh: [
-            "TODO：你做了哪些调研 / 梳理了哪些流程？画了哪些线框、尝试了哪些方案？",
-            "重点写你的思考和取舍——为什么这样做、放弃了什么。（这里可以插过程图）",
-          ],
-          en: [
-            "TODO: What research / flows did you map? What wireframes and directions did you try?",
-            "Focus on your thinking and trade-offs — why this, what you dropped. (Add process images here.)",
-          ],
-        },
-      },
-      {
-        heading: { zh: "最终方案", en: "Final solution" },
-        body: {
-          zh: ["TODO：最终上线的方案长什么样？关键界面和交互亮点。（这里放成品图）"],
-          en: ["TODO: What shipped? Key screens and interaction highlights. (Add final visuals here.)"],
-        },
-      },
-      {
-        heading: { zh: "成果", en: "Outcome" },
-        body: {
-          zh: ["TODO：上线后的数据 / 反馈 / 你学到了什么。有数字尽量放数字。"],
-          en: ["TODO: Post-launch metrics / feedback / what you learned. Use numbers if you have them."],
-        },
-      },
-    ],
+    sections: [],
   },
   {
     slug: "shipped-game",
