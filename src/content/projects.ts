@@ -65,6 +65,10 @@ export type Project = {
   gradient: string;
   /** 卡片封面图片，优先于 gradient */
   cover?: string;
+  /** 封面明暗：浅底封面用 dark（角标/年份用黑字）；深底封面省略即可（默认白字） */
+  coverTone?: "dark" | "light";
+  /** App 图标（详情页头部展示，如 /images/ready-logo.svg） */
+  logo?: string;
   /** 卡片上的强调字，比如 emoji 或缩写 */
   glyph: string;
   title: LocalizedText;
@@ -110,6 +114,8 @@ export const projects: Project[] = [
   {
     slug: "shipped-app",
     year: "2025 — Present",
+    cover: "/images/ready-cover.jpg",
+    logo: "/images/ready-logo.svg",
     gradient: "linear-gradient(135deg,#6D5BFF 0%,#00E0C7 100%)",
     glyph: "APP",
     title: {
@@ -126,15 +132,17 @@ export const projects: Project[] = [
       en: ["Mobile", "0→1", "Design System", "Shipped"],
     },
     role: { zh: "产品设计师（主导）", en: "Product Designer (lead)" },
-    team: { zh: "TODO：如 1 设计 + 2 开发 + 1 PM", en: "TODO: e.g. 1 design, 2 dev, 1 PM" },
-    tools: { zh: "Figma、Principle", en: "Figma, Principle" },
-    duration: { zh: "TODO：如 3 个月", en: "TODO: e.g. 3 months" },
+    team: { zh: "", en: "" },
+    tools: { zh: "Figma、Claude Code、Codex", en: "Figma, Claude Code, Codex" },
+    duration: { zh: "", en: "" },
     link: "", // TODO: App Store / 官网链接
     sections: [],
   },
   {
     slug: "shipped-game",
     year: "2026",
+    cover: "/images/game-cover.jpg",
+    coverTone: "light",
     gradient: "linear-gradient(135deg,#FF7A45 0%,#FFD645 100%)",
     glyph: "🦆",
     title: {
@@ -336,6 +344,7 @@ export const projects: Project[] = [
   {
     slug: "event-visual",
     year: "2026",
+    cover: "/images/event-visual-cover.jpg",
     gradient: "linear-gradient(135deg,#FF4D6A 0%,#FF9A44 100%)",
     glyph: "📣",
     title: {

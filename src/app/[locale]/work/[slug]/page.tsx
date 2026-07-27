@@ -18,6 +18,8 @@ import { AgentChatShowcase } from "@/components/work/AgentChatShowcase";
 import { AgentHomeShowcase } from "@/components/work/AgentHomeShowcase";
 import { AgentDelegateShowcase } from "@/components/work/AgentDelegateShowcase";
 import { AgentPrivacyShowcase } from "@/components/work/AgentPrivacyShowcase";
+import { AgentDesignSystem } from "@/components/work/AgentDesignSystem";
+import { AgentAppArch } from "@/components/work/AgentAppArch";
 import { AgentSelectionProvider } from "@/components/work/AgentSelectionContext";
 import { AgentJourney } from "@/components/work/AgentJourney";
 import { AgentScreensShowcase } from "@/components/work/AgentScreensShowcase";
@@ -67,18 +69,63 @@ export default async function ProjectPage({
   return (
     <article data-nav-theme="dark" className="overflow-x-clip">
       {/* 头部 */}
-      <header data-nav-theme="dark" className="border-b border-line">
-        <div className="mx-auto max-w-4xl px-4 py-12 sm:px-8 sm:py-24">
+      <header
+        data-nav-theme="dark"
+        className="relative overflow-hidden border-b border-line"
+      >
+        {/* 封面压花：首页就绪封面图做暗色水印（想推广到其他项目：改成 project.cover 判断，浅底封面除外） */}
+        {slug === "shipped-app" && project.cover ? (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-y-0 right-0 w-3/4 sm:w-1/2"
+            style={{
+              WebkitMaskImage:
+                "linear-gradient(to right, transparent 0%, black 55%)",
+              maskImage:
+                "linear-gradient(to right, transparent 0%, black 55%)",
+            }}
+          >
+            <div
+              className="h-full w-full"
+              style={{
+                WebkitMaskImage:
+                  "linear-gradient(to top, black 55%, transparent 98%)",
+                maskImage:
+                  "linear-gradient(to top, black 55%, transparent 98%)",
+              }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={project.cover}
+                alt=""
+                className="h-full w-full object-cover object-center opacity-20 blur-[1px] grayscale-[35%]"
+              />
+            </div>
+          </div>
+        ) : null}
+        <div className="relative mx-auto max-w-4xl px-4 py-12 sm:px-8 sm:py-24">
           <Link
             href={`/${locale}#work`}
             className="text-xs text-muted transition-colors hover:text-accent sm:text-sm"
           >
             ← {dict.project.backToWork}
           </Link>
-          <p className="kicker mt-6 sm:mt-8">{project.category[locale]}</p>
-          <h1 className="display mt-4 max-w-3xl text-4xl leading-[0.95] sm:text-7xl">
-            {project.title[locale]}
-          </h1>
+          <div className="mt-6 flex items-center gap-4 sm:mt-8 sm:gap-5">
+            {project.logo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={project.logo}
+                alt={`${project.title[locale]} App icon`}
+                className="h-14 w-14 shrink-0 rounded-[24%] border border-white/10 shadow-[0_8px_24px_rgba(0,0,0,0.45)] sm:h-16 sm:w-16"
+              />
+            ) : null}
+            <div>
+              <p className="kicker">{project.category[locale]}</p>
+              <h1 className="display mt-2 max-w-3xl text-4xl leading-[0.95] sm:text-7xl">
+                {project.title[locale]}
+              </h1>
+            </div>
+          </div>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted sm:mt-6 sm:text-xl">
             {project.summary[locale]}
           </p>
@@ -145,6 +192,8 @@ export default async function ProjectPage({
 
       {slug === "shipped-app" ? (
         <AgentSelectionProvider>
+          <AgentAppArch locale={locale} />
+          <AgentDesignSystem locale={locale} />
           <AgentJourney>
             <AgentWheelShowcase locale={locale} />
             <AgentHomeShowcase locale={locale} />

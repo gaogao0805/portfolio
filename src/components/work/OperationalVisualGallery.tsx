@@ -29,7 +29,23 @@ export function OperationalVisualGallery({
   });
   const mainY = useTransform(scrollYProgress, [0, 1], [0, -18]);
 
-  const cases = [
+  // 会稽山爽酒：两张 16:9 海报，等大竖排铺满展示（stack 布局，不设主视觉大图）
+  const kuaijishanImages = [
+    "/images/kuaijishan-series.jpg",
+    "/images/kuaijishan-scene.jpg",
+  ];
+
+  type VisualCase = {
+    title: string;
+    description: string;
+    images: string[];
+    /** dark：深底 #101017；white：白底；gray：浅灰底（用于相邻深色块之间的分割） */
+    tone: "dark" | "white" | "gray";
+    /** stack：所有图片等大竖排铺满（图更大）；默认：第 1 张主视觉大图 + 缩略图 3+3+2 */
+    layout?: "stack";
+  };
+
+  const cases: VisualCase[] = [
     {
       title: locale === "zh" ? "就绪推广海报" : "Ready promotional poster",
       description:
@@ -38,6 +54,16 @@ export function OperationalVisualGallery({
           : "Promotional poster design for Ready, an AI recruitment product, using a light tech tone, character cards, and offline display context to build brand recognition.",
       images: ["https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/event-visual-cover.51eurnkl4z.webp"],
       tone: "dark",
+    },
+    {
+      title: locale === "zh" ? "会稽山爽酒品牌推广" : "Kuaijishan Shuangjiu brand promotion",
+      description:
+        locale === "zh"
+          ? "围绕会稽山爽酒的品牌推广视觉设计，用更年轻的色彩和场景化表达让传统黄酒靠近新消费人群，覆盖主视觉海报与线下物料。"
+          : "Brand promotion visuals for Kuaijishan Shuangjiu, bringing the traditional huangjiu brand closer to a younger audience through a fresher palette and scenario-driven imagery, across key visuals and offline assets.",
+      images: kuaijishanImages,
+      tone: "gray",
+      layout: "stack",
     },
     {
       title,
@@ -193,10 +219,12 @@ export function OperationalVisualGallery({
         </div>
 
         {cases.map((visualCase, caseIndex) => {
+          const isStack = visualCase.layout === "stack";
           const row1 = visualCase.images.slice(1, 4);
           const row2 = visualCase.images.slice(4, 7);
           const row3 = visualCase.images.slice(7, 9);
           const isDark = visualCase.tone === "dark";
+          const isGray = visualCase.tone === "gray";
 
           return (
             <motion.article
@@ -206,7 +234,9 @@ export function OperationalVisualGallery({
               }}
               data-nav-theme={isDark ? "dark" : "light"}
               className={`min-h-[calc(100vh-73px)] scroll-mt-[73px] ${
-                isDark ? "bg-[#101017] text-fg" : "theme-light bg-white text-[#171717]"
+                isDark
+                  ? "bg-[#101017] text-fg"
+                  : `theme-light text-[#171717] ${isGray ? "bg-bg-gray" : "bg-white"}`
               }`}
             >
               <div className="mx-auto grid max-w-6xl gap-8 px-4 py-14 sm:px-8 sm:py-20 lg:grid-cols-[200px_1fr]">
@@ -231,30 +261,44 @@ export function OperationalVisualGallery({
                     </div>
                   )}
 
-                  <motion.div
-                    initial={{ opacity: 0, y: compact ? 10 : 18 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.25 }}
-                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    style={{ y: mainY }}
-                    className={
-                      compact
-                        ? `overflow-hidden border bg-white ${isDark ? "border-line shadow-2xl" : "border-black/10 shadow-sm"}`
-                        : `mt-8 overflow-hidden border bg-white ${isDark ? "border-line shadow-2xl" : "border-black/10 shadow-sm"}`
-                    }
-                  >
-                    <Image
-                      src={visualCase.images[0]}
-                      alt={visualCase.title}
-                      width={1536}
-                      height={2048}
-                      sizes="(max-width: 767px) 100vw, 896px"
-                      className="h-auto w-full object-cover"
-                      unoptimized
-                    />
-                  </motion.div>
+                  {isStack ? (
+                    /* stack：所有图片等大竖排铺满，显示更大 */
+                    <div className="mt-8 grid gap-4 sm:gap-5">
+                      {visualCase.images.map((src, index) => (
+                        <ThumbCard
+                          key={src}
+                          src={src}
+                          alt={visualCase.title}
+                          delay={index * 0.08}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <>
+                      <motion.div
+                        initial={{ opacity: 0, y: compact ? 10 : 18 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.25 }}
+                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                        style={{ y: mainY }}
+                        className={
+                          compact
+                            ? `overflow-hidden border bg-white ${isDark ? "border-line shadow-2xl" : "border-black/10 shadow-sm"}`
+                            : `mt-8 overflow-hidden border bg-white ${isDark ? "border-line shadow-2xl" : "border-black/10 shadow-sm"}`
+                        }
+                      >
+                        <Image
+                          src={visualCase.images[0]}
+                          alt={visualCase.title}
+                          width={1536}
+                          height={2048}
+                          sizes="(max-width: 767px) 100vw, 896px"
+                          className="h-auto w-full object-cover"
+                          unoptimized
+                        />
+                      </motion.div>
 
-                  {row1.length || row2.length || row3.length ? (
+                      {row1.length || row2.length || row3.length ? (
                     <div className="mt-5 grid gap-4 sm:mt-6 sm:gap-5">
                       {row1.length ? (
                         <div className="grid gap-4 lg:grid-cols-3">
@@ -296,6 +340,8 @@ export function OperationalVisualGallery({
                       ) : null}
                     </div>
                   ) : null}
+                    </>
+                  )}
                 </div>
               </div>
             </motion.article>

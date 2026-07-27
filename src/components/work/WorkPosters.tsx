@@ -40,13 +40,6 @@ export function WorkPosters({
     const el = sectionRef.current;
     if (!el) return;
 
-    const md = window.matchMedia("(min-width: 768px)");
-    const applyHeight = () => {
-      el.style.height = md.matches ? `${N * 80}vh` : "auto";
-    };
-    applyHeight();
-    md.addEventListener("change", applyHeight);
-
     let snapTimer: ReturnType<typeof setTimeout> | undefined;
     let rafId = 0;
     // 只在挂载和 resize 时测量一次，避免 scroll 回调里强制同步布局
@@ -82,13 +75,11 @@ export function WorkPosters({
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize);
-    applyHeight();
     measure();
     update();
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
-      md.removeEventListener("change", applyHeight);
       if (snapTimer) clearTimeout(snapTimer);
       if (rafId) cancelAnimationFrame(rafId);
     };
@@ -105,7 +96,13 @@ export function WorkPosters({
   };
 
   return (
-    <div ref={sectionRef} className="relative">
+    // 桌面端高度直接渲染进 HTML（N 是构建期常量）：保证首屏 / 跨页跳转
+    // 到 #about 锚点时作品区高度已就位，不会发生锚点算好位置后才撑高的位移
+    <div
+      ref={sectionRef}
+      className="relative md:h-[var(--work-h)]"
+      style={{ ["--work-h" as string]: `${N * 80}vh` }}
+    >
       <div className="relative flex flex-col justify-center py-12 md:sticky md:top-16 md:h-[calc(100vh-4rem)] md:py-0">
         <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
           <ShapeGrid
@@ -192,7 +189,9 @@ export function WorkPosters({
                     cursor: "pointer",
                   }}
                 >
-                  {/* 封面常驻挂载，避免滚动途中反复挂载/卸载大图造成卡顿 */}
+                  {/* 封面常驻挂载，避免滚动途中反复挂载/卸载大图造成卡顿。
+                      scale-[1.03]：3D 翻转时图片层与按钮背景分层栅格化，
+                      底边会漏出 1px 渐变底色，略微放大盖住接缝 */}
                   {proj.cover ? (
                     <Image
                       src={proj.cover}
@@ -202,15 +201,28 @@ export function WorkPosters({
                       priority={priority}
                       loading={priority ? "eager" : "lazy"}
                       decoding="async"
-                      className="object-cover"
+                      className="scale-[1.03] object-cover"
                       unoptimized
                     />
                   ) : null}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/8 via-transparent to-transparent" />
-                  <span className="absolute left-5 top-4 font-mono text-sm font-bold tracking-widest text-black/65">
+                  {/* 角标/年份颜色跟随封面明暗：深底封面白字，浅底封面（coverTone: light）和渐变卡片黑字 */}
+                  <span
+                    className={`absolute left-5 top-4 font-mono text-sm font-bold tracking-widest ${
+                      proj.cover && proj.coverTone !== "light"
+                        ? "text-white/80"
+                        : "text-black/65"
+                    }`}
+                  >
                     {proj.glyph}
                   </span>
-                  <span className="absolute right-5 top-4 font-mono text-sm text-black/55">
+                  <span
+                    className={`absolute right-5 top-4 font-mono text-sm ${
+                      proj.cover && proj.coverTone !== "light"
+                        ? "text-white/70"
+                        : "text-black/55"
+                    }`}
+                  >
                     {proj.year}
                   </span>
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-6 pb-7 pt-16">
