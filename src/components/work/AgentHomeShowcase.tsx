@@ -795,7 +795,7 @@ function HomeScreenPlay({ locale }: { locale: Locale }) {
   const now = new Date();
 
   return (
-    <div className="w-[440px] max-w-full" style={{ fontFamily: SYSTEM_FONT }}>
+    <div className="w-full" style={{ fontFamily: SYSTEM_FONT }}>
       {/* 无手机框无底色：内容直接融进页面 */}
 
       {/* 顶部问候区（padding 16/12/16/20） */}
@@ -972,7 +972,8 @@ export function AgentHomeShowcase({ locale }: { locale: Locale }) {
 
         {/* 复刻层：纯 App 内容；桌面端两侧批注 + 虚线指向 */}
         <div className="mt-12 flex justify-center">
-          <div className="relative">
+          {/* 宽度上限 440（桌面批注锚定此列），窄屏收缩为全宽，避免内容被裁 */}
+          <div className="relative w-full max-w-[440px]">
             {/* 左侧批注 → 委托卡（锚定复刻列左缘，虚线止于卡片出血边） */}
             <motion.div
               initial={{ opacity: 0, x: -10 }}

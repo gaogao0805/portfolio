@@ -1153,7 +1153,7 @@ export function AgentPrivacyShowcase({ locale }: { locale: Locale }) {
   return (
     <section data-nav-theme="light" className="theme-light bg-transparent">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-8 sm:py-24">
-        <div className="grid items-center gap-12 md:grid-cols-2 lg:gap-16">
+        <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2 lg:gap-16">
           {/* 左：标题 + 文案 + 对比按钮说明 */}
           <div className="max-w-xl">
             <motion.h2
@@ -1203,8 +1203,8 @@ export function AgentPrivacyShowcase({ locale }: { locale: Locale }) {
             </motion.div>
           </div>
 
-          {/* 右：手机 */}
-          <div className="w-full max-w-[380px] justify-self-center">
+          {/* 右：手机（min-w-0 防 grid 轨道被固定画布吹破） */}
+          <div className="w-full min-w-0 max-w-[380px] justify-self-center">
             <PrivacyPhone
               levelIdx={levelIdx}
               onLevelChange={setLevelIdx}

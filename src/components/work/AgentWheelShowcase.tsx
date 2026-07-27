@@ -464,7 +464,7 @@ export function AgentWheelShowcase({ locale }: { locale: Locale }) {
         }}
       />
       <div className="relative mx-auto max-w-6xl px-4 pt-12 sm:px-8 sm:pt-24 lg:pr-0">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-16">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-16">
           <div className="max-w-xl lg:self-center">
             <motion.h2
               data-journey-anchor
@@ -511,8 +511,8 @@ export function AgentWheelShowcase({ locale }: { locale: Locale }) {
             </p>
           </div>
 
-          {/* 画布贴住区块右缘与底边，转盘就像顶着屏幕角落 */}
-          <div className="flex items-end justify-center lg:justify-end">
+          {/* 画布贴住区块右缘与底边，转盘就像顶着屏幕角落（移动端 min-w-0 防吹破） */}
+          <div className="flex min-w-0 items-end justify-center lg:justify-end">
             <AgentWheelPhone />
           </div>
         </div>

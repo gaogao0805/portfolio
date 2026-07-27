@@ -709,10 +709,10 @@ export function AgentChatShowcase({ locale }: { locale: Locale }) {
   return (
     <section data-nav-theme="light" className="theme-light bg-transparent">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-8 sm:py-24">
-        <div className="grid gap-10 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-center lg:gap-16">
-          {/* 对话复刻 */}
-          <div className="order-last flex justify-center lg:order-none lg:justify-start">
-            <div className="w-[440px] max-w-full">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-center lg:gap-16">
+          {/* 对话复刻（移动端：轨道钉在容器宽，壳体流体收缩） */}
+          <div className="order-last flex min-w-0 justify-center lg:order-none lg:justify-start">
+            <div className="w-full max-w-[440px]">
               {/* B/C 端切换 tab */}
               <div className="mb-3 flex justify-center">
                 <div

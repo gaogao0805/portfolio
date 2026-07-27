@@ -23,7 +23,7 @@ export function Hero({
       {/* 背景光斑（居中顶部，品牌色） */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-0 h-[440px] w-[440px] -translate-x-1/2 rounded-full opacity-20 blur-[130px]"
+        className="pointer-events-none absolute left-1/2 top-0 h-[440px] w-[min(440px,100vw)] -translate-x-1/2 rounded-full opacity-20 blur-[130px]"
         style={{ background: "var(--color-accent)" }}
       />
 

@@ -641,20 +641,21 @@ export function AgentDelegateShowcase({ locale }: { locale: Locale }) {
         </div>
 
         {/* 三联页 */}
-        <div className="mt-12 grid gap-6 md:grid-cols-3 lg:gap-8">
-          <div>
+        {/* 移动端单列：grid-cols-1 把轨道钉在容器宽，min-w-0 让手机壳可以缩进去 */}
+        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8">
+          <div className="min-w-0">
             <DelegateDetailPage />
             <p className="mt-3 text-center font-mono text-xs text-muted">
               {isZh ? "① 委托详情 · 新增人才弹出提醒" : "① Delegate detail · new-talent alert"}
             </p>
           </div>
-          <div>
+          <div className="min-w-0">
             <TalentListPage />
             <p className="mt-3 text-center font-mono text-xs text-muted">
               {isZh ? "② 新增人才 · 候选人名单" : "② New talents · candidates"}
             </p>
           </div>
-          <div>
+          <div className="min-w-0">
             <ReviewPage />
             <p className="mt-3 text-center font-mono text-xs text-muted">
               {isZh ? "③ 复核 · 通过/待定/拒绝（可点击）" : "③ Review (clickable)"}
