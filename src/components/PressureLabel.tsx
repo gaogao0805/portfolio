@@ -8,6 +8,8 @@ import TextPressure from "./TextPressure";
  *
  * 关键：给容器一个与字号匹配的宽度，让 TextPressure 自动算出的字号正好等于 size，
  * 这样它就表现得像一个固定大小的小标签，而不是铺满整行的大字。
+ * 窄屏下容器被 maxWidth 截小（页面左右内边距 px-5），配合 fitWidth 按实测
+ * 文本宽度收缩字号，字体加载失败回退系统字体时也不会溢出裁切。
  */
 export function PressureLabel({
   text,
@@ -27,6 +29,7 @@ export function PressureLabel({
       style={{
         display: "inline-block",
         width,
+        maxWidth: "calc(100vw - 2.5rem)",
         height: Math.round(size * 1.5),
         verticalAlign: "middle",
       }}
@@ -42,6 +45,7 @@ export function PressureLabel({
         textColor={color}
         minFontSize={size}
         minWeight={520}
+        fitWidth
       />
     </span>
   );

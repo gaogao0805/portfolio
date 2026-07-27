@@ -46,6 +46,10 @@ const TextPressure = ({
 
   minFontSize = 24,
   minWeight = 100,
+
+  // 为 true 时允许字号缩到 minFontSize 以下，并按实际文本宽度二次收缩，
+  // 保证整行文本在任何屏幕 / 字体加载失败回退时都不会溢出容器被裁切。
+  fitWidth = false,
 }) => {
   const containerRef = useRef(null);
   const titleRef = useRef(null);
@@ -95,7 +99,9 @@ const TextPressure = ({
       containerRef.current.getBoundingClientRect();
 
     let newFontSize = containerW / (chars.length / 2);
-    newFontSize = Math.max(newFontSize, minFontSize);
+    newFontSize = fitWidth
+      ? Math.max(newFontSize, 10)
+      : Math.max(newFontSize, minFontSize);
 
     setFontSize(newFontSize);
     setScaleY(1);
@@ -103,6 +109,15 @@ const TextPressure = ({
 
     requestAnimationFrame(() => {
       if (!titleRef.current) return;
+
+      // 实测文本宽度（含字体回退、wdth 展开），超出容器则按比例缩小字号
+      if (fitWidth) {
+        const textW = titleRef.current.scrollWidth;
+        if (textW > containerW && textW > 0) {
+          setFontSize(Math.max(Math.floor(newFontSize * (containerW / textW)), 10));
+        }
+      }
+
       const textRect = titleRef.current.getBoundingClientRect();
 
       if (scale && textRect.height > 0) {
@@ -111,13 +126,23 @@ const TextPressure = ({
         setLineHeight(yRatio);
       }
     });
-  }, [chars.length, minFontSize, scale]);
+  }, [chars.length, minFontSize, scale, fitWidth]);
 
   useEffect(() => {
     const debouncedSetSize = debounce(setSize, 100);
     debouncedSetSize();
     window.addEventListener("resize", debouncedSetSize);
-    return () => window.removeEventListener("resize", debouncedSetSize);
+    // 可变字体加载完成后文本宽度会变，重新计算一次
+    if (document.fonts) {
+      document.fonts.ready.then(() => setSize());
+      document.fonts.addEventListener("loadingdone", debouncedSetSize);
+    }
+    return () => {
+      window.removeEventListener("resize", debouncedSetSize);
+      if (document.fonts) {
+        document.fonts.removeEventListener("loadingdone", debouncedSetSize);
+      }
+    };
   }, [setSize]);
 
   useEffect(() => {
