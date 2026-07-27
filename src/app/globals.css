@@ -1,13 +1,5 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: "ZibangWanku";
-  src: url("/fonts/ZibangWanku.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
 /* ----------------------------------------------------------------
    主题 token —— 「大胆 / 个性化」深色基调 + 电光绿强调色
    想换配色：改下面几个变量即可。
@@ -23,14 +15,11 @@
   --color-accent-2: #6d5bff; /* 紫，次强调 */
   --color-line: #26262f;
 
-  /* 字体栈 —— 不依赖外部网络，开箱即用。
-     想用自定义字体（如 Space Grotesk）：把它加到 --font-display 最前面，
-     并在 layout 里用 next/font 引入即可。 */
-  --font-display: var(--font-zibang), "Space Grotesk", ui-sans-serif, system-ui,
-    -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-  --font-sans: var(--font-zibang), ui-sans-serif, system-ui, -apple-system,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC",
-    "Microsoft YaHei", sans-serif;
+  /* 字体栈 —— 系统字体（苹方优先），零加载、秒开。 */
+  --font-display: "PingFang SC", "Space Grotesk", ui-sans-serif, system-ui,
+    -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+  --font-sans: "PingFang SC", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft YaHei", sans-serif;
   --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas,
     monospace;
 }

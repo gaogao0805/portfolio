@@ -1,18 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import localFont from "next/font/local";
 import "../globals.css";
 import { isLocale, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { LanyardProvider } from "@/components/lanyard/LanyardProvider";
-
-const zibangWanku = localFont({
-  src: "../../../public/fonts/ZibangWanku.ttf",
-  variable: "--font-zibang",
-  display: "swap",
-});
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -55,7 +48,7 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale === "zh" ? "zh-CN" : "en"}
-      className={`h-full ${zibangWanku.variable}`}
+      className="h-full"
     >
       <body className="noise flex min-h-full flex-col">
         <LanyardProvider role={role}>
