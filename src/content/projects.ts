@@ -69,6 +69,8 @@ export type Project = {
   coverTone?: "dark" | "light";
   /** App 图标（详情页头部展示，如 /images/ready-logo.svg） */
   logo?: string;
+  /** 暂时隐藏（不进列表与详情页，数据保留，翻回 false 即恢复） */
+  hidden?: boolean;
   /** 卡片上的强调字，比如 emoji 或缩写 */
   glyph: string;
   title: LocalizedText;
@@ -110,7 +112,7 @@ export type Project = {
  *
  * 下面两个是你已上线的真实项目的占位框架，把 TODO 的地方换成真实内容即可。
  */
-export const projects: Project[] = [
+const allProjects: Project[] = [
   {
     slug: "shipped-app",
     year: "2025 — Present",
@@ -140,6 +142,7 @@ export const projects: Project[] = [
   },
   {
     slug: "shipped-game",
+    hidden: true, // 暂时隐藏：分享版本不带互动游戏合集
     year: "2026",
     cover: "/images/game-cover.jpg",
     coverTone: "light",
@@ -248,7 +251,7 @@ export const projects: Project[] = [
           },
           images: [
         {
-          src: "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/xhs-search-discussion.5q84bnv5i9.webp",
+          src: "/images/cdn/xhs-search-discussion.5q84bnv5i9.webp",
           width: 852,
           height: 1636,
           alt: {
@@ -257,7 +260,7 @@ export const projects: Project[] = [
           },
         },
         {
-          src: "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/xhs-video-comments.7w7ixfmt9b.webp",
+          src: "/images/cdn/xhs-video-comments.7w7ixfmt9b.webp",
           width: 1400,
           height: 1078,
           alt: {
@@ -266,7 +269,7 @@ export const projects: Project[] = [
           },
         },
         {
-          src: "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/xhs-positive-feedback.4cll7mk3hf.webp",
+          src: "/images/cdn/xhs-positive-feedback.4cll7mk3hf.webp",
           width: 1400,
           height: 1150,
           alt: {
@@ -275,7 +278,7 @@ export const projects: Project[] = [
           },
         },
         {
-          src: "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/xhs-fan-content.8vnmalpkfa.webp",
+          src: "/images/cdn/xhs-fan-content.8vnmalpkfa.webp",
           width: 1400,
           height: 1074,
           alt: {
@@ -292,7 +295,7 @@ export const projects: Project[] = [
   {
     slug: "cyber-warfare",
     year: "2023",
-    cover: "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/cyber-warfare-cover.3629z0hvd4.webp",
+    cover: "/images/cdn/cyber-warfare-cover.3629z0hvd4.webp",
     gradient: "linear-gradient(135deg,#0A2E4D 0%,#00FF88 50%,#0A2E4D 100%)",
     glyph: "🃏",
     title: {
@@ -321,11 +324,11 @@ export const projects: Project[] = [
     duration: { zh: "2~3 周", en: "2-3 weeks" },
     link: "",
     introImages: [
-      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/cyber-news-1.2yz23l211z.webp",
-      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/cyber-news-2.2vfg5v8yc5.webp",
-      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/cyber-news-3.7w7ixffsuv.webp",
-      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/cyber-news-4.2dpeha7kra.webp",
-      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/cyber-news-5.8dxkm0h6fn.webp",
+      "/images/cdn/cyber-news-1.2yz23l211z.webp",
+      "/images/cdn/cyber-news-2.2vfg5v8yc5.webp",
+      "/images/cdn/cyber-news-3.7w7ixffsuv.webp",
+      "/images/cdn/cyber-news-4.2dpeha7kra.webp",
+      "/images/cdn/cyber-news-5.8dxkm0h6fn.webp",
     ],
     introQuote: {
       zh: "无论我们做什么，似乎总有人在窥探我们的生活。信息泄露已成为不可回避的现实——尤其在互联网时代，大数据催生了海量信息。",
@@ -366,19 +369,22 @@ export const projects: Project[] = [
     duration: { zh: "持续整理中", en: "Ongoing" },
     link: "",
     gallery: [
-      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/cover.7w7ixgeh8m.webp",
-      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/frame-8.70b1i04ssk.webp",
-      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/frame-6.8l0shh2093.webp",
-      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/frame-7.99u21hpj9g.webp",
-      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/rectangle-5.2ksmcqsekj.webp",
-      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/rectangle-6.8adyobms3c.webp",
-      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/rectangle-7.5j4wg90o1h.webp",
-      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/rectangle-2.5xbc748ywp.webp",
-      "https://cdn.jsdelivr.net/gh/gaogao0805/picx-images-hosting@master/rectangle-3.2rvu86ejzv.webp",
+      "/images/cdn/cover.7w7ixgeh8m.webp",
+      "/images/cdn/frame-8.70b1i04ssk.webp",
+      "/images/cdn/frame-6.8l0shh2093.webp",
+      "/images/cdn/frame-7.99u21hpj9g.webp",
+      "/images/cdn/rectangle-5.2ksmcqsekj.webp",
+      "/images/cdn/rectangle-6.8adyobms3c.webp",
+      "/images/cdn/rectangle-7.5j4wg90o1h.webp",
+      "/images/cdn/rectangle-2.5xbc748ywp.webp",
+      "/images/cdn/rectangle-3.2rvu86ejzv.webp",
     ],
     sections: [],
   },
 ];
+
+/** 对外可见的项目列表（hidden 的不进列表、详情页与上下篇导航） */
+export const projects: Project[] = allProjects.filter((p) => !p.hidden);
 
 export function getProject(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug);
