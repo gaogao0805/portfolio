@@ -142,7 +142,6 @@ const allProjects: Project[] = [
   },
   {
     slug: "shipped-game",
-    hidden: true, // 暂时隐藏：分享版本不带互动游戏合集
     year: "2026",
     cover: "/images/game-cover.jpg",
     coverTone: "light",
