@@ -130,7 +130,7 @@ export function TimelineSection({
   return (
     <section ref={ref} className={className}>
       {/* 粘性章节标题：吸附在导航栏下，直到本章节滚完 */}
-      <div className="sticky top-[61px] z-30">
+      <div className="sticky top-[69px] z-30 sm:top-[61px]">
         {/* 背景：上部实心、下缘渐隐，滚过的内容自然没入 */}
         <div
           aria-hidden

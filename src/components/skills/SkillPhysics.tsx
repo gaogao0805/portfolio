@@ -6,11 +6,11 @@ import type * as RAPIER from "@dimforge/rapier2d-compat";
 
 /**
  * 技能 / 工具标签墙 —— 2D 物理沙盒（rapier2d-compat，与 3D 工牌同门）。
- * - 胶囊初始按普通排版摆好，滚到沙盒时「活过来」：轻轻跳起、碰撞堆叠；
+ * - 滚到沙盒时胶囊从上方下雨落入，碰撞堆叠；
  * - 可以抓住任意胶囊拖着甩，松手按抛出速度飞出去；
- * - 技能 = 灰边深字，工具 = 青边青字；
+ * - 技能 = 灰边深字，工具 = 青边青字；手机端胶囊自动缩小一号；
  * - 沙盒上方的解说栏：指向 / 点住一颗，显示它「意味着什么」（desc 在字典里维护）；
- * - prefers-reduced-motion 时不启动物理，保持静态排版。
+ * - 物理未启动（未滚到 / prefers-reduced-motion）时保持普通流式排版，不做裁剪。
  */
 
 type Pill = { label: string; desc: string; kind: "skill" | "tool"; group?: string };
@@ -19,8 +19,6 @@ type Live = {
   el: HTMLSpanElement;
   w: number;
   h: number;
-  l0: number;
-  t0: number;
   body: RAPIER.RigidBody;
 };
 
@@ -58,7 +56,7 @@ export function SkillPhysics({
   const pillRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const started = useInView(arenaRef, { amount: 0.35, once: true });
   const [active, setActive] = useState<Pill | null>(null);
-  const [, setReady] = useState(false);
+  const [live, setLive] = useState(false);
 
   useEffect(() => {
     if (!started) return;
@@ -143,26 +141,29 @@ export function SkillPhysics({
       ];
 
       const els = pillRefs.current.filter(Boolean) as HTMLSpanElement[];
-      // 先量好所有胶囊的排版位置，再统一改绝对定位——
-      // 边量边改会让后续胶囊因前面的脱离文档流而重排，全部叠进角落。
+      // 只读一次尺寸（不改排版位置），然后统一钉到 (0,0) 从天上落下——
+      // 不依赖流式排版位置，窄屏溢出的问题也就不存在了。
       const boxes = els.map((el) => ({
         w: el.offsetWidth,
         h: el.offsetHeight,
-        l0: el.offsetLeft,
-        t0: el.offsetTop,
       }));
       lives = els.map((el, i) => {
-        const { w, h, l0, t0 } = boxes[i];
+        const { w, h } = boxes[i];
         el.style.position = "absolute";
-        el.style.left = `${l0}px`;
-        el.style.top = `${t0}px`;
+        el.style.left = "0px";
+        el.style.top = "0px";
         el.style.margin = "0";
 
+        const x = Math.min(
+          Math.max(w / 2 + 12 + Math.random() * (W - w - 24), w / 2 + 12),
+          W - w / 2 - 12
+        );
         const body = world!.createRigidBody(
           R!.RigidBodyDesc.dynamic()
-            .setTranslation(l0 + w / 2, t0 + h / 2)
-            .setLinvel((Math.random() - 0.5) * 240, -(60 + Math.random() * 160))
-            .setAngvel((Math.random() - 0.5) * 3)
+            .setTranslation(x, -(30 + i * 14 + Math.random() * 60))
+            .setRotation((Math.random() - 0.5) * 0.9)
+            .setLinvel((Math.random() - 0.5) * 120, 0)
+            .setAngvel((Math.random() - 0.5) * 4)
             .setLinearDamping(0.2)
             .setAngularDamping(0.8)
         );
@@ -187,7 +188,7 @@ export function SkillPhysics({
           body.setBodyType(R!.RigidBodyType.KinematicPositionBased, true);
         });
 
-        return { el, w, h, l0, t0, body };
+        return { el, w, h, body };
       });
 
       const tick = () => {
@@ -196,14 +197,14 @@ export function SkillPhysics({
         for (const p of lives) {
           const t = p.body.translation();
           const r = p.body.rotation();
-          p.el.style.transform = `translate(${t.x - (p.l0 + p.w / 2)}px, ${
-            t.y - (p.t0 + p.h / 2)
+          p.el.style.transform = `translate(${t.x - p.w / 2}px, ${
+            t.y - p.h / 2
           }px) rotate(${r}rad)`;
         }
         raf = requestAnimationFrame(tick);
       };
       raf = requestAnimationFrame(tick);
-      setReady(true);
+      setLive(true);
     };
 
     init();
@@ -303,7 +304,9 @@ export function SkillPhysics({
 
       <div
         ref={arenaRef}
-        className="relative mt-4 flex h-[240px] touch-none flex-wrap content-start items-start gap-3 overflow-hidden rounded-2xl border border-line bg-bg-gray p-4 select-none sm:h-[280px]"
+        className={`relative mt-4 flex touch-none flex-wrap content-start items-start gap-3 overflow-hidden rounded-2xl border border-line bg-bg-gray p-4 select-none ${
+          live ? "h-[300px] sm:h-[280px]" : "h-auto"
+        }`}
       >
         {pills.map((p, i) => (
           <span
@@ -313,7 +316,7 @@ export function SkillPhysics({
             }}
             onPointerEnter={() => setActive(p)}
             style={{ willChange: "transform" }}
-            className={`cursor-grab rounded-full border bg-white px-5 py-2 text-base active:cursor-grabbing ${
+            className={`cursor-grab rounded-full border bg-white px-4 py-1.5 text-sm active:cursor-grabbing sm:px-5 sm:py-2 sm:text-base ${
               p.kind === "tool"
                 ? "border-accent text-accent"
                 : "border-line text-fg"
