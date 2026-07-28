@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { site } from "@/content/site";
 import { Reveal } from "@/components/Reveal";
 import { SkillPhysics } from "@/components/skills/SkillPhysics";
 import {
@@ -69,7 +68,7 @@ export default async function AboutPage({
       </section>
 
       {/* 简介色带（about.bio）暂时隐藏，需要时恢复 */}
-      {/* 板块二（浅灰）：工作 + 项目 + 教育 滚动时间线（首页「看简历」锚到这里） */}
+      {/* 板块二（浅灰）：工作 + 项目 + 教育 滚动时间线 */}
       <section id="resume" data-nav-theme="light" className="theme-light scroll-mt-24 bg-bg-gray">
         <div className="mx-auto max-w-5xl px-5 py-16 sm:px-8 sm:py-20">
           <Reveal>
@@ -111,7 +110,7 @@ export default async function AboutPage({
         </div>
       </section>
 
-      {/* 板块三（白色）：技能 + 工具 + 简历下载 */}
+      {/* 板块三（白色）：技能 + 工具 */}
       <section data-nav-theme="light" className="theme-light bg-bg-light">
         <div className="mx-auto max-w-5xl px-5 py-16 sm:px-8 sm:py-20">
           {/* 技能 + 工具：2D 物理标签墙 */}
@@ -128,18 +127,6 @@ export default async function AboutPage({
                   : "Hover or tap a tag to see what it means to me →"
               }
             />
-          </Reveal>
-
-          {/* 简历下载（文件在 public/resume-zh.pdf / resume-en.pdf） */}
-          <Reveal>
-            <a
-              href={site.resume[locale]}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-14 inline-block rounded-full bg-accent px-6 py-3 text-sm font-semibold text-black transition-transform hover:-translate-y-0.5"
-            >
-              {a.resume} ↓
-            </a>
           </Reveal>
         </div>
       </section>

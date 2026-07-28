@@ -111,13 +111,6 @@ export function Hero({
         >
           {home.ctaContact}
         </button>
-        {/* 看简历：跳到关于页的简历时间线锚点 */}
-        <Link
-          href={`/${locale}/about#resume`}
-          className="rounded-full border border-line px-6 py-3 text-sm font-semibold text-fg transition-colors hover:border-accent hover:text-accent"
-        >
-          {home.ctaResume}
-        </Link>
       </motion.div>
     </section>
   );

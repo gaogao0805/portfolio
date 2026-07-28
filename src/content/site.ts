@@ -13,9 +13,5 @@ export const site = {
   showPhone: true,
   phone: "+86 156 5753 6018",
   avatar: "/avatar.jpg",
-  resume: {
-    zh: "/resume-zh.pdf",
-    en: "/resume-en.pdf",
-  },
   socials: [] as SocialLink[],
 } as const;

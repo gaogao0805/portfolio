@@ -29,7 +29,6 @@ const dictionaries = {
         "一名拥有约一年经验的 AI 产品设计师，专注移动端体验——从 0 到 1 把想法做成真正上线、有人在用的产品。",
       ctaWork: "看我的作品",
       ctaContact: "聊一聊",
-      ctaResume: "看简历",
       scroll: "向下滚动",
       // 精选作品
       featuredKicker: "精选作品",
@@ -118,7 +117,7 @@ const dictionaries = {
         {
           company: "AD Studio",
           role: "交互设计实习生",
-          period: "2022.07 — 2022.10",
+          period: "2023.07 — 2023.10",
           summary: "面向社区居民 C 端轻医疗服务场景的交互设计，主攻适老化体验。",
           points: [
             "需求与竞品研究：调研患者需求并开展竞品分析，提炼交互模式，明确产品设计改进方向。",
@@ -214,7 +213,6 @@ const dictionaries = {
         },
       ],
       viewDetails: "查看详情",
-      resume: "下载简历 (PDF)",
     },
     contact: {
       kicker: "联系",
@@ -255,7 +253,6 @@ const dictionaries = {
         "An AI product designer with around a year of experience, focused on mobile experiences — turning ideas into products that ship and get used.",
       ctaWork: "View my work",
       ctaContact: "Say hello",
-      ctaResume: "Resume",
       scroll: "Scroll",
       featuredKicker: "Selected work",
       featuredTitle: "Things I've shipped",
@@ -343,7 +340,7 @@ const dictionaries = {
         {
           company: "AD Studio",
           role: "Interaction Design Intern",
-          period: "2022.07 — 2022.10",
+          period: "2023.07 — 2023.10",
           summary: "Interaction design for a community-facing light-healthcare service, focused on age-friendly experiences.",
           points: [
             "Requirements & competitive research: investigated patient needs, ran competitive analysis, and distilled interaction patterns to define product improvement directions.",
@@ -439,7 +436,6 @@ const dictionaries = {
         },
       ],
       viewDetails: "View details",
-      resume: "Download résumé (PDF)",
     },
     contact: {
       kicker: "Contact",
