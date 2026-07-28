@@ -1,66 +1,132 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { useRouter } from "next/navigation";
 import { projects } from "@/content/projects";
 import type { Locale } from "@/i18n/config";
 import ShapeGrid from "@/components/ShapeGrid";
 import { Reveal } from "@/components/Reveal";
 import { PressureLabel } from "@/components/PressureLabel";
+import { EmText } from "@/components/EmText";
+import { AnimatePresence, motion } from "motion/react";
 
 const clamp = (v: number, a: number, b: number) => Math.min(Math.max(v, a), b);
 
+/* 滚筒参数：相邻海报在圆筒上的夹角（度）；|angle| 超过 DRUM_VISIBLE 的海报隐藏 */
+const DRUM_STEP = 30;
+const DRUM_VISIBLE = 62;
+
 /**
- * 作品翻页：干净的 CSS 3D 翻转卡片。
- * 左侧竖向刻度导航（点标题直接定位），中间翻页卡片，右侧当前项目信息。
- * 滚动驱动翻页进度 p，松手吸附到整张卡。
+ * 作品滚筒：全屏沉浸式 CSS 3D 圆筒（siena.film 式）。
+ * 每张海报几乎铺满视口，上下只露出相邻海报的一条缝；信息全部叠在海报上。
+ * 滚动驱动旋转进度 p，松手吸附到整张；滚动速度映射轻微果冻形变。
  */
 export function WorkPosters({
   locale,
   title,
+  titleEm,
   subtitle,
   cta,
   hint,
 }: {
   locale: Locale;
   title: string;
+  titleEm?: string;
   subtitle: string;
   cta: string;
   hint: string;
 }) {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
   const metricsRef = useRef({ absTop: 0, total: 1 });
   const [p, setP] = useState(0);
+  // 快速定位菜单（点击顶部指示 pill 展开全量作品列表）
+  const [menuOpen, setMenuOpen] = useState(false);
+  // 作品区视图：drum = 沉浸式滚筒，grid = 宫格画廊
+  const [view, setView] = useState<"drum" | "grid">("drum");
   const router = useRouter();
   const N = projects.length;
   const span = Math.max(N - 1, 1);
 
+  // 滚筒：半径随海报高度算出（相邻海报正好相切于筒面）；velRef 为平滑后的滚动速度
+  const drumRef = useRef<HTMLDivElement>(null);
+  const [radius, setRadius] = useState(1400);
+  const velRef = useRef(0);
+  const lastPRef = useRef(0);
+
+  useEffect(() => {
+    const el = drumRef.current;
+    if (!el) return;
+    const update = () =>
+      setRadius(
+        (el.clientHeight + 24) / (2 * Math.sin((DRUM_STEP / 2) * (Math.PI / 180)))
+      );
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+    // 依赖 view：宫格切回滚筒时舞台是全新节点，必须重新测量半径，
+    // 否则 ResizeObserver 还挂在已卸载的旧节点上，半径永远停在初始值
+  }, [view]);
+
+  // Esc 关闭定位菜单
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
+
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
+    // 宫格视图下禁用滚筒的滚动驱动与吸附，避免和用户滚动打架
+    if (view !== "drum") return;
 
     let snapTimer: ReturnType<typeof setTimeout> | undefined;
     let rafId = 0;
     // 只在挂载和 resize 时测量一次，避免 scroll 回调里强制同步布局
     const measure = () => {
       const rect = el.getBoundingClientRect();
+      // 滚动零点取舞台 sticky 吸顶的位置（而非板块顶部）：
+      // 否则 p=0 吸附时舞台还没吸顶，首张海报底部（CTA 所在）悬在视口外点不到
+      const stickyTop = window.matchMedia("(min-width: 768px)").matches ? 64 : 0;
+      const stick = stageRef.current
+        ? Math.max(stageRef.current.offsetTop - stickyTop, 0)
+        : 0;
       metricsRef.current = {
-        absTop: rect.top + window.scrollY,
-        total: Math.max(el.offsetHeight - window.innerHeight, 1),
+        absTop: rect.top + window.scrollY + stick,
+        total: Math.max(el.offsetHeight - window.innerHeight - stick, 1),
       };
     };
     const update = () => {
       rafId = 0;
       const { absTop, total } = metricsRef.current;
+      // 未夹取的进度（可为负）：负值 = 舞台尚未吸顶的标题过渡区
+      const raw = ((window.scrollY - absTop) / total) * span;
       const scrolled = clamp(window.scrollY - absTop, 0, total);
       const prog = (scrolled / total) * span;
+      // 平滑滚动速度：驱动滚筒果冻形变
+      velRef.current = velRef.current * 0.8 + (prog - lastPRef.current) * 0.2;
+      lastPRef.current = prog;
       setP(prog);
       if (snapTimer) clearTimeout(snapTimer);
       snapTimer = setTimeout(() => {
         const nearest = Math.round(prog);
+        const m = metricsRef.current;
+        // 过渡区（含锚点直达 #work 的落点）不允许停留：
+        // 否则首张海报底部（CTA）悬在视口外点不到——一律前吸到吸顶点。
+        // 向上滚动途中不会触发（滚动事件会不断重置计时器），放心滚出。
+        if (nearest === 0 && raw <= 0) {
+          if (raw > -0.5) {
+            window.scrollTo({ top: m.absTop, behavior: "smooth" });
+          }
+          return;
+        }
         if (Math.abs(prog - nearest) > 0.02) {
-          const m = metricsRef.current;
           window.scrollTo({ top: m.absTop + (nearest / span) * m.total, behavior: "smooth" });
         }
       }, 150);
@@ -83,27 +149,109 @@ export function WorkPosters({
       if (snapTimer) clearTimeout(snapTimer);
       if (rafId) cancelAnimationFrame(rafId);
     };
-  }, [span, N]);
+  }, [span, N, view]);
 
   const active = clamp(Math.round(p), 0, N - 1);
+  // 果冻形变系数（-1..1），由平滑滚动速度驱动
+  const v = clamp(velRef.current * 6, -1, 1);
   const current = projects[active] ?? projects[0];
   const currentTitle = current.previewTitle?.[locale] ?? current.title[locale];
-  const currentSummary = current.previewSummary?.[locale] ?? current.summary[locale];
   const open = (slug: string) => router.push(`/${locale}/work/${slug}`);
+  // 滚筒吸附/滚动时海报在动，原生 click 要求按下与抬起落在同一元素，
+  // 海报一动点击就被吞（「点了没反应」）。改为自己判定点按：
+  // 指针捕获保证抬起一定回到按钮；按移动距离分三档——
+  //   < 12px：点按，pointerup 直接跳转并吞掉随后的合成 click；
+  //   12–24px：手抖的脏点击，交给合成 click 兜底跳转；
+  //   ≥ 24px：视为拖拽，两段都抑制，不跳转。
+  const tapRef = useRef<{ x: number; y: number } | null>(null);
+  const dragDistRef = useRef(0);
+  const swallowClickRef = useRef(false);
+  const onPosterPointerDown = (e: ReactPointerEvent<HTMLButtonElement>) => {
+    // 指针捕获：保证海报滑走后 pointerup 仍然发回按钮，否则下面的判定收不到
+    e.currentTarget.setPointerCapture(e.pointerId);
+    tapRef.current = { x: e.clientX, y: e.clientY };
+    dragDistRef.current = 0;
+  };
+  const onPosterPointerUp = (e: ReactPointerEvent<HTMLButtonElement>, slug: string) => {
+    const s = tapRef.current;
+    tapRef.current = null;
+    if (!s) return;
+    const moved = Math.hypot(e.clientX - s.x, e.clientY - s.y);
+    dragDistRef.current = moved;
+    if (moved < 12) {
+      swallowClickRef.current = true;
+      open(slug);
+    }
+  };
+  // 按压期间页面被程序化滚动（吸附/平滑跳转）会触发 pointercancel 打断按压——
+  // 指针本身几乎没动就仍算点按；触屏滚动接管前手指已明显移动，不会误入
+  const onPosterPointerCancel = (e: ReactPointerEvent<HTMLButtonElement>, slug: string) => {
+    const s = tapRef.current;
+    tapRef.current = null;
+    if (!s) return;
+    const moved = Math.hypot(e.clientX - s.x, e.clientY - s.y);
+    dragDistRef.current = moved;
+    if (moved < 12) {
+      swallowClickRef.current = true;
+      open(slug);
+    }
+  };
   const jumpTo = (i: number) => {
     const { absTop, total } = metricsRef.current;
     window.scrollTo({ top: absTop + (i / span) * total, behavior: "smooth" });
   };
 
   return (
-    // 桌面端高度直接渲染进 HTML（N 是构建期常量）：保证首屏 / 跨页跳转
+    // 高度直接渲染进 HTML（N 是构建期常量）：保证首屏 / 跨页跳转
     // 到 #about 锚点时作品区高度已就位，不会发生锚点算好位置后才撑高的位移
     <div
       ref={sectionRef}
-      className="relative md:h-[var(--work-h)]"
-      style={{ ["--work-h" as string]: `${N * 80}vh` }}
+      className={view === "drum" ? "relative h-[var(--work-h)]" : "relative"}
+      style={{ ["--work-h" as string]: `${N * 100}vh` }}
     >
-      <div className="relative flex flex-col justify-center py-12 md:sticky md:top-16 md:h-[calc(100vh-4rem)] md:py-0">
+      {/* 标题区：随页面流滚走，滚筒独占 sticky 舞台 */}
+      <Reveal>
+        <div className="relative z-30 mx-auto flex max-w-6xl flex-col items-center px-5 pb-10 pt-12 text-center sm:px-8">
+          <PressureLabel text="Selected Work" size={20} />
+          <h2 className="display mt-3 text-4xl sm:text-5xl">
+            <EmText
+              text={title}
+              em={titleEm}
+              emClassName={locale === "zh" ? "serif-em serif-em--cjk" : "serif-em"}
+            />
+          </h2>
+          <p className="mt-4 max-w-xl text-muted">{subtitle}</p>
+
+          {/* 视图切换：沉浸式滚筒 / 宫格画廊 */}
+          <div className="mt-6 inline-flex rounded-full border border-line bg-bg p-1">
+            {(
+              [
+                ["drum", locale === "zh" ? "沉浸式" : "Immersive"],
+                ["grid", locale === "zh" ? "宫格" : "Grid"],
+              ] as const
+            ).map(([v, label]) => (
+              <button
+                key={v}
+                type="button"
+                onClick={() => setView(v)}
+                aria-pressed={view === v}
+                className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-colors sm:text-sm ${
+                  view === v ? "bg-accent text-black" : "text-muted hover:text-fg"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </Reveal>
+
+      {/* sticky 全屏滚筒舞台（移动端吸附于视口顶，桌面端吸附于导航下） */}
+      {view === "drum" ? (
+      <div
+        ref={stageRef}
+        className="sticky top-0 h-[100svh] overflow-hidden md:top-16 md:h-[calc(100vh-4rem)]"
+      >
         <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
           <ShapeGrid
             direction="diagonal"
@@ -116,88 +264,164 @@ export function WorkPosters({
           />
         </div>
 
-        <Reveal>
-          <div className="mx-auto flex max-w-6xl flex-col items-center px-5 pb-8 text-center sm:px-8">
-            <PressureLabel text="Selected Work" size={20} />
-            <h2 className="display mt-3 text-4xl sm:text-5xl">{title}</h2>
-            <p className="mt-4 max-w-xl text-muted">{subtitle}</p>
-          </div>
-        </Reveal>
+        {/* 常驻板块标识（左缘竖排）：滚筒全屏滚动时也能认出当前在「精选作品」区 */}
+        <p className="absolute left-1.5 top-1/2 z-30 -translate-y-1/2 font-mono text-[10px] uppercase tracking-[0.3em] text-muted [writing-mode:vertical-rl] md:left-2">
+          <span className="text-accent">●</span> Selected Work{locale === "zh" ? " · 项目精选" : ""}
+        </p>
 
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-10 px-5 sm:px-8 md:flex-row md:gap-12">
-          {/* 左侧：刻度导航 */}
-          <nav className="hidden shrink-0 flex-col gap-5 border-l border-line pl-5 md:flex md:w-48">
+        {/* 定位指示 pill（浮在卡片上方居中，点击展开全量作品列表） */}
+        <button
+          type="button"
+          onClick={() => setMenuOpen((o) => !o)}
+          aria-expanded={menuOpen}
+          className="absolute left-1/2 top-16 z-40 flex -translate-x-1/2 items-center gap-2.5 rounded-full border border-line bg-bg/80 px-6 py-3 font-mono text-sm text-fg shadow-2xl backdrop-blur transition-colors hover:border-accent md:top-3 md:text-base"
+        >
+          <span className="text-base text-accent md:text-lg">
+            {String(active + 1).padStart(2, "0")}
+          </span>
+          <span className="text-muted">/ {String(N).padStart(2, "0")}</span>
+          <span className="hidden sm:inline">· {currentTitle}</span>
+          <span className={`text-muted transition-transform ${menuOpen ? "rotate-180" : ""}`}>▾</span>
+        </button>
+
+        {/* 右侧竖排滚动提示（桌面端，落在海报外的页面边条上） */}
+        <p className="absolute right-2 top-1/2 z-30 hidden -translate-y-1/2 font-mono text-[10px] uppercase tracking-[0.3em] text-muted [writing-mode:vertical-rl] md:block">
+          {hint}
+        </p>
+
+        {/* 全量作品列表（点击指示 pill 展开，点项直接定位，免去上下滚动） */}
+        <AnimatePresence>
+          {menuOpen ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="absolute inset-0 z-40 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+              onClick={() => setMenuOpen(false)}
+            >
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 16 }}
+                transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                className="w-full max-w-md px-6"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <p className="mb-4 text-center font-mono text-xs uppercase tracking-[0.3em] text-white/50">
+                  {locale === "zh" ? "全部作品 · 点击定位" : "All projects · jump to"}
+                </p>
+                <ul className="flex flex-col gap-2">
+                  {projects.map((proj, i) => {
+                    const itemTitle = proj.previewTitle?.[locale] ?? proj.title[locale];
+                    const isActive = active === i;
+                    return (
+                      <li key={proj.slug}>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setMenuOpen(false);
+                            jumpTo(i);
+                          }}
+                          className={`group flex w-full items-center gap-4 rounded-2xl border px-5 py-4 text-left transition-colors ${
+                            isActive
+                              ? "border-accent bg-white/10"
+                              : "border-white/15 bg-white/5 hover:border-white/40"
+                          }`}
+                        >
+                          <span className={`font-mono text-sm ${isActive ? "text-accent" : "text-white/50"}`}>
+                            {String(i + 1).padStart(2, "0")}
+                          </span>
+                          <span className="min-w-0 flex-1">
+                            <span className="display block truncate text-xl text-white">{itemTitle}</span>
+                            <span className="mt-0.5 block truncate text-xs text-white/60">
+                              {proj.category[locale]} · {proj.year}
+                            </span>
+                          </span>
+                          <span className="text-white/40 transition-transform group-hover:translate-x-1">→</span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </motion.div>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+
+        {/* 滚筒。每张海报 rotateX 后沿自身 Z 轴推出半径，构成圆筒；
+            内层 translateZ(-radius) 把正前方的海报拉回舞台平面，大小 1:1 不变。
+            整条链都要 preserve-3d：中间任何一环扁平化，海报的命中区域
+            会和视觉位置错位（点得到画面点不中按钮）。
+            注意：海报层是绝对定位，不吃父级 padding——缩进必须写在它自己的盒子上 */}
+        <div className="absolute inset-0 [perspective:2000px]">
+          <div
+            ref={drumRef}
+            className="absolute inset-x-3 bottom-3 top-20 sm:inset-x-5 md:inset-x-8 md:bottom-6 md:top-16"
+            style={{ transformStyle: "preserve-3d" }}
+          >
+            <div
+              className="absolute inset-0"
+              style={{
+                transform: `translateZ(${-radius}px) scaleY(${1 - Math.abs(v) * 0.05}) skewY(${-v * 2.5}deg)`,
+                transformStyle: "preserve-3d",
+              }}
+            >
             {projects.map((proj, i) => {
-              const title = proj.previewTitle?.[locale] ?? proj.title[locale];
+              const projTitle = proj.previewTitle?.[locale] ?? proj.title[locale];
+              const summary = proj.previewSummary?.[locale] ?? proj.summary[locale];
+              // 方向与滚动直觉一致：往下滚时下一张从底部升起，当前张从顶部滚出
+              const angle = (p - i) * DRUM_STEP;
+              const abs = Math.abs(angle);
+              const visible = abs < DRUM_VISIBLE;
+              const priority = abs < DRUM_STEP;
               return (
                 <button
                   key={proj.slug}
                   type="button"
-                  onClick={() => jumpTo(i)}
-                  className="group relative flex items-center gap-3 text-left"
-                >
-                  <span
-                    className="absolute -left-[25px] top-1/2 h-2 w-2 -translate-y-1/2 rounded-full transition-all"
-                    style={{
-                      background:
-                        active === i ? "var(--color-accent)" : "var(--color-line)",
-                      boxShadow:
-                        active === i ? "0 0 0 4px color-mix(in srgb, var(--color-accent) 20%, transparent)" : "none",
-                    }}
-                  />
-                  <span
-                    className={`font-mono text-xs ${
-                      active === i ? "text-accent" : "text-muted"
-                    }`}
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span
-                    className={`truncate text-sm transition-colors group-hover:text-fg ${
-                      active === i ? "text-fg" : "text-muted"
-                    }`}
-                  >
-                    {title}
-                  </span>
-                </button>
-              );
-            })}
-          </nav>
-
-          {/* 中间：翻页卡片 */}
-          <div className="relative mx-auto h-[54vh] min-h-[340px] w-full max-w-xs [perspective:1600px] md:flex-1">
-            {projects.map((proj, i) => {
-              const title = proj.previewTitle?.[locale] ?? proj.title[locale];
-              const delta = clamp(p - i, -1, 1);
-              const rot = delta * -90;
-              const hidden = Math.abs(p - i) >= 1;
-              const priority = Math.abs(p - i) < 0.5;
-              return (
-                <button
-                  key={proj.slug}
-                  type="button"
-                  onClick={() => open(proj.slug)}
-                  aria-label={title}
-                  className="absolute inset-0 overflow-hidden rounded-3xl border border-line text-left shadow-2xl"
+                  onPointerDown={onPosterPointerDown}
+                  onPointerUp={(e) => onPosterPointerUp(e, proj.slug)}
+                  onPointerCancel={(e) => onPosterPointerCancel(e, proj.slug)}
+                  // 点按已在 pointerup 处理（吞掉对应合成 click）；
+                  // 12–24px 的脏点击在这里兜底；≥24px 的拖拽两段都不跳转
+                  onClick={() => {
+                    if (swallowClickRef.current) {
+                      swallowClickRef.current = false;
+                      dragDistRef.current = 0;
+                      return;
+                    }
+                    if (dragDistRef.current >= 24) {
+                      dragDistRef.current = 0;
+                      return;
+                    }
+                    dragDistRef.current = 0;
+                    open(proj.slug);
+                  }}
+                  aria-label={projTitle}
+                  aria-hidden={!visible}
+                  tabIndex={visible ? 0 : -1}
+                  className="absolute inset-0 overflow-hidden rounded-[28px] border border-line text-left shadow-2xl"
                   style={{
-                    background: proj.cover ? proj.gradient : proj.gradient,
-                    transform: `rotateX(${rot}deg)`,
+                    background: proj.gradient,
+                    transform: `rotateX(${angle}deg) translateZ(${radius}px)`,
                     transformOrigin: "center",
                     backfaceVisibility: "hidden",
-                    opacity: hidden ? 0 : 1,
-                    zIndex: 20 - Math.round(Math.abs(p - i) * 10),
+                    opacity: visible ? 1 : 0,
+                    visibility: visible ? "visible" : "hidden",
+                    filter: `brightness(${1 - Math.min(abs / DRUM_VISIBLE, 1) * 0.6})`,
+                    transition: "opacity 0.25s ease, filter 0.15s linear",
                     cursor: "pointer",
                   }}
                 >
                   {/* 封面常驻挂载，避免滚动途中反复挂载/卸载大图造成卡顿。
-                      scale-[1.03]：3D 翻转时图片层与按钮背景分层栅格化，
+                      scale-[1.03]：3D 旋转时图片层与按钮背景分层栅格化，
                       底边会漏出 1px 渐变底色，略微放大盖住接缝 */}
                   {proj.cover ? (
                     <Image
                       src={proj.cover}
-                      alt={title}
+                      alt={projTitle}
                       fill
-                      sizes="(max-width: 767px) 100vw, 420px"
+                      sizes="100vw"
                       priority={priority}
                       loading={priority ? "eager" : "lazy"}
                       decoding="async"
@@ -205,59 +429,127 @@ export function WorkPosters({
                       unoptimized
                     />
                   ) : null}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/8 via-transparent to-transparent" />
-                  {/* 角标/年份颜色跟随封面明暗：深底封面白字，浅底封面（coverTone: light）和渐变卡片黑字 */}
-                  <span
-                    className={`absolute left-5 top-4 font-mono text-sm font-bold tracking-widest ${
-                      proj.cover && proj.coverTone !== "light"
-                        ? "text-white/80"
-                        : "text-black/65"
-                    }`}
-                  >
-                    {proj.glyph}
-                  </span>
-                  <span
-                    className={`absolute right-5 top-4 font-mono text-sm ${
-                      proj.cover && proj.coverTone !== "light"
-                        ? "text-white/70"
-                        : "text-black/55"
-                    }`}
-                  >
-                    {proj.year}
-                  </span>
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-6 pb-7 pt-16">
-                    <p className="text-sm text-white/80">{proj.category[locale]}</p>
-                    <p className="display mt-1 text-3xl text-white">
-                      {title}
+                  {/* 上下双向渐变压暗：顶部与底部文字区都更突出，中段画面保持干净 */}
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        "linear-gradient(to bottom, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0) 28%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.78) 100%)",
+                    }}
+                  />
+
+                  {/* 左上：年份 + 类别 */}
+                  <div className="absolute left-5 top-5 sm:left-8 sm:top-7">
+                    <p className="display text-4xl text-white sm:text-6xl">{proj.year}</p>
+                    <p className="mt-1.5 font-mono text-xs uppercase tracking-widest text-white sm:text-sm">
+                      {proj.category[locale]}
                     </p>
                   </div>
+                  {/* 右上：角标 */}
+                  <span className="absolute right-5 top-5 font-mono text-xl text-white sm:right-8 sm:top-7">
+                    {proj.glyph}
+                  </span>
+
+                  {/* 左下：超大标题 + 元信息表（siena 式 hairline 行） */}
+                  <div className="absolute bottom-5 left-5 right-28 sm:bottom-8 sm:left-8 sm:right-auto sm:max-w-xl">
+                    <h3 className="display text-5xl text-white sm:text-7xl">{projTitle}</h3>
+                    <dl className="mt-6 hidden max-w-lg text-base sm:block">
+                      {[
+                        [locale === "zh" ? "我的职责" : "ROLE", proj.role[locale]],
+                        [locale === "zh" ? "年份" : "YEAR", proj.year],
+                        [locale === "zh" ? "类型" : "TYPE", proj.category[locale]],
+                      ].map(([k, val]) => (
+                        <div
+                          key={k as string}
+                          className="flex items-baseline justify-between gap-6 border-t border-white/25 py-2 last:border-b"
+                        >
+                          <dt className="font-mono text-sm uppercase tracking-widest text-white/70">
+                            {k}
+                          </dt>
+                          <dd className="text-right text-white">{val}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+
+                  {/* 右下：摘要 + 标签 + CTA（桌面端）；移动端只留 CTA */}
+                  <div className="absolute bottom-8 right-8 hidden max-w-md flex-col items-end gap-4 text-right md:flex">
+                    <p className="text-lg leading-relaxed text-white">{summary}</p>
+                    <div className="flex flex-wrap justify-end gap-2">
+                      {proj.tags[locale].map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-full border border-white/25 px-3 py-1.5 text-sm text-white"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <span className="rounded-full bg-accent px-6 py-3 text-base font-semibold text-black transition-transform duration-200 hover:scale-110">
+                      {cta} →
+                    </span>
+                  </div>
+                  <span className="absolute bottom-5 right-5 rounded-full bg-accent px-5 py-2.5 text-base font-semibold text-black transition-transform duration-200 hover:scale-110 md:hidden">
+                    {cta} →
+                  </span>
                 </button>
               );
             })}
-          </div>
-
-          {/* 右侧：当前项目信息 */}
-          <div className="text-center md:flex-1 md:text-left">
-            <p className="font-mono text-xs uppercase tracking-wider text-accent">
-              {current.category[locale]} · {current.year}
-            </p>
-            <h3 className="display mt-3 text-4xl sm:text-5xl">
-              {currentTitle}
-            </h3>
-            <p className="mx-auto mt-4 max-w-md text-muted md:mx-0">
-              {currentSummary}
-            </p>
-            <button
-              type="button"
-              onClick={() => open(current.slug)}
-              className="mt-7 inline-block rounded-full bg-accent px-6 py-3 text-sm font-semibold text-black transition-transform hover:-translate-y-0.5"
-            >
-              {cta} →
-            </button>
-            <p className="mt-6 font-mono text-xs text-muted">{hint}</p>
+            </div>
           </div>
         </div>
       </div>
+      ) : null}
+
+      {/* 宫格视图：两列大图画廊（移动端单列） */}
+      {view === "grid" ? (
+        <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-5 px-4 pb-16 sm:grid-cols-2 sm:px-8">
+          {projects.map((proj, i) => {
+            const projTitle = proj.previewTitle?.[locale] ?? proj.title[locale];
+            const summary = proj.previewSummary?.[locale] ?? proj.summary[locale];
+            return (
+              <Reveal key={proj.slug} delay={i * 0.06}>
+                <button
+                  type="button"
+                  onClick={() => open(proj.slug)}
+                  aria-label={projTitle}
+                  className="group relative block aspect-[4/3] w-full overflow-hidden rounded-3xl border border-line text-left"
+                  style={{ background: proj.gradient }}
+                >
+                  {proj.cover ? (
+                    <Image
+                      src={proj.cover}
+                      alt={projTitle}
+                      fill
+                      sizes="(max-width: 639px) 100vw, 640px"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                      unoptimized
+                    />
+                  ) : (
+                    <span className="absolute right-5 top-5 font-mono text-xl text-white/85">
+                      {proj.glyph}
+                    </span>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5 sm:p-6">
+                    <div>
+                      <p className="font-mono text-[11px] uppercase tracking-widest text-white/70">
+                        {proj.category[locale]} · {proj.year}
+                      </p>
+                      <h3 className="display mt-1.5 text-2xl text-white sm:text-3xl">
+                        {projTitle}
+                      </h3>
+                    </div>
+                    <p className="hidden max-w-[46%] text-right text-xs leading-relaxed text-white/75 sm:block">
+                      {summary}
+                    </p>
+                  </div>
+                </button>
+              </Reveal>
+            );
+          })}
+        </div>
+      ) : null}
     </div>
   );
 }
