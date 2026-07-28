@@ -331,6 +331,24 @@ function MoodIntro({ locale }: { locale: Locale }) {
   );
 }
 
+/** 品牌海报：地铁站广告牌 mockup（整图展示，页面结尾） */
+function MoodPoster({ locale }: { locale: Locale }) {
+  return (
+    <section data-nav-theme="light" className="theme-light bg-white">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-8 sm:py-20">
+        <Reveal>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/mood/poster.jpg"
+            alt={locale === "zh" ? "心绪轨迹地铁站广告海报" : "MoodTrace subway ad poster"}
+            className="block w-full rounded-3xl"
+          />
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 function MoodSection({
   def,
   locale,
@@ -415,6 +433,7 @@ export function MoodTraceShowcase({ locale }: { locale: Locale }) {
           <MoodSection key={def.eyebrow} def={def} locale={locale} />
         ))}
       </AgentJourney>
+      <MoodPoster locale={locale} />
     </>
   );
 }

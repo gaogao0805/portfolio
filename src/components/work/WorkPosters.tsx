@@ -464,9 +464,9 @@ export function WorkPosters({
                     }}
                   />
 
-                  {/* 左上：年份 + 类别 */}
+                  {/* 左上：年份 + 类别（移动端年份收窄一档，避免与右上角标相挤） */}
                   <div className="absolute left-5 top-5 sm:left-8 sm:top-7">
-                    <p className="display text-4xl text-white sm:text-6xl">{proj.year}</p>
+                    <p className="display text-3xl text-white sm:text-6xl">{proj.year}</p>
                     <p className="mt-1.5 font-mono text-xs uppercase tracking-widest text-white sm:text-sm">
                       {proj.category[locale]}
                     </p>
@@ -476,9 +476,10 @@ export function WorkPosters({
                     {proj.glyph}
                   </span>
 
-                  {/* 左下：超大标题 + 元信息表（siena 式 hairline 行） */}
+                  {/* 左下：超大标题 + 元信息表（siena 式 hairline 行）。
+                      移动端标题收窄一档，给右下 CTA 留出不重叠的空间 */}
                   <div className="absolute bottom-5 left-5 right-28 sm:bottom-8 sm:left-8 sm:right-auto sm:max-w-xl">
-                    <h3 className="display text-5xl text-white sm:text-7xl">{projTitle}</h3>
+                    <h3 className="display text-4xl text-white sm:text-7xl">{projTitle}</h3>
                     <dl className="mt-6 hidden max-w-lg text-base sm:block">
                       {[
                         [locale === "zh" ? "我的职责" : "ROLE", proj.role[locale]],
