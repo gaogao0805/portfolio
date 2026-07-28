@@ -52,7 +52,12 @@ export default async function LocaleLayout({
     >
       <body className="noise flex min-h-full flex-col">
         <LanyardProvider role={role}>
-          <Nav locale={locale} nav={dict.nav} />
+          {/* HIDE_TAB_ICON=1 构建时隐藏桌面 tab 图标（部署仓库用） */}
+          <Nav
+            locale={locale}
+            nav={dict.nav}
+            hideTabIcon={process.env.HIDE_TAB_ICON === "1"}
+          />
           <main className="relative z-10 flex-1">{children}</main>
           <Footer locale={locale} dict={dict} />
         </LanyardProvider>

@@ -17,9 +17,12 @@ type NavTheme = "light" | "dark";
 export function Nav({
   locale,
   nav,
+  hideTabIcon = false,
 }: {
   locale: Locale;
   nav: Dictionary["nav"];
+  // 构建开关（HIDE_TAB_ICON=1）：桌面 tab 只留文字不显示图标
+  hideTabIcon?: boolean;
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -144,7 +147,7 @@ export function Nav({
             items={links.map((l) => ({
               label: l.label,
               href: l.href,
-              icon: l.icon,
+              icon: hideTabIcon ? undefined : l.icon,
             }))}
             activeIndex={activeIndex}
           />

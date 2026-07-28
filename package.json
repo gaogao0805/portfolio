@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:deploy": "HIDE_POLAROID=1 HIDE_TAB_ICON=1 next build",
     "preview": "npx serve@latest out -l 3000"
   },
   "dependencies": {
