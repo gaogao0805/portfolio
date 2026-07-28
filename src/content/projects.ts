@@ -141,7 +141,43 @@ const allProjects: Project[] = [
     sections: [],
   },
   {
+    slug: "mood-trace",
+    year: "2025",
+    cover: "/images/mood-trace-cover.jpg",
+    logo: "/images/mood-trace-logo.svg",
+    gradient: "linear-gradient(135deg,#6A7CFF 0%,#B78CFF 100%)",
+    glyph: "🌙",
+    title: {
+      zh: "心绪轨迹",
+      en: "Mood Trace",
+    },
+    previewTitle: {
+      zh: "心绪轨迹",
+      en: "Mood Trace",
+    },
+    category: { zh: "心理健康 · 情绪记录 App", en: "Mental Health · Mood App" },
+    summary: {
+      zh: "一款关注情绪与心理健康的 App：用轻量打卡记录每日情绪，AI 伙伴倾听与回应，把看不见的心理状态变成看得见的轨迹。",
+      en: "A mental-health companion app: lightweight daily check-ins, an AI partner that listens and responds, turning invisible feelings into a visible trajectory.",
+    },
+    previewSummary: {
+      zh: "记录每日情绪、AI 陪伴对话、看见自己的心理轨迹。",
+      en: "Track daily moods, chat with an AI companion, and see your emotional trajectory.",
+    },
+    tags: {
+      zh: ["情绪记录", "AI 陪伴", "移动端", "设计中"],
+      en: ["Mood tracking", "AI companion", "Mobile", "In progress"],
+    },
+    role: { zh: "产品设计师（主导）", en: "Product Designer (lead)" },
+    team: { zh: "", en: "" },
+    tools: { zh: "Figma", en: "Figma" },
+    duration: { zh: "进行中", en: "In progress" },
+    link: "",
+    sections: [],
+  },
+  {
     slug: "shipped-game",
+    hidden: true,
     year: "2026",
     cover: "/images/game-cover.jpg",
     coverTone: "light",
@@ -345,9 +381,9 @@ const allProjects: Project[] = [
   },
   {
     slug: "event-visual",
-    year: "2026",
-    cover: "/images/event-visual-cover.jpg",
-    gradient: "linear-gradient(135deg,#FF4D6A 0%,#FF9A44 100%)",
+    year: "Various",
+    cover: "/images/event-visual-triptych.jpg",
+    gradient: "linear-gradient(135deg,#0E3B8C 0%,#1B5FBD 100%)",
     glyph: "📣",
     title: {
       zh: "运营视觉",

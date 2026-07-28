@@ -23,6 +23,7 @@ import { AgentAppArch } from "@/components/work/AgentAppArch";
 import { AgentSelectionProvider } from "@/components/work/AgentSelectionContext";
 import { AgentJourney } from "@/components/work/AgentJourney";
 import { AgentScreensShowcase } from "@/components/work/AgentScreensShowcase";
+import { MoodTraceShowcase } from "@/components/work/mood/MoodTraceShowcase";
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -73,8 +74,10 @@ export default async function ProjectPage({
         data-nav-theme="dark"
         className="relative overflow-hidden border-b border-line"
       >
-        {/* 封面压花：首页就绪封面图做暗色水印（想推广到其他项目：改成 project.cover 判断，浅底封面除外） */}
-        {slug === "shipped-app" && project.cover ? (
+        {/* 封面压花：封面图做暗色水印（目前：就绪 / 心绪轨迹 / 卡牌；
+            浅底封面不适合，新增时按 slug 逐个开通） */}
+        {(slug === "shipped-app" || slug === "mood-trace" || slug === "cyber-warfare") &&
+        project.cover ? (
           <div
             aria-hidden
             className="pointer-events-none absolute inset-y-0 right-0 w-3/4 sm:w-1/2"
@@ -121,7 +124,7 @@ export default async function ProjectPage({
             ) : null}
             <div>
               <p className="kicker">{project.category[locale]}</p>
-              <h1 className="display mt-2 max-w-3xl text-4xl leading-[0.95] sm:text-7xl">
+              <h1 className="display mt-2 max-w-3xl text-4xl leading-[1.15] sm:text-7xl">
                 {project.title[locale]}
               </h1>
             </div>
@@ -204,6 +207,9 @@ export default async function ProjectPage({
           <AgentScreensShowcase locale={locale} />
         </AgentSelectionProvider>
       ) : null}
+
+      {/* 心绪轨迹：展示框架（占位卡槽待素材替换） */}
+      {slug === "mood-trace" ? <MoodTraceShowcase locale={locale} /> : null}
 
       {/* 正文章节 */}
       <div>
