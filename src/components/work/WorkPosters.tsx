@@ -476,27 +476,34 @@ export function WorkPosters({
                     {proj.glyph}
                   </span>
 
-                  {/* 左下：超大标题 + 元信息表（siena 式 hairline 行）。
-                      移动端标题收窄一档，给右下 CTA 留出不重叠的空间 */}
-                  <div className="absolute bottom-5 left-5 right-28 sm:bottom-8 sm:left-8 sm:right-auto sm:max-w-xl">
-                    <h3 className="display text-4xl text-white sm:text-7xl">{projTitle}</h3>
-                    <dl className="mt-6 hidden max-w-lg text-base sm:block">
-                      {[
-                        [locale === "zh" ? "我的职责" : "ROLE", proj.role[locale]],
-                        [locale === "zh" ? "年份" : "YEAR", proj.year],
-                        [locale === "zh" ? "类型" : "TYPE", proj.category[locale]],
-                      ].map(([k, val]) => (
-                        <div
-                          key={k as string}
-                          className="flex items-baseline justify-between gap-6 border-t border-white/25 py-2 last:border-b"
-                        >
-                          <dt className="font-mono text-sm uppercase tracking-widest text-white/70">
-                            {k}
-                          </dt>
-                          <dd className="text-right text-white">{val}</dd>
-                        </div>
-                      ))}
-                    </dl>
+                  {/* 底部信息行：超大标题 + 元信息表（siena 式 hairline 行）居左，
+                      移动端 CTA 居右——同一弹性行底对齐，标题可换行、CTA 不收缩，
+                      任何窄屏下两者都不会重叠 */}
+                  <div className="absolute inset-x-5 bottom-5 flex items-end justify-between gap-3 sm:inset-x-8 sm:bottom-8">
+                    <div className="min-w-0 sm:max-w-xl">
+                      <h3 className="display text-4xl text-white sm:text-7xl">{projTitle}</h3>
+                      <dl className="mt-6 hidden max-w-lg text-base sm:block">
+                        {[
+                          [locale === "zh" ? "我的职责" : "ROLE", proj.role[locale]],
+                          [locale === "zh" ? "年份" : "YEAR", proj.year],
+                          [locale === "zh" ? "类型" : "TYPE", proj.category[locale]],
+                        ].map(([k, val]) => (
+                          <div
+                            key={k as string}
+                            className="flex items-baseline justify-between gap-6 border-t border-white/25 py-2 last:border-b"
+                          >
+                            <dt className="font-mono text-sm uppercase tracking-widest text-white/70">
+                              {k}
+                            </dt>
+                            <dd className="text-right text-white">{val}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    </div>
+                    {/* 移动端 CTA：比桌面小一号，与标题同一弹性行（桌面端在右下信息块里） */}
+                    <span className="shrink-0 rounded-full bg-accent px-4 py-2 text-sm font-semibold text-black transition-transform duration-200 hover:scale-110 md:hidden">
+                      {cta} →
+                    </span>
                   </div>
 
                   {/* 右下：摘要 + 标签 + CTA（桌面端）；移动端只留 CTA */}
@@ -516,9 +523,6 @@ export function WorkPosters({
                       {cta} →
                     </span>
                   </div>
-                  <span className="absolute bottom-5 right-5 rounded-full bg-accent px-5 py-2.5 text-base font-semibold text-black transition-transform duration-200 hover:scale-110 md:hidden">
-                    {cta} →
-                  </span>
                 </button>
               );
             })}

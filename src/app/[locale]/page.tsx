@@ -94,7 +94,6 @@ export default async function HomePage({
               <EmText text={a.title} em="Zoey" />
             </h2>
             <p className="mt-5 text-xl text-muted">{a.lead}</p>
-            <p className="mt-5 leading-relaxed text-fg/80">{a.bio[0]}</p>
             <Link
               href={`/${locale}/about`}
               className="mt-8 inline-block rounded-full border border-line px-6 py-3 text-sm font-semibold text-fg transition-colors hover:border-accent hover:text-accent"

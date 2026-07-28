@@ -35,10 +35,10 @@ export function FooterMarquee({ texts }: { texts: string[] }) {
           animationPlayState: hovered ? "paused" : "running",
         }}
       >
-        <span className="display inline-block text-5xl sm:text-7xl lg:text-8xl" style={{...textStyle, fontFamily: '"Space Grotesk", ui-sans-serif, system-ui, "PingFang SC", sans-serif'}}>
+        <span className="display inline-block text-5xl sm:text-7xl lg:text-8xl" style={textStyle}>
           {segment}{segment}
         </span>
-        <span className="display inline-block text-5xl sm:text-7xl lg:text-8xl" style={{...textStyle, fontFamily: '"Space Grotesk", ui-sans-serif, system-ui, "PingFang SC", sans-serif'}} aria-hidden>
+        <span className="display inline-block text-5xl sm:text-7xl lg:text-8xl" style={textStyle} aria-hidden>
           {segment}{segment}
         </span>
       </div>
