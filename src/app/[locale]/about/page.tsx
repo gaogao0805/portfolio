@@ -81,10 +81,12 @@ export default async function AboutPage({
                 ))}
               </TimelineSection>
 
+              {/* 章节分割线：ml-8 从内容缩进处起笔，避开左侧竖线脊柱，不与竖线交错 */}
+              <div aria-hidden className="my-12 ml-8 border-t border-line" />
+
               <TimelineSection
                 index="02"
                 title={a.projTitle}
-                className="mt-12 border-t border-line pt-12"
               >
                 {a.projects.map((w, i) => (
                   <TimelineItem key={i} period={w.period}>
@@ -93,10 +95,11 @@ export default async function AboutPage({
                 ))}
               </TimelineSection>
 
+              <div aria-hidden className="my-12 ml-8 border-t border-line" />
+
               <TimelineSection
                 index="03"
                 title={a.eduTitle}
-                className="mt-12 border-t border-line pt-12"
               >
                 {a.education.map((e, i) => (
                   <TimelineItem key={i} period={e.period}>
