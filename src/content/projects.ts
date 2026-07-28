@@ -171,7 +171,7 @@ const allProjects: Project[] = [
     role: { zh: "产品设计师（主导）", en: "Product Designer (lead)" },
     team: { zh: "", en: "" },
     tools: { zh: "Figma", en: "Figma" },
-    duration: { zh: "进行中", en: "In progress" },
+    duration: { zh: "", en: "" },
     link: "",
     sections: [],
   },

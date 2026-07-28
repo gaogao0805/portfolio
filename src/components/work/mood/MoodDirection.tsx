@@ -106,9 +106,9 @@ function KanoChart({ locale }: { locale: Locale }) {
   // 曲线：[类别 key, 路径, 入场延迟]
   const curves: [string, string, number][] = [
     ["attractive", "M100 279 C170 292 255 294 315 264 S485 172 595 100", 0.2],
-    ["mustbe", "M460 600 C465 480 490 420 550 355 S690 255 730 235", 0.5],
-    ["performance", "M240 545 L645 135", 0.8],
-    ["reverse", "M250 105 L745 595", 1.1],
+    ["mustbe", "M445 619 C431 550 428 465 457 404 S547 233 617 122", 0.5],
+    ["performance", "M198 525 L602 115", 0.8],
+    ["reverse", "M152 75 L648 565", 1.1],
   ];
   const markerOf: Record<string, string> = {
     attractive: "url(#kanoArrPink)",
@@ -118,7 +118,7 @@ function KanoChart({ locale }: { locale: Locale }) {
   };
   const labelAt: Record<string, [number, number]> = {
     attractive: [548, 76],
-    mustbe: [640, 215],
+    mustbe: [642, 168],
     performance: [232, 600],
     reverse: [640, 606],
   };
@@ -162,10 +162,10 @@ function KanoChart({ locale }: { locale: Locale }) {
       <text x="712" y="356" fill="rgba(0,0,0,0.4)" fontSize="15" fontWeight="600" textAnchor="end">
         {isZh ? "具备程度高" : "High implementation"}
       </text>
-      <text x="424" y="60" fill="rgba(0,0,0,0.4)" fontSize="15" fontWeight="600">
+      <text x="400" y="60" fill="rgba(0,0,0,0.4)" fontSize="15" fontWeight="600" textAnchor="middle">
         {isZh ? "满意度高" : "High satisfaction"}
       </text>
-      <text x="424" y="600" fill="rgba(0,0,0,0.4)" fontSize="15" fontWeight="600">
+      <text x="400" y="600" fill="rgba(0,0,0,0.4)" fontSize="15" fontWeight="600" textAnchor="middle">
         {isZh ? "满意度低" : "Low satisfaction"}
       </text>
 
