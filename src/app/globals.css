@@ -24,6 +24,24 @@
     monospace;
 }
 
+/* 得意黑斜体：仅首页 Hero 主标题使用（.font-smiley）。
+   子集只含 hero 文案字形 + ASCII + 常用标点（12KB）；
+   改了 hero 文案要重新生成，否则新增字符会掉回苹方：
+   pyftsubset SmileySans-Oblique-3.otf --flavor=woff2 --desubroutinize \
+     --text="<新文案>" --unicodes="U+0020-007E,U+3000-303F,U+FF00-FFEF,U+2014,U+2018-201D,U+2026" \
+     --output-file=public/fonts/SmileySans-Oblique-hero.woff2 */
+@font-face {
+  font-family: "Smiley Sans";
+  src: url("/fonts/SmileySans-Oblique-hero.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal; /* 字体本身就是斜体设计，声明为 regular */
+  font-display: swap;
+}
+
+.font-smiley {
+  font-family: "Smiley Sans", var(--font-display);
+}
+
 :root {
   color-scheme: dark;
 }
