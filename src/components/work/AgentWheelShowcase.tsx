@@ -472,7 +472,7 @@ export function AgentWheelShowcase({ locale }: { locale: Locale }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, margin: "-100px" }}
               transition={{ duration: 0.55, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="display mt-4 text-3xl leading-[0.92] sm:text-5xl"
+              className="display mt-4 text-3xl leading-[1.15] sm:text-5xl"
             >
               {isZh ? "选择你的职场经纪人" : "Meet your career agents"}
             </motion.h2>

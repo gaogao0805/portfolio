@@ -782,7 +782,7 @@ export function CyberGameComponents({ locale }: { locale: Locale }) {
         <div className="grid gap-6 lg:grid-cols-[260px_minmax(0,1fr)] lg:items-start lg:gap-12">
           <div className="max-w-[260px]">
             <p className="kicker">{isZh ? "GAME COMPONENTS" : "GAME COMPONENTS"}</p>
-            <h2 className="display mt-4 max-w-[10ch] text-3xl leading-[0.92] sm:text-5xl">
+            <h2 className="display mt-4 max-w-[10ch] text-3xl leading-[1.15] sm:text-5xl">
               {isZh ? "游戏组成" : "Game components"}
             </h2>
           </div>

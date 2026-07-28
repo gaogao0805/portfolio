@@ -29,7 +29,8 @@ const debounce = (func, delay) => {
 const TextPressure = ({
   text = "Compressa",
   fontFamily = "Compressa VF",
-  fontUrl = "https://res.cloudinary.com/dr6lvwubh/raw/upload/v1529908256/CompressaPRO-GX.woff2",
+  // 字体自托管（原 Cloudinary 外链已失效且国内不可达）
+  fontUrl = "/fonts/CompressaPRO-GX.woff2",
 
   width = true,
   weight = true,

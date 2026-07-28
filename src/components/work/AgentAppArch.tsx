@@ -152,7 +152,7 @@ function BeatStatus({ isZh }: { isZh: boolean }) {
           <p className="text-[11px] font-bold uppercase tracking-[2px]" style={{ color: PRIMARY_ACTIVE }}>
             JOB HUNT PIPELINE
           </p>
-          <h2 className="display mt-2 text-3xl leading-[0.92] sm:text-5xl">
+          <h2 className="display mt-2 text-3xl leading-[1.15] sm:text-5xl">
             {isZh ? "求职招聘，就像一条流水线" : "Hiring works like a pipeline"}
           </h2>
         </motion.div>
@@ -312,7 +312,7 @@ function BeatLayers({ isZh }: { isZh: boolean }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, margin: "-100px" }}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="display text-3xl leading-[0.92] sm:text-5xl"
+          className="display text-3xl leading-[1.15] sm:text-5xl"
         >
           {isZh ? "三层，撑起一个 App" : "Three layers, one app"}
         </motion.h2>
