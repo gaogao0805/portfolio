@@ -31,6 +31,11 @@ export default async function AboutPage({
   if (!isLocale(locale)) notFound();
   const dict = getDictionary(locale);
   const a = dict.about;
+  // 构建开关（HIDE_GALAXY_JOB=1）：简历时间线隐藏「银河驿站」这条工作经历（部署仓库用）
+  const work =
+    process.env.HIDE_GALAXY_JOB === "1"
+      ? a.work.filter((w) => w.company !== "银河驿站" && w.company !== "Galaxy Station")
+      : a.work;
 
   return (
     <>
@@ -74,7 +79,7 @@ export default async function AboutPage({
           <Reveal>
             <Timeline tone="light">
               <TimelineSection index="01" title={a.workTitle}>
-                {a.work.map((w, i) => (
+                {work.map((w, i) => (
                   <TimelineItem key={i} period={w.period}>
                     <EntryContent entry={w} />
                   </TimelineItem>
