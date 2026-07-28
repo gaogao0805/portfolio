@@ -69,8 +69,8 @@ export default async function AboutPage({
       </section>
 
       {/* 简介色带（about.bio）暂时隐藏，需要时恢复 */}
-      {/* 板块二（浅灰）：工作 + 项目 + 教育 滚动时间线 */}
-      <section data-nav-theme="light" className="theme-light bg-bg-gray">
+      {/* 板块二（浅灰）：工作 + 项目 + 教育 滚动时间线（首页「看简历」锚到这里） */}
+      <section id="resume" data-nav-theme="light" className="theme-light scroll-mt-24 bg-bg-gray">
         <div className="mx-auto max-w-5xl px-5 py-16 sm:px-8 sm:py-20">
           <Reveal>
             <Timeline tone="light">

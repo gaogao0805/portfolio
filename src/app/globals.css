@@ -399,3 +399,47 @@ select {
     transform: translate3d(6vw, -5vh, 0) scale(1.12);
   }
 }
+
+/* 情绪版旅程虚线：持续流动（配合 stroke-dasharray 的周期 13） */
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -13;
+  }
+}
+.journey-flow {
+  animation: dash-flow 2.4s linear infinite;
+}
+
+/* 旅程节点：呼吸缩放 */
+@keyframes dot-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+}
+.journey-dot {
+  animation: dot-pulse 2.6s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* 情绪小表情呼吸：轻微缩放，各只用 animation-delay/duration 错开节奏 */
+.mood-breathe {
+  animation: mood-breathe 4s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes mood-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.07);
+  }
+}

@@ -49,11 +49,13 @@ export function WorkPosters({
   const N = projects.length;
   const span = Math.max(N - 1, 1);
 
-  // 滚筒：半径随海报高度算出（相邻海报正好相切于筒面）；velRef 为平滑后的滚动速度
+  // 滚筒：半径随海报高度算出（相邻海报正好相切于筒面）
   const drumRef = useRef<HTMLDivElement>(null);
   const [radius, setRadius] = useState(1400);
+  // 果冻形变速度（ref 累计）与形变系数（state，驱动渲染）
   const velRef = useRef(0);
   const lastPRef = useRef(0);
+  const [v, setV] = useState(0);
 
   useEffect(() => {
     const el = drumRef.current;
@@ -109,10 +111,16 @@ export function WorkPosters({
       const raw = ((window.scrollY - absTop) / total) * span;
       const scrolled = clamp(window.scrollY - absTop, 0, total);
       const prog = (scrolled / total) * span;
-      // 平滑滚动速度：驱动滚筒果冻形变
+      // 果冻形变速度：滚动驱动，且用 rAF 自衰减到 0——滚动停下后形变必须
+      // 回弹归零，否则 preserve-3d 容器带着残留的 skew/scale，
+      // 命中区域与视觉错位，海报边缘（CTA 所在）点击落空
       velRef.current = velRef.current * 0.8 + (prog - lastPRef.current) * 0.2;
       lastPRef.current = prog;
+      if (Math.abs(velRef.current) < 0.0005) velRef.current = 0;
+      setV(clamp(velRef.current * 6, -1, 1));
       setP(prog);
+      // 未衰减完就继续自驱动（setP(prog) 相同值不会触发重渲染，归零靠 setV）
+      if (velRef.current !== 0) rafId = requestAnimationFrame(update);
       if (snapTimer) clearTimeout(snapTimer);
       snapTimer = setTimeout(() => {
         const nearest = Math.round(prog);
@@ -152,8 +160,6 @@ export function WorkPosters({
   }, [span, N, view]);
 
   const active = clamp(Math.round(p), 0, N - 1);
-  // 果冻形变系数（-1..1），由平滑滚动速度驱动
-  const v = clamp(velRef.current * 6, -1, 1);
   const current = projects[active] ?? projects[0];
   const currentTitle = current.previewTitle?.[locale] ?? current.title[locale];
   const open = (slug: string) => router.push(`/${locale}/work/${slug}`);
@@ -349,10 +355,12 @@ export function WorkPosters({
           ) : null}
         </AnimatePresence>
 
-        {/* 滚筒。每张海报 rotateX 后沿自身 Z 轴推出半径，构成圆筒；
-            内层 translateZ(-radius) 把正前方的海报拉回舞台平面，大小 1:1 不变。
-            整条链都要 preserve-3d：中间任何一环扁平化，海报的命中区域
-            会和视觉位置错位（点得到画面点不中按钮）。
+        {/* 滚筒。每张海报绕「向后推了 radius 的旋转轴」rotateX，构成圆筒：
+            transform-origin 的 Z 分量后移，几何上与「rotateX + 双层 translateZ」
+            完全等价，但前方海报（angle=0）的变换就是单位矩阵——
+            命中区域与真实盒子重合，右下角 CTA 也能稳定点中；
+            双层 translateZ 方案在相邻海报 3D 叠加处命中会落空。
+            整条链都要 preserve-3d：中间任何一环扁平化，命中区域都会和视觉错位。
             注意：海报层是绝对定位，不吃父级 padding——缩进必须写在它自己的盒子上 */}
         <div className="absolute inset-0 [perspective:2000px]">
           <div
@@ -363,7 +371,7 @@ export function WorkPosters({
             <div
               className="absolute inset-0"
               style={{
-                transform: `translateZ(${-radius}px) scaleY(${1 - Math.abs(v) * 0.05}) skewY(${-v * 2.5}deg)`,
+                transform: `scaleY(${1 - Math.abs(v) * 0.05}) skewY(${-v * 2.5}deg)`,
                 transformStyle: "preserve-3d",
               }}
             >
@@ -371,7 +379,11 @@ export function WorkPosters({
               const projTitle = proj.previewTitle?.[locale] ?? proj.title[locale];
               const summary = proj.previewSummary?.[locale] ?? proj.summary[locale];
               // 方向与滚动直觉一致：往下滚时下一张从底部升起，当前张从顶部滚出
-              const angle = (p - i) * DRUM_STEP;
+              const angleRaw = (p - i) * DRUM_STEP;
+              // 吸附到位后仍可能有千分位微旋转（滚动位置像素取整导致）；
+              // 只要变换不是单位矩阵，Chrome 的真实输入命中就会在海报角落
+              // （CTA 所在）落空——微角度直接归零，视觉无差（z 位移 < 0.001px）
+              const angle = Math.abs(angleRaw) < 0.05 ? 0 : angleRaw;
               const abs = Math.abs(angle);
               const visible = abs < DRUM_VISIBLE;
               const priority = abs < DRUM_STEP;
@@ -403,8 +415,8 @@ export function WorkPosters({
                   className="absolute inset-0 overflow-hidden rounded-[28px] border border-line text-left shadow-2xl"
                   style={{
                     background: proj.gradient,
-                    transform: `rotateX(${angle}deg) translateZ(${radius}px)`,
-                    transformOrigin: "center",
+                    transform: `rotateX(${angle}deg)`,
+                    transformOrigin: `center center ${-radius}px`,
                     backfaceVisibility: "hidden",
                     opacity: visible ? 1 : 0,
                     visibility: visible ? "visible" : "hidden",
