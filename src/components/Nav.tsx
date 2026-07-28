@@ -17,12 +17,12 @@ type NavTheme = "light" | "dark";
 export function Nav({
   locale,
   nav,
-  hideTabIcon = false,
+  hideIcons = false,
 }: {
   locale: Locale;
   nav: Dictionary["nav"];
-  // 构建开关（HIDE_TAB_ICON=1）：桌面 tab 只留文字不显示图标
-  hideTabIcon?: boolean;
+  // 构建开关（HIDE_NAV_ICONS=1）：桌面导航所有按钮只留文字不显示图标
+  hideIcons?: boolean;
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -147,7 +147,7 @@ export function Nav({
             items={links.map((l) => ({
               label: l.label,
               href: l.href,
-              icon: hideTabIcon ? undefined : l.icon,
+              icon: hideIcons ? undefined : l.icon,
             }))}
             activeIndex={activeIndex}
           />
@@ -159,22 +159,26 @@ export function Nav({
             onFocus={warm}
             className="flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-fg"
           >
-            <span
-              className="nav-ico"
-              style={{ ["--icon" as string]: "url(/icons/contact.svg)" } as React.CSSProperties}
-              aria-hidden
-            />
+            {hideIcons ? null : (
+              <span
+                className="nav-ico"
+                style={{ ["--icon" as string]: "url(/icons/contact.svg)" } as React.CSSProperties}
+                aria-hidden
+              />
+            )}
             {nav.contact}
           </button>
           <Link
             href={toggleHref}
             className="flex items-center gap-1.5 rounded-full border border-line px-3 py-1 font-mono text-xs text-fg transition-colors hover:border-accent hover:text-accent"
           >
-            <span
-              className="nav-ico"
-              style={{ ["--icon" as string]: "url(/icons/translate.svg)" } as React.CSSProperties}
-              aria-hidden
-            />
+            {hideIcons ? null : (
+              <span
+                className="nav-ico"
+                style={{ ["--icon" as string]: "url(/icons/translate.svg)" } as React.CSSProperties}
+                aria-hidden
+              />
+            )}
             {nav.langLabel}
           </Link>
         </div>
