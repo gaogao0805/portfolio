@@ -11,9 +11,12 @@ import { useLanyard } from "@/components/lanyard/LanyardProvider";
 export function Hero({
   locale,
   home,
+  introAlt,
 }: {
   locale: Locale;
   home: Dictionary["home"];
+  // 另一语言的 intro 译文（中英对照副行，小一号淡一点）
+  introAlt?: string;
 }) {
   const byChar = locale === "zh";
   const { show, warm } = useLanyard();
@@ -46,7 +49,7 @@ export function Hero({
           text={home.heroGreeting}
           animateBy={byChar ? "chars" : "words"}
           delay={byChar ? 90 : 150}
-          className={`justify-center font-smiley text-3xl ${
+          className={`justify-center ${byChar ? "font-smiley" : "font-display font-bold"} text-3xl ${
             byChar ? "tracking-normal" : "tracking-tight"
           } sm:text-5xl`}
         />
@@ -56,7 +59,7 @@ export function Hero({
           delay={byChar ? 70 : 150}
           emText={home.heroTaglineEm}
           emClassName={byChar ? "serif-em serif-em--cjk" : "serif-em"}
-          className={`max-w-3xl justify-center font-smiley text-4xl leading-tight ${
+          className={`max-w-3xl justify-center ${byChar ? "font-smiley" : "font-display font-bold"} text-4xl leading-tight ${
             byChar ? "tracking-normal" : "tracking-tight"
           } sm:text-6xl`}
         />
@@ -75,6 +78,17 @@ export function Hero({
       >
         {home.intro}
       </motion.p>
+      {introAlt ? (
+        <motion.p
+          lang={locale === "zh" ? "en" : "zh-CN"}
+          className="relative z-10 mt-2.5 max-w-xl text-lg leading-relaxed text-muted/60"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.65 }}
+        >
+          {introAlt}
+        </motion.p>
+      ) : null}
 
       <motion.div
         className="relative z-10 mt-9 flex flex-wrap items-center justify-center gap-4"

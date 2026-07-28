@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { isLocale } from "@/i18n/config";
+import { isLocale, otherLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { Hero } from "@/components/Hero";
 import { Reveal } from "@/components/Reveal";
@@ -32,7 +32,11 @@ export default async function HomePage({
         className="theme-light relative overflow-hidden bg-bg-light"
       >
         <AmbientOrbs />
-        <Hero locale={locale} home={dict.home} />
+        <Hero
+          locale={locale}
+          home={dict.home}
+          introAlt={locale === "zh" ? getDictionary(otherLocale(locale)).home.intro : undefined}
+        />
       </div>
 
       {/* 作品板块（黑色 + 格子） */}
@@ -90,7 +94,7 @@ export default async function HomePage({
           </Reveal>
           <Reveal>
             <PressureLabel text="About Me" size={20} />
-            <h2 className="display mt-3 text-4xl sm:text-5xl">
+            <h2 className={`display mt-3 text-4xl sm:text-5xl ${locale === "zh" ? "font-smiley" : ""}`}>
               <EmText text={a.title} em="Zoey" />
             </h2>
             <p className="mt-5 text-xl text-muted">{a.lead}</p>

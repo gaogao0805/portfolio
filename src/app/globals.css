@@ -24,9 +24,9 @@
     monospace;
 }
 
-/* 得意黑斜体：仅首页 Hero 主标题使用（.font-smiley）。
-   子集只含 hero 文案字形 + ASCII + 常用标点（12KB）；
-   改了 hero 文案要重新生成，否则新增字符会掉回苹方：
+/* 得意黑斜体：仅首页 Hero 主标题与首页板块大标题使用（.font-smiley）。
+   子集只含上述文案字形 + ASCII + 常用标点（13KB）；
+   改了这些文案要重新生成，否则新增字符会掉回苹方：
    pyftsubset SmileySans-Oblique-3.otf --flavor=woff2 --desubroutinize \
      --text="<新文案>" --unicodes="U+0020-007E,U+3000-303F,U+FF00-FFEF,U+2014,U+2018-201D,U+2026" \
      --output-file=public/fonts/SmileySans-Oblique-hero.woff2 */
@@ -110,6 +110,12 @@ select {
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1.15;
+}
+
+/* 得意黑仅单字重：叠加 .display 时接管字体并压住它的 700，避免浏览器合成假粗体 */
+.display.font-smiley {
+  font-family: "Smiley Sans", var(--font-display);
+  font-weight: 400;
 }
 
 /* 小标签 kicker */
