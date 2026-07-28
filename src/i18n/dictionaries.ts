@@ -29,6 +29,7 @@ const dictionaries = {
         "一名拥有约一年经验的 AI 产品设计师，专注移动端体验——从 0 到 1 把想法做成真正上线、有人在用的产品。",
       ctaWork: "看我的作品",
       ctaContact: "聊一聊",
+      ctaResume: "看简历",
       scroll: "向下滚动",
       // 精选作品
       featuredKicker: "精选作品",
@@ -253,6 +254,7 @@ const dictionaries = {
         "An AI product designer with around a year of experience, focused on mobile experiences — turning ideas into products that ship and get used.",
       ctaWork: "View my work",
       ctaContact: "Say hello",
+      ctaResume: "Resume",
       scroll: "Scroll",
       featuredKicker: "Selected work",
       featuredTitle: "Things I've shipped",
