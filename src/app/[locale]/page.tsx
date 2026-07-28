@@ -19,6 +19,9 @@ export default async function HomePage({
   if (!isLocale(locale)) notFound();
   const dict = getDictionary(locale);
   const a = dict.about;
+  // 构建开关：HIDE_POLAROID=1 npm run build 时隐藏首页 About 拍立得、板块整体居中
+  // （部署仓库用；日常开发与默认构建保留拍立得和左右排版）
+  const hidePolaroid = process.env.HIDE_POLAROID === "1";
 
   return (
     <>
@@ -55,9 +58,15 @@ export default async function HomePage({
         className="theme-light relative z-10 scroll-mt-24 overflow-hidden bg-bg-light"
       >
         <AmbientOrbs />
-        <div className="relative mx-auto flex max-w-2xl flex-col items-center px-5 py-24 text-center sm:max-w-4xl sm:flex-row sm:items-center sm:gap-14 sm:px-8 sm:text-left">
-          {/* 拍立得照片：白框、微斜、签名落款，hover 回正 */}
-          <Reveal delay={0.05}>
+        <div
+          className={`relative mx-auto flex max-w-2xl flex-col items-center px-5 py-24 text-center sm:px-8 ${
+            hidePolaroid
+              ? ""
+              : "sm:max-w-4xl sm:flex-row sm:items-center sm:gap-14 sm:text-left"
+          }`}
+        >
+          {/* 拍立得照片：白框、微斜、签名落款，hover 回正（HIDE_POLAROID=1 构建时隐藏） */}
+          <Reveal delay={0.05} className={hidePolaroid ? "hidden" : undefined}>
             <div className="group mb-10 w-56 shrink-0 rotate-[-3deg] bg-white p-2.5 pb-3 shadow-[0_16px_40px_rgba(0,0,0,0.14)] transition-transform duration-500 hover:rotate-0 sm:mb-0 sm:w-60">
               <div className="relative aspect-[4/5] overflow-hidden bg-black">
                 <Image
