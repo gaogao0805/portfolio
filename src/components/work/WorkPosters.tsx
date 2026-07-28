@@ -56,6 +56,8 @@ export function WorkPosters({
   const velRef = useRef(0);
   const lastPRef = useRef(0);
   const [v, setV] = useState(0);
+  // 最后一次滚动方向（吸附跟随它，而不是就近回拽）
+  const dirRef = useRef(1);
 
   useEffect(() => {
     const el = drumRef.current;
@@ -114,7 +116,9 @@ export function WorkPosters({
       // 果冻形变速度：滚动驱动，且用 rAF 自衰减到 0——滚动停下后形变必须
       // 回弹归零，否则 preserve-3d 容器带着残留的 skew/scale，
       // 命中区域与视觉错位，海报边缘（CTA 所在）点击落空
-      velRef.current = velRef.current * 0.8 + (prog - lastPRef.current) * 0.2;
+      const dp = prog - lastPRef.current;
+      velRef.current = velRef.current * 0.8 + dp * 0.2;
+      if (dp !== 0) dirRef.current = dp > 0 ? 1 : -1;
       lastPRef.current = prog;
       if (Math.abs(velRef.current) < 0.0005) velRef.current = 0;
       setV(clamp(velRef.current * 6, -1, 1));
@@ -134,8 +138,17 @@ export function WorkPosters({
           }
           return;
         }
-        if (Math.abs(prog - nearest) > 0.02) {
-          window.scrollTo({ top: m.absTop + (nearest / span) * m.total, behavior: "smooth" });
+        // 吸附方向跟随最后一次滚动方向：往下滚吸到下一张，往上滚吸回上一张，
+        // 不用 Math.round 就近回拽——鼠标滚轮一次只走一小段（≪半张），
+        // 就近吸附必然把人拽回上一张，滚筒怎么滚都翻不动。
+        // ±0.05 余量：已贴整页（像素取整/触控板停驻抖动）时不误吸到隔壁
+        const target = clamp(
+          dirRef.current > 0 ? Math.ceil(prog - 0.05) : Math.floor(prog + 0.05),
+          0,
+          span
+        );
+        if (Math.abs(prog - target) > 0.001) {
+          window.scrollTo({ top: m.absTop + (target / span) * m.total, behavior: "smooth" });
         }
       }, 150);
     };
@@ -270,8 +283,9 @@ export function WorkPosters({
           />
         </div>
 
-        {/* 常驻板块标识（左缘竖排）：滚筒全屏滚动时也能认出当前在「精选作品」区 */}
-        <p className="absolute left-1.5 top-1/2 z-30 -translate-y-1/2 font-mono text-[10px] uppercase tracking-[0.3em] text-muted [writing-mode:vertical-rl] md:left-2">
+        {/* 常驻板块标识（左缘竖排）：滚筒全屏滚动时也能认出当前在「精选作品」区。
+            仅桌面端显示——移动端海报近乎全宽，竖排文字会换列并被屏幕左缘裁切 */}
+        <p className="absolute left-2 top-1/2 z-30 hidden -translate-y-1/2 font-mono text-[10px] uppercase tracking-[0.3em] text-muted [writing-mode:vertical-rl] md:block">
           <span className="text-accent">●</span> Selected Work{locale === "zh" ? " · 项目精选" : ""}
         </p>
 
