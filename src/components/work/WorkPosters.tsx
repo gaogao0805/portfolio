@@ -58,6 +58,12 @@ export function WorkPosters({
   const [v, setV] = useState(0);
   // 最后一次滚动方向（吸附跟随它，而不是就近回拽）
   const dirRef = useRef(1);
+  // 有指针按在作品区时不吸附（手指/鼠标拖动途中不抢滚动）
+  const pointerActiveRef = useRef(false);
+  // 指针抬起后触发一次吸附检查（回调在滚动 effect 里赋值）
+  const kickSnapRef = useRef<(() => void) | null>(null);
+  // 指针按下时停掉进行中的吸附滑行，立刻交还滚动权
+  const cancelGlideRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     const el = drumRef.current;
@@ -92,15 +98,81 @@ export function WorkPosters({
 
     let snapTimer: ReturnType<typeof setTimeout> | undefined;
     let rafId = 0;
+    // Chrome（Safari 不会）：用户的继续滚动会打断浏览器的 programmatic smooth
+    // 滚动，打断—再吸附—再打断……滑行永远走不完，滚筒原地爬行（停在第一张）。
+    // 所以吸附滑行改用 rAF 逐帧滚动，且必须 behavior:instant——html 上有
+    // scroll-behavior:smooth，用 auto 会被 CSS 拖回平滑滚动，照样被打断。
+    // 滑行保证完成；用户同向滚动只是叠加加速，反向顶一段或冲过目标则认输。
+    let glide: {
+      top: number;
+      dir: number;
+      from: number;
+      t0: number;
+      ms: number;
+      raf: number;
+    } | null = null;
+    const stopGlide = () => {
+      if (glide) {
+        cancelAnimationFrame(glide.raf);
+        glide = null;
+      }
+    };
+    const startGlide = (top: number) => {
+      stopGlide();
+      const from = window.scrollY;
+      const g = (glide = {
+        top,
+        dir: Math.sign(top - from) || 1,
+        from,
+        t0: performance.now(),
+        // 时长随距离：一张≈440ms，跳多张（用力甩）最多 700ms
+        ms: clamp(Math.abs(top - from) * 0.6, 300, 700),
+        raf: 0,
+      });
+      const easeOut = (x: number) => 1 - Math.pow(1 - x, 3);
+      const step = (now: number) => {
+        if (glide !== g) return;
+        const traveled = (window.scrollY - g.from) * g.dir;
+        // 用户反向顶回起点 48px 以上，或自己冲过目标 48px：交还滚动权
+        if (traveled < -48 || (window.scrollY - g.top) * g.dir > 48) {
+          glide = null;
+          return;
+        }
+        const k = Math.min((now - g.t0) / g.ms, 1);
+        window.scrollTo({ top: g.from + (g.top - g.from) * easeOut(k), behavior: "instant" });
+        if (k >= 1) {
+          glide = null;
+          return;
+        }
+        g.raf = requestAnimationFrame(step);
+      };
+      g.raf = requestAnimationFrame(step);
+    };
+    const freshProg = () => {
+      const { absTop, total } = metricsRef.current;
+      const d = window.scrollY - absTop;
+      return { raw: (d / total) * span, prog: (clamp(d, 0, total) / total) * span };
+    };
     // 只在挂载和 resize 时测量一次，避免 scroll 回调里强制同步布局
     const measure = () => {
       const rect = el.getBoundingClientRect();
       // 滚动零点取舞台 sticky 吸顶的位置（而非板块顶部）：
       // 否则 p=0 吸附时舞台还没吸顶，首张海报底部（CTA 所在）悬在视口外点不到
       const stickyTop = window.matchMedia("(min-width: 768px)").matches ? 64 : 0;
-      const stick = stageRef.current
-        ? Math.max(stageRef.current.offsetTop - stickyTop, 0)
-        : 0;
+      let stick = 0;
+      const stage = stageRef.current;
+      if (stage) {
+        // sticky 吸住后 offsetTop 会带上位移（滚得越深越大），不再是静态偏移。
+        // Chrome 移动端滚动时收起地址栏会触发 resize、桌面端刷新后恢复滚动
+        // 位置会挂载即吸住——这两种情况都会把 absTop/total 量爆（直接跳到最后
+        // 一张、或永远停在第一张）。临时关掉 sticky 读静态偏移再恢复；
+        // top 也要归零——md:top-16 对 relative 同样生效，会多读 64px
+        stage.style.position = "relative";
+        stage.style.top = "0";
+        stick = Math.max(stage.offsetTop - stickyTop, 0);
+        stage.style.position = "";
+        stage.style.top = "";
+      }
       metricsRef.current = {
         absTop: rect.top + window.scrollY + stick,
         total: Math.max(el.offsetHeight - window.innerHeight - stick, 1),
@@ -109,8 +181,6 @@ export function WorkPosters({
     const update = () => {
       rafId = 0;
       const { absTop, total } = metricsRef.current;
-      // 未夹取的进度（可为负）：负值 = 舞台尚未吸顶的标题过渡区
-      const raw = ((window.scrollY - absTop) / total) * span;
       const scrolled = clamp(window.scrollY - absTop, 0, total);
       const prog = (scrolled / total) * span;
       // 果冻形变速度：滚动驱动，且用 rAF 自衰减到 0——滚动停下后形变必须
@@ -127,14 +197,20 @@ export function WorkPosters({
       if (velRef.current !== 0) rafId = requestAnimationFrame(update);
       if (snapTimer) clearTimeout(snapTimer);
       snapTimer = setTimeout(() => {
-        const nearest = Math.round(prog);
+        // 滑行由 rAF 自驱动，会自己完成或认输（认输后下次计时器再重新决策）
+        if (glide) return;
+        // 手指/鼠标还按着：不抢滚动（抬起时 kickSnapRef 会补一次检查）
+        if (pointerActiveRef.current) return;
         const m = metricsRef.current;
+        // 用实时位置重算，不用 update 闭包里的旧值（timer 触发时可能已经又滚过）
+        const { raw: rawNow, prog: progNow } = freshProg();
+        const nearest = Math.round(progNow);
         // 过渡区（含锚点直达 #work 的落点）不允许停留：
         // 否则首张海报底部（CTA）悬在视口外点不到——一律前吸到吸顶点。
         // 向上滚动途中不会触发（滚动事件会不断重置计时器），放心滚出。
-        if (nearest === 0 && raw <= 0) {
-          if (raw > -0.5) {
-            window.scrollTo({ top: m.absTop, behavior: "smooth" });
+        if (nearest === 0 && rawNow <= 0) {
+          if (rawNow > -0.5) {
+            startGlide(m.absTop);
           }
           return;
         }
@@ -143,12 +219,12 @@ export function WorkPosters({
         // 就近吸附必然把人拽回上一张，滚筒怎么滚都翻不动。
         // ±0.05 余量：已贴整页（像素取整/触控板停驻抖动）时不误吸到隔壁
         const target = clamp(
-          dirRef.current > 0 ? Math.ceil(prog - 0.05) : Math.floor(prog + 0.05),
+          dirRef.current > 0 ? Math.ceil(progNow - 0.05) : Math.floor(progNow + 0.05),
           0,
           span
         );
-        if (Math.abs(prog - target) > 0.001) {
-          window.scrollTo({ top: m.absTop + (target / span) * m.total, behavior: "smooth" });
+        if (Math.abs(progNow - target) > 0.001) {
+          startGlide(m.absTop + (target / span) * m.total);
         }
       }, 150);
     };
@@ -162,11 +238,18 @@ export function WorkPosters({
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize);
+    // 指针抬起后补一次吸附检查（按下期间被 pointerActiveRef 挡住的吸附在此兑现）；
+    // 按下瞬间先停掉进行中的滑行，把滚动权立刻还给用户
+    kickSnapRef.current = onScroll;
+    cancelGlideRef.current = stopGlide;
     measure();
     update();
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
+      kickSnapRef.current = null;
+      cancelGlideRef.current = null;
+      stopGlide();
       if (snapTimer) clearTimeout(snapTimer);
       if (rafId) cancelAnimationFrame(rafId);
     };
@@ -227,12 +310,24 @@ export function WorkPosters({
       ref={sectionRef}
       className={view === "drum" ? "relative h-[var(--work-h)]" : "relative"}
       style={{ ["--work-h" as string]: `${N * 100}vh` }}
+      onPointerDown={() => {
+        pointerActiveRef.current = true;
+        cancelGlideRef.current?.();
+      }}
+      onPointerUp={() => {
+        pointerActiveRef.current = false;
+        kickSnapRef.current?.();
+      }}
+      onPointerCancel={() => {
+        pointerActiveRef.current = false;
+        kickSnapRef.current?.();
+      }}
     >
       {/* 标题区：随页面流滚走，滚筒独占 sticky 舞台 */}
       <Reveal>
         <div className="relative z-30 mx-auto flex max-w-6xl flex-col items-center px-5 pb-10 pt-12 text-center sm:px-8">
           <PressureLabel text="Selected Work" size={20} />
-          <h2 className="display mt-3 text-4xl sm:text-5xl">
+          <h2 className={`display mt-3 text-4xl sm:text-5xl ${locale === "zh" ? "font-smiley" : ""}`}>
             <EmText
               text={title}
               em={titleEm}
