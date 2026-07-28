@@ -48,6 +48,9 @@ export function Footer({
           </div>
 
           <div className="flex flex-col gap-1 text-xs text-muted sm:items-end">
+            {/* 签名 logo 落款（浅灰底上用黑色原版） */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.svg" alt={site.name} className="mb-1.5 h-8 w-auto opacity-75" />
             <Link href={`/${locale}/contact`} className="hover:text-fg">
               {dict.nav.contact}
             </Link>

@@ -6,6 +6,9 @@ import { Hero } from "@/components/Hero";
 import { Reveal } from "@/components/Reveal";
 import { PressureLabel } from "@/components/PressureLabel";
 import { WorkPosters } from "@/components/work/WorkPosters";
+import { EmText } from "@/components/EmText";
+import { AmbientOrbs } from "@/components/AmbientOrbs";
+import Image from "next/image";
 
 export default async function HomePage({
   params,
@@ -19,8 +22,13 @@ export default async function HomePage({
 
   return (
     <>
-      {/* 首页定位：首屏（白色） */}
-      <div id="top" data-nav-theme="light" className="theme-light bg-bg-light">
+      {/* 首页定位：首屏（白色 + 漂移光斑氛围层） */}
+      <div
+        id="top"
+        data-nav-theme="light"
+        className="theme-light relative overflow-hidden bg-bg-light"
+      >
+        <AmbientOrbs />
         <Hero locale={locale} home={dict.home} />
       </div>
 
@@ -29,6 +37,7 @@ export default async function HomePage({
         <WorkPosters
           locale={locale}
           title={dict.work.title}
+          titleEm={dict.work.titleEm}
           subtitle={dict.work.subtitle}
           cta={dict.work.viewProject}
           hint={
@@ -39,16 +48,42 @@ export default async function HomePage({
         />
       </section>
 
-      {/* 关于板块（白色） */}
+      {/* 关于板块（白色 + 漂移光斑氛围层） */}
       <section
         id="about"
         data-nav-theme="light"
-        className="theme-light relative z-10 scroll-mt-24 bg-bg-light"
+        className="theme-light relative z-10 scroll-mt-24 overflow-hidden bg-bg-light"
       >
-        <div className="mx-auto flex max-w-2xl flex-col items-center px-5 py-24 text-center sm:px-8">
+        <AmbientOrbs />
+        <div className="relative mx-auto flex max-w-2xl flex-col items-center px-5 py-24 text-center sm:max-w-4xl sm:flex-row sm:items-center sm:gap-14 sm:px-8 sm:text-left">
+          {/* 拍立得照片：白框、微斜、签名落款，hover 回正 */}
+          <Reveal delay={0.05}>
+            <div className="group mb-10 w-56 shrink-0 rotate-[-3deg] bg-white p-2.5 pb-3 shadow-[0_16px_40px_rgba(0,0,0,0.14)] transition-transform duration-500 hover:rotate-0 sm:mb-0 sm:w-60">
+              <div className="relative aspect-[4/5] overflow-hidden bg-black">
+                <Image
+                  src="/avatar.jpg"
+                  alt={locale === "zh" ? "Zoey 的照片" : "Photo of Zoey"}
+                  fill
+                  sizes="240px"
+                  className="object-cover"
+                  unoptimized
+                />
+              </div>
+              <div className="mt-2.5 flex h-8 items-center justify-center">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/logo.svg"
+                  alt=""
+                  className="h-5 w-auto opacity-70"
+                />
+              </div>
+            </div>
+          </Reveal>
           <Reveal>
             <PressureLabel text="About Me" size={20} />
-            <h2 className="display mt-3 text-4xl sm:text-5xl">{a.title}</h2>
+            <h2 className="display mt-3 text-4xl sm:text-5xl">
+              <EmText text={a.title} em="Zoey" />
+            </h2>
             <p className="mt-5 text-xl text-muted">{a.lead}</p>
             <p className="mt-5 leading-relaxed text-fg/80">{a.bio[0]}</p>
             <Link

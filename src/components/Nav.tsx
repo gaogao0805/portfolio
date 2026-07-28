@@ -121,11 +121,21 @@ export function Nav({
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-8">
         <Link
           href={`/${locale}#top`}
-          className="display text-xl tracking-tight"
+          className="flex items-center gap-2"
           onClick={() => setOpen(false)}
+          aria-label={site.name}
         >
-          {site.name}
-          <span className="text-accent">.</span>
+          {/* 个人签名 logo：深底导航反白，浅底保持黑色；与字标并存 */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo.svg"
+            alt=""
+            className={`h-7 w-auto transition-[filter] duration-300 ${navLight ? "" : "invert"}`}
+          />
+          <span className="serif-brand text-[1.65rem] leading-none tracking-tight">
+            {site.name}
+            <span className="text-accent">.</span>
+          </span>
         </Link>
 
         {/* 桌面端 */}

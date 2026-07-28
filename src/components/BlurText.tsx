@@ -30,10 +30,16 @@ const BlurText = ({
   easing = (t) => t,
   onAnimationComplete = undefined,
   stepDuration = 0.35,
+  // 强调片段：text 中首个 emText 子串用 emClassName 高亮（按字符下标匹配，逐词/逐字都安全）
+  emText = "",
+  emClassName = "serif-em",
 }) => {
   const elements = animateBy === "words" ? text.split(" ") : text.split("");
   const [inView, setInView] = useState(false);
   const ref = useRef(null);
+
+  const emStart = emText ? text.indexOf(emText) : -1;
+  const emEnd = emStart >= 0 ? emStart + emText.length : -1;
 
   useEffect(() => {
     if (!ref.current) return;
@@ -81,32 +87,45 @@ const BlurText = ({
 
   return (
     <p ref={ref} className={className} style={{ display: "flex", flexWrap: "wrap" }}>
-      {elements.map((segment, index) => {
-        const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
+      {(() => {
+        let charOffset = 0;
+        return elements.map((segment, index) => {
+          const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
 
-        const spanTransition = {
-          duration: totalDuration,
-          times,
-          delay: (index * delay) / 1000,
-        };
-        spanTransition.ease = easing;
+          const spanTransition = {
+            duration: totalDuration,
+            times,
+            delay: (index * delay) / 1000,
+          };
+          spanTransition.ease = easing;
 
-        return (
-          <motion.span
-            className="inline-block will-change-[transform,filter,opacity]"
-            key={index}
-            initial={fromSnapshot}
-            animate={inView ? animateKeyframes : fromSnapshot}
-            transition={spanTransition}
-            onAnimationComplete={
-              index === elements.length - 1 ? onAnimationComplete : undefined
-            }
-          >
-            {segment === " " ? " " : segment}
-            {animateBy === "words" && index < elements.length - 1 && " "}
-          </motion.span>
-        );
-      })}
+          // 该片段是否落在 emText 区间内
+          const segStart = charOffset;
+          charOffset += segment.length + (animateBy === "words" ? 1 : 0);
+          const isEm =
+            emStart >= 0 &&
+            segStart < emEnd &&
+            segStart + segment.length > emStart;
+
+          const content = segment === " " ? " " : segment;
+
+          return (
+            <motion.span
+              className="inline-block will-change-[transform,filter,opacity]"
+              key={index}
+              initial={fromSnapshot}
+              animate={inView ? animateKeyframes : fromSnapshot}
+              transition={spanTransition}
+              onAnimationComplete={
+                index === elements.length - 1 ? onAnimationComplete : undefined
+              }
+            >
+              {isEm ? <span className={emClassName}>{content}</span> : content}
+              {animateBy === "words" && index < elements.length - 1 && " "}
+            </motion.span>
+          );
+        });
+      })()}
     </p>
   );
 };

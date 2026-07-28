@@ -28,6 +28,7 @@
   color-scheme: dark;
 }
 
+/* 锚点跳转平滑滚动（原生，无 JS 依赖） */
 html {
   scroll-behavior: smooth;
 }
@@ -36,6 +37,9 @@ body {
   background: var(--color-bg);
   color: var(--color-fg);
   font-family: var(--font-sans);
+  /* 中文阅读行距放宽（Tailwind 默认 1.5），长段落更透气；
+     标题另有 leading-* 类控制，不受影响 */
+  line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -82,12 +86,12 @@ select {
   color: #1a1a1a !important;
 }
 
-/* 超大展示标题 */
+/* 超大展示标题（行高 1.15：中文字形满 em 框，过窄会叠字） */
 .display {
   font-family: var(--font-display);
   font-weight: 700;
   letter-spacing: -0.03em;
-  line-height: 0.9;
+  line-height: 1.15;
 }
 
 /* 小标签 kicker */
@@ -333,5 +337,65 @@ select {
   *::after {
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
+  }
+}
+
+/* ----------------------------------------------------------------
+   斜体强调（Sora 式）：仅拉丁词用系统 Georgia italic + 品牌色；
+   中文强调见下方 .serif-em--cjk，不换字体。全系统字体，零加载。
+----------------------------------------------------------------- */
+.serif-em {
+  font-family: Georgia, "Times New Roman", "Songti SC", "STSong",
+    "SimSun", serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.05em; /* 衬线与无衬线视觉对齐 */
+  letter-spacing: 0;
+  color: var(--color-accent);
+}
+
+/* 中文强调：字体/字重/字号随正文（苹方），只加品牌色 */
+.serif-em--cjk {
+  font-family: inherit;
+  font-style: normal;
+  font-weight: inherit;
+  font-size: 1em;
+}
+
+/* 品牌字标：与 .serif-em 同栈（Georgia 斜体），不带强调色，颜色随上下文 */
+.serif-brand {
+  font-family: Georgia, "Times New Roman", "Songti SC", "STSong",
+    "SimSun", serif;
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* ----------------------------------------------------------------
+   环境漂移光斑（浅色区氛围背景层，Sora 式）。
+   纯 CSS 动画，容器绝对定位铺满父级，父级需 relative + overflow-hidden。
+----------------------------------------------------------------- */
+.ambient-orbs {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ambient-orbs span {
+  position: absolute;
+  display: block;
+  border-radius: 9999px;
+  filter: blur(90px);
+  animation: orb-drift 32s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes orb-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(6vw, -5vh, 0) scale(1.12);
   }
 }

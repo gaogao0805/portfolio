@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { motion, useScroll } from "motion/react";
 
 /**
@@ -50,10 +50,23 @@ function buildJourneyPath(anchors: Pt[], width: number, height: number) {
   return d;
 }
 
-export function AgentJourney({ children }: { children: React.ReactNode }) {
+export type JourneyTone = { from: string; to: string };
+
+const DEFAULT_TONE: JourneyTone = { from: "#1EC8B4", to: "#1EC8B4" };
+
+export function AgentJourney({
+  children,
+  tone = DEFAULT_TONE,
+}: {
+  children: React.ReactNode;
+  /** 旅程线渐变色调，默认青绿色；可按项目主题色覆盖 */
+  tone?: JourneyTone;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const [anchors, setAnchors] = useState<Pt[]>([]);
+  // 每个实例独立的渐变 id，避免同页多条旅程线互相引用错颜色
+  const gradientId = `journey-${useId().replace(/:/g, "")}`;
 
   // 实测三个模块标题锚点（data-journey-anchor），随宽度变化重算
   useEffect(() => {
@@ -93,15 +106,15 @@ export function AgentJourney({ children }: { children: React.ReactNode }) {
           aria-hidden
         >
           <defs>
-            <linearGradient id="journeyStroke" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor="#1EC8B4" stopOpacity="0.15" />
-              <stop offset="1" stopColor="#1EC8B4" stopOpacity="0.15" />
+            <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor={tone.from} stopOpacity="0.15" />
+              <stop offset="1" stopColor={tone.to} stopOpacity="0.15" />
             </linearGradient>
           </defs>
           {/* 柔光衬底（宽描边低透明，不用高斯模糊，省每帧滤镜重绘） */}
           <motion.path
             d={d}
-            stroke="url(#journeyStroke)"
+            stroke={`url(#${gradientId})`}
             strokeWidth={5}
             strokeLinecap="round"
             opacity={0.2}
@@ -110,7 +123,7 @@ export function AgentJourney({ children }: { children: React.ReactNode }) {
           {/* 主描边 */}
           <motion.path
             d={d}
-            stroke="url(#journeyStroke)"
+            stroke={`url(#${gradientId})`}
             strokeWidth={2}
             strokeLinecap="round"
             opacity={0.55}

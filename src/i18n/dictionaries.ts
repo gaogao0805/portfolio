@@ -24,10 +24,12 @@ const dictionaries = {
       kicker: "AI 产品设计师 / UI · UX",
       heroGreeting: "我是 Zoey",
       heroTagline: "设计能用、好用、有人用的产品",
+      heroTaglineEm: "能用、好用、有人用",
       intro:
         "一名拥有约一年经验的 AI 产品设计师，专注移动端体验——从 0 到 1 把想法做成真正上线、有人在用的产品。",
       ctaWork: "看我的作品",
       ctaContact: "聊一聊",
+      ctaResume: "看简历",
       scroll: "向下滚动",
       // 精选作品
       featuredKicker: "精选作品",
@@ -43,6 +45,7 @@ const dictionaries = {
     work: {
       kicker: "作品",
       title: "项目精选",
+      titleEm: "精选",
       subtitle: "从 AI 产品到视觉设计与游戏卡牌，这些是我参与的项目。",
       viewProject: "查看项目",
     },
@@ -248,10 +251,12 @@ const dictionaries = {
       kicker: "AI Product Designer / UI · UX",
       heroGreeting: "I'm Zoey",
       heroTagline: "Designing products that are usable, lovable, and actually used.",
+      heroTaglineEm: "usable, lovable, and actually used",
       intro:
         "An AI product designer with around a year of experience, focused on mobile experiences — turning ideas into products that ship and get used.",
       ctaWork: "View my work",
       ctaContact: "Say hello",
+      ctaResume: "Resume",
       scroll: "Scroll",
       featuredKicker: "Selected work",
       featuredTitle: "Things I've shipped",
@@ -265,6 +270,7 @@ const dictionaries = {
     work: {
       kicker: "Work",
       title: "Selected projects",
+      titleEm: "projects",
       subtitle:
         "From AI products to visual design and game cards — here's what I've worked on.",
       viewProject: "View project",

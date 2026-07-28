@@ -54,6 +54,8 @@ export function Hero({
           text={home.heroTagline}
           animateBy={byChar ? "chars" : "words"}
           delay={byChar ? 70 : 150}
+          emText={home.heroTaglineEm}
+          emClassName={byChar ? "serif-em serif-em--cjk" : "serif-em"}
           className={`max-w-3xl justify-center font-display text-4xl font-bold leading-tight ${
             byChar ? "tracking-normal" : "tracking-tight"
           } sm:text-6xl`}
@@ -95,6 +97,13 @@ export function Hero({
         >
           {home.ctaContact}
         </button>
+        {/* 看简历：跳到关于页的简历时间线锚点 */}
+        <Link
+          href={`/${locale}/about#resume`}
+          className="rounded-full border border-line px-6 py-3 text-sm font-semibold text-fg transition-colors hover:border-accent hover:text-accent"
+        >
+          {home.ctaResume}
+        </Link>
       </motion.div>
     </section>
   );
