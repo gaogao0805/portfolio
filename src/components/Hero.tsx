@@ -71,7 +71,7 @@ export function Hero({
       </h1>
 
       <motion.p
-        className="relative z-10 max-w-xl text-lg text-muted"
+        className="relative z-10 max-w-xl text-base text-muted sm:text-lg"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.5 }}
