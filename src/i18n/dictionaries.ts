@@ -27,6 +27,8 @@ const dictionaries = {
       heroTaglineEm: "能用、好用、有人用",
       intro:
         "一名拥有约一年经验的 AI 产品设计师，专注移动端体验——从 0 到 1 把想法做成真正上线、有人在用的产品。",
+      introShort:
+        "一名拥有约一年经验的 AI 产品设计师——从 0 到 1 把想法做成有人在用的产品。",
       ctaWork: "看我的作品",
       ctaContact: "聊一聊",
       ctaResume: "看简历",
@@ -252,6 +254,8 @@ const dictionaries = {
       heroTaglineEm: "usable, lovable, and actually used",
       intro:
         "An AI product designer with around a year of experience, focused on mobile experiences — turning ideas into products that ship and get used.",
+      introShort:
+        "An AI product designer with around a year of experience — turning ideas into products people use.",
       ctaWork: "View my work",
       ctaContact: "Say hello",
       ctaResume: "Resume",

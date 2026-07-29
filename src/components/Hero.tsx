@@ -76,7 +76,9 @@ export function Hero({
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.5 }}
       >
-        {home.intro}
+        {/* 移动端用精简文案，桌面端完整版（display:none 不会进无障碍树） */}
+        <span className="hidden sm:inline">{home.intro}</span>
+        <span className="sm:hidden">{home.introShort}</span>
       </motion.p>
       {introAlt ? (
         <motion.p
