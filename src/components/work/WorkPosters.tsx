@@ -334,7 +334,7 @@ export function WorkPosters({
               emClassName={locale === "zh" ? "serif-em serif-em--cjk" : "serif-em"}
             />
           </h2>
-          <p className="mt-4 max-w-xl text-muted">{subtitle}</p>
+          <p className="mt-4 max-w-xl text-sm text-muted sm:text-base">{subtitle}</p>
 
           {/* 视图切换：沉浸式滚筒 / 宫格画廊 */}
           <div className="mt-6 inline-flex rounded-full border border-line bg-bg p-1">

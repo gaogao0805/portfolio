@@ -97,7 +97,7 @@ export default async function HomePage({
             <h2 className={`display mt-3 text-4xl sm:text-5xl ${locale === "zh" ? "font-smiley" : ""}`}>
               <EmText text={a.title} em="Zoey" />
             </h2>
-            <p className="mt-5 text-xl text-muted">{a.lead}</p>
+            <p className="mt-5 text-base text-muted sm:text-xl">{a.lead}</p>
             <Link
               href={`/${locale}/about`}
               className="mt-8 inline-block rounded-full border border-line px-6 py-3 text-sm font-semibold text-fg transition-colors hover:border-accent hover:text-accent"
