@@ -51,6 +51,14 @@ export default async function LocaleLayout({
       className="h-full"
     >
       <body className="noise flex min-h-full flex-col">
+        {/* 关掉浏览器滚动恢复：进站一律从顶部开始（带 # 锚点的链接除外）。
+            内联在 body 开头、水合前执行，早于浏览器的恢复时机 */}
+        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `if("scrollRestoration"in history)history.scrollRestoration="manual";if(!location.hash)scrollTo(0,0)`,
+          }}
+        />
         <LanyardProvider role={role}>
           {/* HIDE_NAV_ICONS=1 构建时隐藏桌面导航所有图标（部署仓库用） */}
           <Nav
