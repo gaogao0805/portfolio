@@ -107,7 +107,7 @@ export function Hero({
           onClick={show}
           onPointerEnter={warm}
           onFocus={warm}
-          className="rounded-full border border-line px-6 py-3 text-sm font-semibold text-fg transition-colors hover:border-accent hover:text-accent"
+          className="hidden rounded-full border border-line px-6 py-3 text-sm font-semibold text-fg transition-colors hover:border-accent hover:text-accent sm:block"
         >
           {home.ctaContact}
         </button>
