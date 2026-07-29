@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { isLocale, otherLocale } from "@/i18n/config";
+import { isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { Hero } from "@/components/Hero";
 import { Reveal } from "@/components/Reveal";
@@ -32,11 +32,7 @@ export default async function HomePage({
         className="theme-light relative overflow-hidden bg-bg-light"
       >
         <AmbientOrbs />
-        <Hero
-          locale={locale}
-          home={dict.home}
-          introAlt={locale === "zh" ? getDictionary(otherLocale(locale)).home.intro : undefined}
-        />
+        <Hero locale={locale} home={dict.home} />
       </div>
 
       {/* 作品板块（黑色 + 格子） */}
