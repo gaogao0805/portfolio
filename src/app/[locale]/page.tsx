@@ -46,6 +46,7 @@ export default async function HomePage({
           title={dict.work.title}
           titleEm={dict.work.titleEm}
           subtitle={dict.work.subtitle}
+          subtitleShort={dict.work.subtitleShort}
           cta={dict.work.viewProject}
           hint={
             locale === "zh"

@@ -27,6 +27,7 @@ export function WorkPosters({
   title,
   titleEm,
   subtitle,
+  subtitleShort,
   cta,
   hint,
 }: {
@@ -34,6 +35,8 @@ export function WorkPosters({
   title: string;
   titleEm?: string;
   subtitle: string;
+  // 移动端精简副标题（桌面端显示完整版）
+  subtitleShort: string;
   cta: string;
   hint: string;
 }) {
@@ -334,7 +337,10 @@ export function WorkPosters({
               emClassName={locale === "zh" ? "serif-em serif-em--cjk" : "serif-em"}
             />
           </h2>
-          <p className="mt-4 max-w-xl text-sm text-muted sm:text-base">{subtitle}</p>
+          <p className="mt-4 max-w-xl text-sm text-muted sm:text-base">
+            <span className="hidden sm:inline">{subtitle}</span>
+            <span className="sm:hidden">{subtitleShort}</span>
+          </p>
 
           {/* 视图切换：沉浸式滚筒 / 宫格画廊 */}
           <div className="mt-6 inline-flex rounded-full border border-line bg-bg p-1">

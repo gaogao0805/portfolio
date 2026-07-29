@@ -49,6 +49,7 @@ const dictionaries = {
       title: "项目精选",
       titleEm: "精选",
       subtitle: "从 AI 产品到视觉设计与游戏卡牌，这些是我参与的项目。",
+      subtitleShort: "AI 产品、视觉与游戏卡牌——我参与的项目。",
       viewProject: "查看项目",
     },
     project: {
@@ -275,6 +276,7 @@ const dictionaries = {
       titleEm: "projects",
       subtitle:
         "From AI products to visual design and game cards — here's what I've worked on.",
+      subtitleShort: "AI products, visual design & game cards — what I've worked on.",
       viewProject: "View project",
     },
     project: {
