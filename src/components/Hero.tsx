@@ -11,9 +11,12 @@ import { useLanyard } from "@/components/lanyard/LanyardProvider";
 export function Hero({
   locale,
   home,
+  introAlt,
 }: {
   locale: Locale;
   home: Dictionary["home"];
+  // 另一语言的 intro 译文（中英对照副行，仅桌面端显示）
+  introAlt?: string;
 }) {
   const byChar = locale === "zh";
   const { show, warm } = useLanyard();
@@ -75,6 +78,17 @@ export function Hero({
       >
         {home.intro}
       </motion.p>
+      {introAlt ? (
+        <motion.p
+          lang={locale === "zh" ? "en" : "zh-CN"}
+          className="relative z-10 mt-2.5 hidden max-w-xl text-lg leading-relaxed text-muted/60 sm:block"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.65 }}
+        >
+          {introAlt}
+        </motion.p>
+      ) : null}
 
       <motion.div
         className="relative z-10 mt-9 flex flex-wrap items-center justify-center gap-4"
