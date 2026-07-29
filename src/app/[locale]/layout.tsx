@@ -52,12 +52,12 @@ export default async function LocaleLayout({
     >
       <body className="noise flex min-h-full flex-col">
         {/* 进站一律从顶部开始（带 # 锚点的链接除外）：
-            关浏览器滚动恢复 + 多个时机强制回顶——部分手机浏览器
-            不支持 scrollRestoration，或在 load 后才恢复上次位置 */}
+            关浏览器滚动恢复 + 前 2 秒每 100ms 强制回顶——部分手机浏览器
+            不支持 scrollRestoration，或在 load 后很久才恢复上次位置 */}
         {/* eslint-disable-next-line @next/next/no-sync-scripts */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `if("scrollRestoration"in history)history.scrollRestoration="manual";if(!location.hash){var t=function(){scrollTo({top:0,left:0,behavior:"instant"})};t();addEventListener("DOMContentLoaded",t);addEventListener("load",t);setTimeout(t,300)}`,
+            __html: `if("scrollRestoration"in history)history.scrollRestoration="manual";if(!location.hash){var t=function(){scrollTo({top:0,left:0,behavior:"instant"})};t();addEventListener("DOMContentLoaded",t);addEventListener("load",t);var i=setInterval(t,100);setTimeout(function(){clearInterval(i)},2000)}`,
           }}
         />
         <LanyardProvider role={role}>
