@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
@@ -20,6 +21,14 @@ export function Hero({
 }) {
   const byChar = locale === "zh";
   const { show, warm } = useLanyard();
+  // 双 slogan 随机轮换：SSR 与首帧渲染 A（避免水合不一致），
+  // 挂载后掷硬币换 B——此刻逐字动画还在模糊透明段，换句无感
+  const [alt, setAlt] = useState(0);
+  useEffect(() => {
+    if (Math.random() < 0.5) setAlt(1);
+  }, []);
+  const tagline = alt ? home.heroTagline2 : home.heroTagline;
+  const taglineEm = alt ? home.heroTaglineEm2 : home.heroTaglineEm;
 
   return (
     <section className="relative mx-auto flex max-w-6xl flex-col items-center px-5 pb-16 pt-16 text-center sm:px-8 sm:pb-24 sm:pt-20">
@@ -54,10 +63,10 @@ export function Hero({
           } sm:text-5xl`}
         />
         <BlurText
-          text={home.heroTagline}
+          text={tagline}
           animateBy={byChar ? "chars" : "words"}
           delay={byChar ? 70 : 150}
-          emText={home.heroTaglineEm}
+          emText={taglineEm}
           emClassName={byChar ? "serif-em serif-em--cjk" : "serif-em"}
           className={`max-w-3xl justify-center ${byChar ? "font-smiley" : "font-display font-bold"} text-4xl leading-tight ${
             byChar ? "tracking-normal" : "tracking-tight"
@@ -67,7 +76,7 @@ export function Hero({
 
       {/* 真正的标题留给 SEO / 无障碍 */}
       <h1 className="sr-only">
-        {home.heroGreeting}，{home.heroTagline}
+        {home.heroGreeting}，{tagline}
       </h1>
 
       <motion.p

@@ -23,8 +23,11 @@ const dictionaries = {
       // 首屏
       kicker: "AI 产品设计师 / UI · UX",
       heroGreeting: "我是 Zoey",
-      heroTagline: "设计能用、好用、有人用的产品",
-      heroTaglineEm: "能用、好用、有人用",
+      // 双 slogan 随机轮换（A/B，hero 里挂载后掷硬币）
+      heroTagline: "让每一步，都顺理成章",
+      heroTaglineEm: "顺理成章",
+      heroTagline2: "好的设计，是让人看不见的光",
+      heroTaglineEm2: "看不见的光",
       intro:
         "一名拥有约一年经验的 AI 产品设计师，专注移动端体验——从 0 到 1 把想法做成真正上线、有人在用的产品。",
       introShort:
@@ -251,8 +254,11 @@ const dictionaries = {
     home: {
       kicker: "AI Product Designer / UI · UX",
       heroGreeting: "I'm Zoey",
-      heroTagline: "Designing products that are usable, lovable, and actually used.",
-      heroTaglineEm: "usable, lovable, and actually used",
+      // 双 slogan 随机轮换（A/B，hero 里挂载后掷硬币）
+      heroTagline: "Every step, a natural flow.",
+      heroTaglineEm: "natural flow",
+      heroTagline2: "Good design is light you never notice.",
+      heroTaglineEm2: "light you never notice",
       intro:
         "An AI product designer with around a year of experience, focused on mobile experiences — turning ideas into products that ship and get used.",
       introShort:
