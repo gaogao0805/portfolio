@@ -639,17 +639,13 @@ export function WorkPosters({
           {projects.map((proj, i) => {
             const projTitle = proj.previewTitle?.[locale] ?? proj.title[locale];
             const summary = proj.previewSummary?.[locale] ?? proj.summary[locale];
-            // 奇数个项目时最后一张独占一行：跨两列但保持单列宽，整体居中
-            const isLastOdd = i === projects.length - 1 && projects.length % 2 === 1;
             return (
-              <Reveal key={proj.slug} delay={i * 0.06} className={isLastOdd ? "sm:col-span-2" : undefined}>
+              <Reveal key={proj.slug} delay={i * 0.06}>
                 <button
                   type="button"
                   onClick={() => open(proj.slug)}
                   aria-label={projTitle}
-                  className={`group relative block aspect-[4/3] w-full overflow-hidden rounded-3xl border border-line text-left ${
-                    isLastOdd ? "sm:mx-auto sm:max-w-[calc(50%-10px)]" : ""
-                  }`}
+                  className="group relative block aspect-[4/3] w-full overflow-hidden rounded-3xl border border-line text-left"
                   style={{ background: proj.gradient }}
                 >
                   {proj.cover ? (
@@ -684,6 +680,41 @@ export function WorkPosters({
               </Reveal>
             );
           })}
+          {/* 奇数个项目时末行补一张占位卡，填补右侧空位（移动端单列不显示） */}
+          {projects.length % 2 === 1 ? (
+            <Reveal delay={projects.length * 0.06} className="hidden sm:block">
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl border border-dashed border-line">
+                {/* 中央微光 */}
+                <div
+                  aria-hidden
+                  className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(25,255,231,0.10),transparent_65%)]"
+                />
+                {/* 三个圆点错峰呼吸，作为视觉主体 */}
+                <div className="absolute inset-0 flex items-center justify-center gap-2.5">
+                  {[0, 1, 2].map((d) => (
+                    <motion.span
+                      key={d}
+                      className="h-3 w-3 rounded-full bg-accent"
+                      animate={{ opacity: [0.15, 1, 0.15], scale: [0.8, 1.15, 0.8] }}
+                      transition={{
+                        duration: 1.6,
+                        repeat: Infinity,
+                        delay: d * 0.25,
+                        ease: "easeInOut",
+                      }}
+                    />
+                  ))}
+                </div>
+                {/* 底部：与其他卡片一致的左下角布局 */}
+                <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
+                  <p className="font-mono text-[11px] uppercase tracking-widest text-white/40">
+                    More on the way
+                  </p>
+                  <h3 className="serif-em mt-1.5 text-2xl sm:text-3xl">To be continued</h3>
+                </div>
+              </div>
+            </Reveal>
+          ) : null}
         </div>
       ) : null}
     </div>
