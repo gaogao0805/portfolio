@@ -639,13 +639,17 @@ export function WorkPosters({
           {projects.map((proj, i) => {
             const projTitle = proj.previewTitle?.[locale] ?? proj.title[locale];
             const summary = proj.previewSummary?.[locale] ?? proj.summary[locale];
+            // 奇数个项目时最后一张独占一行：跨两列但保持单列宽，整体居中
+            const isLastOdd = i === projects.length - 1 && projects.length % 2 === 1;
             return (
-              <Reveal key={proj.slug} delay={i * 0.06}>
+              <Reveal key={proj.slug} delay={i * 0.06} className={isLastOdd ? "sm:col-span-2" : undefined}>
                 <button
                   type="button"
                   onClick={() => open(proj.slug)}
                   aria-label={projTitle}
-                  className="group relative block aspect-[4/3] w-full overflow-hidden rounded-3xl border border-line text-left"
+                  className={`group relative block aspect-[4/3] w-full overflow-hidden rounded-3xl border border-line text-left ${
+                    isLastOdd ? "sm:mx-auto sm:max-w-[calc(50%-10px)]" : ""
+                  }`}
                   style={{ background: proj.gradient }}
                 >
                   {proj.cover ? (
