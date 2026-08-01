@@ -434,8 +434,14 @@ function AgentChatPlay({
     if (inView) setStage((s) => (s === 0 ? 1 : s));
   }, [inView]);
 
-  // 重播
+  // 重播（跳过挂载时的首次执行——否则页面一加载就会在可视区外提前播放；
+  // 首次启动交给上面的 inView 触发）
+  const skipInitialReplay = useRef(true);
   useEffect(() => {
+    if (skipInitialReplay.current) {
+      skipInitialReplay.current = false;
+      return;
+    }
     setStage(1);
     setDraft("");
   }, [replayKey]);
@@ -710,9 +716,10 @@ export function AgentChatShowcase({ locale }: { locale: Locale }) {
     <section data-nav-theme="light" className="theme-light bg-transparent">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-8 sm:py-24">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-center lg:gap-16">
-          {/* 对话复刻（移动端：轨道钉在容器宽，壳体流体收缩） */}
+          {/* 对话复刻（固定 440px 宽——和 App 一样输入框宽度不随内容变化；
+              仅当视口不足 440px 时才整体收缩） */}
           <div className="order-last flex min-w-0 justify-center lg:order-none lg:justify-start">
-            <div className="w-full max-w-[440px]">
+            <div className="w-[440px] max-w-full">
               {/* B/C 端切换 tab */}
               <div className="mb-3 flex justify-center">
                 <div

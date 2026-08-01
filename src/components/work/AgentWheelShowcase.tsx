@@ -133,7 +133,9 @@ function WheelItem({
   return (
     <motion.div
       className="absolute flex items-center justify-center"
-      style={{ bottom, right, opacity, zIndex, width: AVATAR_SIZE, height: AVATAR_SIZE }}
+      // width/height 用 px 字符串：motion SSR 对数字不脱 px 单位，
+      // 水合时客户端是 "56px"、服务端是 56，会报 hydration mismatch
+      style={{ bottom, right, opacity, zIndex, width: `${AVATAR_SIZE}px`, height: `${AVATAR_SIZE}px` }}
     >
       <button
         type="button"
@@ -216,6 +218,10 @@ function WheelItem({
 
 function AgentWheelScreen() {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  // 头像项的 style 由 MotionValue 驱动：SSR 会把浮点四舍五入到 3 位，
+  // 客户端是全精度，水合必报 mismatch——挂载后再渲染（绝对定位，不影响布局）
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const { agentKey, setAgentKey } = useAgentSelection();
   const [confirmedKey, setConfirmedKey] = useState<string | null>(null);
   const scrollIndex = useMotionValue(0);
@@ -391,18 +397,20 @@ function AgentWheelScreen() {
         />
         {/* 头像项 */}
         <div className="absolute bottom-0 right-0">
-          {AGENTS.map((agent, index) => (
-            <WheelItem
-              key={agent.key}
-              agent={agent}
-              index={index}
-              scrollIndex={scrollIndex}
-              selected={selectedIndex === index}
-              onPress={() => handleItemPress(index)}
-              onConfirm={() => handleConfirm(agent)}
-              confirmed={confirmedKey === agent.key}
-            />
-          ))}
+          {mounted
+            ? AGENTS.map((agent, index) => (
+                <WheelItem
+                  key={agent.key}
+                  agent={agent}
+                  index={index}
+                  scrollIndex={scrollIndex}
+                  selected={selectedIndex === index}
+                  onPress={() => handleItemPress(index)}
+                  onConfirm={() => handleConfirm(agent)}
+                  confirmed={confirmedKey === agent.key}
+                />
+              ))
+            : null}
         </div>
       </div>
 

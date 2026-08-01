@@ -17,6 +17,7 @@ import { AgentWheelShowcase } from "@/components/work/AgentWheelShowcase";
 import { AgentChatShowcase } from "@/components/work/AgentChatShowcase";
 import { AgentHomeShowcase } from "@/components/work/AgentHomeShowcase";
 import { AgentDelegateShowcase } from "@/components/work/AgentDelegateShowcase";
+import { AgentVoiceShowcase } from "@/components/work/AgentVoiceShowcase";
 import { AgentPrivacyShowcase } from "@/components/work/AgentPrivacyShowcase";
 import { AgentDesignSystem } from "@/components/work/AgentDesignSystem";
 import { AgentAppArch } from "@/components/work/AgentAppArch";
@@ -201,6 +202,7 @@ export default async function ProjectPage({
             <AgentWheelShowcase locale={locale} />
             <AgentHomeShowcase locale={locale} />
             <AgentDelegateShowcase locale={locale} />
+            <AgentVoiceShowcase locale={locale} />
             <AgentChatShowcase locale={locale} />
             <AgentPrivacyShowcase locale={locale} />
           </AgentJourney>

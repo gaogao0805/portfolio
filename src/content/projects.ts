@@ -137,7 +137,7 @@ const allProjects: Project[] = [
     team: { zh: "", en: "" },
     tools: { zh: "Figma、Claude Code、Codex", en: "Figma, Claude Code, Codex" },
     duration: { zh: "", en: "" },
-    link: "", // TODO: App Store / 官网链接
+    link: "https://go2ready.com/download/?utm_source=a",
     sections: [],
   },
   {
@@ -177,7 +177,6 @@ const allProjects: Project[] = [
   },
   {
     slug: "shipped-game",
-    hidden: true,
     year: "2026",
     cover: "/images/game-cover.jpg",
     coverTone: "light",
