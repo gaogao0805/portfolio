@@ -104,10 +104,9 @@ const dictionaries = {
           period: "2025.11 — 至今",
           summary: "主导求职类 AI 应用「就绪」的产品设计——一款与 AI 强相关的求职 App。",
           points: [
-            "主导 App 从 0 到 1 全流程设计：用户调研、交互、UI、设计系统到研发对接。",
-            "设计 Chat 功能与 Memory 分类存储体系——构建偏好 / 能力 / 行为 / 反馈四类数据，驱动双边推荐，实现对话式职位匹配与简历优化。",
-            "针对 AI 运行的不确定性，设计加载状态、降级方案与预期管理机制，提升稳定性与体验。",
-            "从 0 到 1 搭建组件库与设计规范（基础 + 业务组件），支撑快速迭代、显著提升研发效率。",
+            "设计系统搭建：主导AI求职App从0到1的全流程设计，涵盖用户调研、交互设计、UI设计、设计系统搭建及研发对接。",
+            "AI对话系统：负责Chat功能及Memory分类储存体系设计，构建用户偏好、能力、行为、反馈四类数据结构的展示。",
+            "复杂交互设计：针对AI模型运行不确定性，设计完整的加载状态、降级方案及用户预期管理机制，提升系统稳定性与用户体验。",
           ],
         },
         {
@@ -334,10 +333,9 @@ const dictionaries = {
           period: "2025.11 — Present",
           summary: "Leading product design for “Ready” (就绪), an AI-driven job-search app.",
           points: [
-            "Drove the app's 0→1 design end-to-end: user research, interaction, UI, design system, and dev hand-off.",
-            "Designed the Chat feature and a categorized Memory system — preference / ability / behavior / feedback data driving two-sided recommendation for conversational job matching and résumé optimization.",
-            "Built loading states, graceful fallbacks, and expectation management for AI's run-time uncertainty — improving stability and UX.",
-            "Set up the component library and design standards from scratch (base + business components), enabling fast iteration and boosting dev efficiency.",
+            "Design system: led the 0→1 end-to-end design of the AI job-search app, covering user research, interaction design, UI design, design system, and developer hand-off.",
+            "AI conversation system: designed the Chat feature and the categorized Memory storage system, defining and presenting four data structures — user preferences, abilities, behaviors, and feedback.",
+            "Complex interaction design: built comprehensive loading states, graceful degradation, and user-expectation management for AI model runtime uncertainty, improving system stability and user experience.",
           ],
         },
         {

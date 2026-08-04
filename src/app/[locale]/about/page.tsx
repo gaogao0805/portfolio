@@ -31,11 +31,7 @@ export default async function AboutPage({
   if (!isLocale(locale)) notFound();
   const dict = getDictionary(locale);
   const a = dict.about;
-  // 构建开关（HIDE_GALAXY_JOB=1）：简历时间线隐藏「银河驿站」这条工作经历（部署仓库用）
-  const work =
-    process.env.HIDE_GALAXY_JOB === "1"
-      ? a.work.filter((w) => w.company !== "银河驿站" && w.company !== "Galaxy Station")
-      : a.work;
+  const work = a.work;
 
   return (
     <>
