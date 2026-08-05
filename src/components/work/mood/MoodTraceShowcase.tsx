@@ -150,7 +150,7 @@ const SECTIONS: SectionDef[] = [
       zh: "疗愈页交互复刻（待素材：疗愈页设计稿 / 录屏）",
       en: "Healing page recreation (pending: designs / recording)",
     },
-    image: "/images/mood/chat.svg",
+    image: "/images/mood/chat.png",
     notes: HEAL_NOTES,
     faces: false,
     split: true,
