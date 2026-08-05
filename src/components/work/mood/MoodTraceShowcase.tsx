@@ -166,7 +166,7 @@ const SECTIONS: SectionDef[] = [
       zh: "轨迹图表 / 周报展示（待素材：图表设计稿）",
       en: "Trajectory charts / weekly report (pending: chart designs)",
     },
-    image: "/images/mood/growth.svg",
+    image: "/images/mood/growth.png",
     notes: TRACK_NOTES,
     faces: false,
     split: true,
