@@ -61,11 +61,11 @@ export default async function LocaleLayout({
           }}
         />
         <LanyardProvider role={role}>
-          {/* HIDE_NAV_ICONS=1 构建时隐藏桌面导航所有图标（部署仓库用） */}
+          {/* 桌面导航只留文字，不显示图标（想恢复图标把 hideIcons 去掉即可） */}
           <Nav
             locale={locale}
             nav={dict.nav}
-            hideIcons={process.env.HIDE_NAV_ICONS === "1"}
+            hideIcons
           />
           <main className="relative z-10 flex-1">{children}</main>
           <Footer locale={locale} dict={dict} />
