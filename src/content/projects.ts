@@ -178,7 +178,6 @@ const allProjects: Project[] = [
   {
     slug: "shipped-game",
     year: "2026",
-    hidden: true,
     cover: "/images/game-cover.jpg",
     coverTone: "light",
     gradient: "linear-gradient(135deg,#FF7A45 0%,#FFD645 100%)",
