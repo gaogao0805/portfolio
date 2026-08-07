@@ -1,20 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 
 const SEEN_KEY = "intro-seen-v1";
 
 /**
- * 首次进场序列（每个会话一次）：黑场 → 签名 logo 从左到右扫入点亮
- * → 停顿 → 整体上滑退场。sessionStorage 记位，刷新不再播。
+ * 首次进场序列（每个会话一次，且只在首页）：黑场 → 签名 logo 从左到右
+ * 扫入点亮 → 停顿 → 整体上滑退场。sessionStorage 记位，刷新不再播。
  * 挂载后才渲染（SSR 无感），播放期间锁滚动。
  */
 export function Intro() {
   const [show, setShow] = useState(false);
+  const pathname = usePathname();
+  // 只在首页播：从详情页/外链进来的用户不该被进场动画拦
+  const isHome = /^\/(zh|en)\/?$/.test(pathname);
 
   useEffect(() => {
-    if (sessionStorage.getItem(SEEN_KEY)) return;
+    if (!isHome || sessionStorage.getItem(SEEN_KEY)) return;
     setShow(true);
     document.body.style.overflow = "hidden";
     const done = setTimeout(() => {
@@ -26,7 +30,7 @@ export function Intro() {
       clearTimeout(done);
       document.body.style.overflow = "";
     };
-  }, []);
+  }, [isHome]);
 
   return (
     <AnimatePresence>
