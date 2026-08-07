@@ -6,6 +6,7 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { LanyardProvider } from "@/components/lanyard/LanyardProvider";
+import { Intro } from "@/components/Intro";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -50,7 +51,7 @@ export default async function LocaleLayout({
       lang={locale === "zh" ? "zh-CN" : "en"}
       className="h-full"
     >
-      <body className="noise flex min-h-full flex-col">
+      <body className="flex min-h-full flex-col">
         {/* 进站一律从顶部开始（带 # 锚点的链接除外）：
             关浏览器滚动恢复 + 前 2 秒每 100ms 强制回顶——部分手机浏览器
             不支持 scrollRestoration，或在 load 后很久才恢复上次位置 */}
@@ -61,6 +62,7 @@ export default async function LocaleLayout({
           }}
         />
         <LanyardProvider role={role}>
+          <Intro />
           {/* 桌面导航只留文字，不显示图标（想恢复图标把 hideIcons 去掉即可） */}
           <Nav
             locale={locale}

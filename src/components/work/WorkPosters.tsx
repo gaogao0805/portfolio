@@ -5,7 +5,6 @@ import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } f
 import { useRouter } from "next/navigation";
 import { projects } from "@/content/projects";
 import type { Locale } from "@/i18n/config";
-import ShapeGrid from "@/components/ShapeGrid";
 import { Reveal } from "@/components/Reveal";
 import { PressureLabel } from "@/components/PressureLabel";
 import { EmText } from "@/components/EmText";
@@ -372,17 +371,6 @@ export function WorkPosters({
         ref={stageRef}
         className="sticky top-0 h-[100svh] overflow-hidden md:top-16 md:h-[calc(100vh-4rem)]"
       >
-        <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
-          <ShapeGrid
-            direction="diagonal"
-            speed={0.4}
-            squareSize={42}
-            shape="square"
-            borderColor="#23232e"
-            hoverFillColor="#22a596"
-            hoverTrailAmount={0}
-          />
-        </div>
 
         {/* 常驻板块标识（左缘竖排）：滚筒全屏滚动时也能认出当前在「精选作品」区。
             仅桌面端显示——移动端海报近乎全宽，竖排文字会换列并被屏幕左缘裁切 */}
@@ -511,7 +499,7 @@ export function WorkPosters({
                   onPointerCancel={(e) => onPosterPointerCancel(e, proj.slug)}
                   // 点按已在 pointerup 处理（吞掉对应合成 click）；
                   // 12–24px 的脏点击在这里兜底；≥24px 的拖拽两段都不跳转
-                  onClick={() => {
+                  onClick={(e) => {
                     if (swallowClickRef.current) {
                       swallowClickRef.current = false;
                       dragDistRef.current = 0;
@@ -643,7 +631,7 @@ export function WorkPosters({
               <Reveal key={proj.slug} delay={i * 0.06}>
                 <button
                   type="button"
-                  onClick={() => open(proj.slug)}
+                  onClick={(e) => open(proj.slug)}
                   aria-label={projTitle}
                   className="group relative block aspect-[4/3] w-full overflow-hidden rounded-3xl border border-line text-left"
                   style={{ background: proj.gradient }}

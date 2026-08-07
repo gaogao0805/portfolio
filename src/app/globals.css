@@ -5,7 +5,7 @@
    想换配色：改下面几个变量即可。
 ----------------------------------------------------------------- */
 @theme {
-  --color-bg: #0b0b0f;
+  --color-bg: #000000;
   --color-bg-soft: #14141b;
   --color-bg-light: #ffffff;
   --color-bg-gray: #f5f5f5;
@@ -84,17 +84,6 @@ select {
 ::selection {
   background: var(--color-accent);
   color: #000;
-}
-
-/* 细微噪点纹理覆盖层（个性化签名细节之一） */
-.noise::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  pointer-events: none;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 .theme-light {

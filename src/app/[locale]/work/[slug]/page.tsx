@@ -107,7 +107,7 @@ export default async function ProjectPage({
             </div>
           </div>
         ) : null}
-        <div className="relative mx-auto max-w-4xl px-4 py-12 sm:px-8 sm:py-24">
+        <div className="relative mx-auto max-w-6xl px-4 py-12 sm:px-8 sm:py-24">
           <Link
             href={`/${locale}#work`}
             className="text-xs text-muted transition-colors hover:text-accent sm:text-sm"
@@ -221,7 +221,7 @@ export default async function ProjectPage({
             data-nav-theme="dark"
             className={i % 2 === 0 ? "bg-[#101017]" : "bg-bg"}
           >
-            <div className="mx-auto max-w-4xl px-4 py-14 sm:px-8 sm:py-24">
+            <div className="mx-auto max-w-6xl px-4 py-14 sm:px-8 sm:py-24">
               <Reveal>
                 <div className="grid gap-4 md:grid-cols-[180px_1fr] md:gap-10">
                   <h2 className="display text-xl text-accent sm:text-2xl">
@@ -244,7 +244,7 @@ export default async function ProjectPage({
       {/* 项目概览 */}
       {!project.gameItems?.length && !isPosterCollection ? (
         <section data-nav-theme="dark" className="bg-bg-soft">
-          <div className="mx-auto max-w-4xl px-4 py-12 sm:px-8 sm:py-16">
+          <div className="mx-auto max-w-6xl px-4 py-12 sm:px-8 sm:py-16">
             <dl className="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 md:grid-cols-3">
               {meta.map((m) => (
                 <div key={m.label}>
@@ -261,7 +261,7 @@ export default async function ProjectPage({
 
       {/* 上一个 / 下一个 */}
       <nav data-nav-theme="dark" className="border-t border-line">
-        <div className="mx-auto grid max-w-4xl grid-cols-1 gap-6 px-4 py-12 sm:grid-cols-2 sm:px-8">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 px-4 py-12 sm:grid-cols-2 sm:px-8">
           <Link href={`/${locale}/work/${prev.slug}`} className="group">
             <span className="font-mono text-xs uppercase tracking-wider text-muted">
               ← {dict.project.prev}
@@ -296,7 +296,7 @@ function ProjectImpactShowcase({
 }) {
   return (
     <section data-nav-theme="dark" className="bg-bg-soft">
-      <div className="mx-auto max-w-5xl px-4 py-14 sm:px-8 sm:py-20">
+      <div className="mx-auto max-w-6xl px-4 py-14 sm:px-8 sm:py-20">
         <div className="grid gap-10 lg:grid-cols-[360px_1fr] lg:items-start">
           <div className="lg:sticky lg:top-24">
             <span className="font-mono text-xs uppercase tracking-wider text-muted">
@@ -422,7 +422,7 @@ function GameVideoShowcase({
 }) {
   return (
     <section data-nav-theme="dark" className="bg-bg">
-      <div className="mx-auto grid max-w-5xl gap-8 px-4 py-14 sm:px-8 sm:py-20 lg:grid-cols-[minmax(0,1fr)_minmax(280px,420px)] lg:items-center">
+      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-14 sm:px-8 sm:py-20 lg:grid-cols-[minmax(0,1fr)_minmax(280px,420px)] lg:items-center">
         <div className="max-w-xl">
           <span className="font-mono text-xs uppercase tracking-wider text-muted">
             {locale === "zh" ? "实机展示" : "Live Demo"}
