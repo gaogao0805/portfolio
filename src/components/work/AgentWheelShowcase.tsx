@@ -495,7 +495,7 @@ export function AgentWheelShowcase({ locale }: { locale: Locale }) {
                 ? "「就绪」把 AI 助手做成了六位有人设、有性格的经纪人——4 位服务求职，2 位服务招聘。用户进入产品的第一步，就是通过右下的转盘选择自己的经纪人。"
                 : "Ready turns its AI assistants into six personas — four for job seekers and two for recruiters. The first step of onboarding is picking one on the wheel."}
             </motion.p>
-            <p className="mt-6 font-mono text-xs text-muted">
+            <p className="mt-6 font-sans text-xs text-muted">
               {isZh
                 ? "拖动右下转盘或点击头像切换经纪人 · 交互复刻自 App 真实页面"
                 : "Drag the wheel or tap an avatar · interaction recreated from the real app screen"}

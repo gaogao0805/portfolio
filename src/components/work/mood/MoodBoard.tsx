@@ -76,7 +76,7 @@ export function MoodBoard({ locale }: { locale: Locale }) {
     <section data-nav-theme="light" className="theme-light bg-bg-gray">
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-8 sm:py-24">
         <Reveal>
-          <p className="font-mono text-xs uppercase tracking-[0.25em] text-black/40">
+          <p className="font-sans text-xs uppercase tracking-[0.25em] text-black/40">
             Mood Board · 情绪版
           </p>
           <h2 className="display mt-3 text-3xl leading-[1.15] text-black sm:text-5xl">
@@ -107,7 +107,7 @@ export function MoodBoard({ locale }: { locale: Locale }) {
                     <span className="text-sm font-medium text-black/85">
                       {panel.label.zh}
                     </span>
-                    <span className="font-mono text-[11px] uppercase tracking-widest text-black/45">
+                    <span className="font-sans text-[11px] uppercase tracking-widest text-black/45">
                       {panel.label.en}
                     </span>
                   </figcaption>
@@ -120,7 +120,7 @@ export function MoodBoard({ locale }: { locale: Locale }) {
         {/* 颜色规范 */}
         <div className="mt-12">
           <Reveal>
-            <p className="font-mono text-xs uppercase tracking-[0.25em] text-black/40">
+            <p className="font-sans text-xs uppercase tracking-[0.25em] text-black/40">
               {isZh ? "颜色规范" : "Colors"}
             </p>
           </Reveal>
@@ -132,7 +132,7 @@ export function MoodBoard({ locale }: { locale: Locale }) {
                   style={{ backgroundColor: c.hex }}
                 />
                 <p className="mt-2 text-xs font-medium text-black/70">{c.role[locale]}</p>
-                <p className="font-mono text-[11px] uppercase tracking-wider text-black/45">
+                <p className="font-sans text-[11px] uppercase tracking-wider text-black/45">
                   {c.hex}
                 </p>
               </Reveal>

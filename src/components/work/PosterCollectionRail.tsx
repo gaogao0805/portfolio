@@ -63,7 +63,7 @@ export function PosterCollectionRail({ items }: Props) {
                 }}
               />
               <span
-                className={`font-mono text-xs ${
+                className={`font-sans text-xs ${
                   active ? "text-accent" : "text-muted"
                 }`}
               >

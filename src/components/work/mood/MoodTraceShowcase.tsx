@@ -178,7 +178,7 @@ const SECTIONS: SectionDef[] = [
 function MoodSlot({ label }: { label: string }) {
   return (
     <div className="mx-auto mt-10 flex aspect-[9/16] w-full max-w-[300px] flex-col items-center justify-center gap-3 rounded-[32px] border-2 border-dashed border-black/15 bg-black/[0.03] p-6 text-center">
-      <span className="font-mono text-xs uppercase tracking-[0.25em] text-black/30">
+      <span className="font-sans text-xs uppercase tracking-[0.25em] text-black/30">
         TODO
       </span>
       <p className="text-sm leading-relaxed text-black/45">{label}</p>
@@ -276,7 +276,7 @@ function MoodIntro({ locale }: { locale: Locale }) {
         <Reveal>
           <div className="grid gap-10 md:grid-cols-[1fr_220px] md:items-end">
             <div className="max-w-3xl">
-              <p className="font-mono text-xs uppercase tracking-[0.25em] text-black/40">
+              <p className="font-sans text-xs uppercase tracking-[0.25em] text-black/40">
                 PRODUCT INTRO
               </p>
               <h2 className="display mt-3 text-3xl leading-[1.15] text-black sm:text-5xl">
@@ -297,7 +297,7 @@ function MoodIntro({ locale }: { locale: Locale }) {
                   (chip) => (
                     <span
                       key={chip}
-                      className="rounded-full border border-black/15 px-3.5 py-1.5 font-mono text-xs uppercase tracking-wider text-black/55"
+                      className="rounded-full border border-black/15 px-3.5 py-1.5 font-sans text-xs uppercase tracking-wider text-black/55"
                     >
                       {chip}
                     </span>
@@ -368,7 +368,7 @@ function MoodSection({
           : "max-w-3xl"
       }
     >
-      <p className="font-mono text-xs uppercase tracking-[0.25em] text-black/40">
+      <p className="font-sans text-xs uppercase tracking-[0.25em] text-black/40">
         {def.eyebrow}
       </p>
       <h2
@@ -424,15 +424,24 @@ export function MoodTraceShowcase({ locale }: { locale: Locale }) {
   return (
     <>
       <MoodIntro locale={locale} />
-      <MoodCompetitors locale={locale} />
-      <MoodUserAnalysis locale={locale} />
-      <MoodDirection locale={locale} />
+      {/* 各块包锚点 id：项目页顶部 TOC 胶囊的跳转目标 */}
+      <div id="competitors" className="scroll-mt-20">
+        <MoodCompetitors locale={locale} />
+      </div>
+      <div id="users" className="scroll-mt-20">
+        <MoodUserAnalysis locale={locale} />
+      </div>
+      <div id="direction" className="scroll-mt-20">
+        <MoodDirection locale={locale} />
+      </div>
       <MoodBoard locale={locale} />
-      <AgentJourney tone={MOOD_TONE}>
-        {SECTIONS.map((def) => (
-          <MoodSection key={def.eyebrow} def={def} locale={locale} />
-        ))}
-      </AgentJourney>
+      <div id="screens" className="scroll-mt-20">
+        <AgentJourney tone={MOOD_TONE}>
+          {SECTIONS.map((def) => (
+            <MoodSection key={def.eyebrow} def={def} locale={locale} />
+          ))}
+        </AgentJourney>
+      </div>
       <MoodPoster locale={locale} />
     </>
   );

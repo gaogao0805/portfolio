@@ -1211,7 +1211,7 @@ export function AgentPrivacyShowcase({ locale }: { locale: Locale }) {
               peeking={peeking}
               onPeekChange={setPeeking}
             />
-            <p className="mt-3 text-center font-mono text-xs text-muted">
+            <p className="mt-3 text-center font-sans text-xs text-muted">
               {isZh ? "对外展示 · 滑块可拖拽，黄色高亮可点击修改" : "External view · drag the slider, tap highlights to edit"}
             </p>
           </div>

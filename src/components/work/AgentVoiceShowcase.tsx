@@ -508,7 +508,7 @@ function VoiceInterviewDemo({ locale }: { locale: Locale }) {
           </button>
         ))}
       </div>
-      <p className="mt-2 text-center font-mono text-xs text-muted">
+      <p className="mt-2 text-center font-sans text-xs text-muted">
         {isZh
           ? "光球 1:1 复刻自 App 语音访谈 · 各状态可单独查看"
           : "Orb 1:1 recreated from the app · inspect each state"}
@@ -768,7 +768,7 @@ function InsightReportDemo({ locale }: { locale: Locale }) {
       </div>
 
       <div className="mt-2 flex items-center justify-between">
-        <p className="font-mono text-xs text-muted">
+        <p className="font-sans text-xs text-muted">
           {isZh
             ? "便利贴样式复刻自 App 洞察报告 · 滚入时逐张贴上"
             : "Sticky notes recreated from the app · posted on scroll"}
@@ -776,7 +776,7 @@ function InsightReportDemo({ locale }: { locale: Locale }) {
         <button
           type="button"
           onClick={() => setPlayKey((k) => k + 1)}
-          className="font-mono text-xs text-muted underline underline-offset-4 transition-colors hover:text-fg"
+          className="font-sans text-xs text-muted underline underline-offset-4 transition-colors hover:text-fg"
         >
           {isZh ? "重新贴上" : "Replay"}
         </button>
@@ -799,7 +799,7 @@ export function AgentVoiceShowcase({ locale }: { locale: Locale }) {
               <VoiceInterviewDemo locale={locale} />
             </div>
             <div className="max-w-xl lg:justify-self-end">
-              <span className="font-mono text-xs uppercase tracking-wider text-muted">
+              <span className="font-sans text-xs uppercase tracking-wider text-muted">
                 {isZh ? "语音访谈" : "Voice interview"}
               </span>
               <motion.h2
@@ -833,7 +833,7 @@ export function AgentVoiceShowcase({ locale }: { locale: Locale }) {
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-8 sm:py-24">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-16">
             <div className="max-w-xl">
-              <span className="font-mono text-xs uppercase tracking-wider text-muted">
+              <span className="font-sans text-xs uppercase tracking-wider text-muted">
                 {isZh ? "洞察报告" : "Insight report"}
               </span>
               <motion.h2

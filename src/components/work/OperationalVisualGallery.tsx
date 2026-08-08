@@ -53,7 +53,7 @@ export function OperationalVisualGallery({
           ? "围绕「就绪」AI 求职招聘产品的推广海报设计，用轻盈的科技感、人物卡片和线下物料场景建立品牌识别。"
           : "Promotional poster design for Ready, an AI recruitment product, using a light tech tone, character cards, and offline display context to build brand recognition.",
       images: ["/images/cdn/event-visual-cover.51eurnkl4z.webp"],
-      tone: "dark",
+      tone: "gray",
     },
     {
       title: locale === "zh" ? "会稽山爽酒品牌推广" : "Kuaijishan Shuangjiu brand promotion",
@@ -114,7 +114,7 @@ export function OperationalVisualGallery({
   const activeCaseIsDark = cases[activeIndex]?.tone === "dark";
 
   return (
-    <section data-nav-theme="dark" className="bg-bg">
+    <section data-nav-theme="light" className="bg-bg">
       {compact ? null : (
         <div className="mx-auto max-w-6xl px-4 py-14 sm:px-8 sm:py-20">
           <motion.div
@@ -124,7 +124,7 @@ export function OperationalVisualGallery({
             transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-2xl"
           >
-            <span className="font-mono text-xs uppercase tracking-wider text-muted">
+            <span className="font-sans text-xs uppercase tracking-wider text-muted">
               {locale === "zh" ? "视觉案例" : "Visual cases"}
             </span>
             <h2 className="display mt-2 text-2xl sm:text-4xl">
@@ -187,7 +187,7 @@ export function OperationalVisualGallery({
                         }}
                       />
                       <span
-                        className={`font-mono text-xs transition-colors ${
+                        className={`font-sans text-xs transition-colors ${
                           isActive
                             ? "text-accent"
                             : activeCaseIsDark
@@ -235,7 +235,7 @@ export function OperationalVisualGallery({
               data-nav-theme={isDark ? "dark" : "light"}
               className={`min-h-[calc(100vh-73px)] scroll-mt-[73px] ${
                 isDark
-                  ? "bg-[#101017] text-fg"
+                  ? "theme-dark bg-[#101017]"
                   : `theme-light text-[#171717] ${isGray ? "bg-bg-gray" : "bg-white"}`
               }`}
             >
@@ -245,7 +245,7 @@ export function OperationalVisualGallery({
                 <div className="min-w-0">
                   {compact ? null : (
                     <div className="max-w-3xl">
-                      <span className="font-mono text-xs uppercase tracking-wider text-accent">
+                      <span className="font-sans text-xs uppercase tracking-wider text-accent">
                         {String(caseIndex + 1).padStart(2, "0")}
                       </span>
                       <h3 className="display mt-3 text-3xl sm:text-5xl">

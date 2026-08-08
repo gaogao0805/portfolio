@@ -645,19 +645,19 @@ export function AgentDelegateShowcase({ locale }: { locale: Locale }) {
         <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8">
           <div className="min-w-0">
             <DelegateDetailPage />
-            <p className="mt-3 text-center font-mono text-xs text-muted">
+            <p className="mt-3 text-center font-sans text-xs text-muted">
               {isZh ? "① 委托详情 · 新增人才弹出提醒" : "① Delegate detail · new-talent alert"}
             </p>
           </div>
           <div className="min-w-0">
             <TalentListPage />
-            <p className="mt-3 text-center font-mono text-xs text-muted">
+            <p className="mt-3 text-center font-sans text-xs text-muted">
               {isZh ? "② 新增人才 · 候选人名单" : "② New talents · candidates"}
             </p>
           </div>
           <div className="min-w-0">
             <ReviewPage />
-            <p className="mt-3 text-center font-mono text-xs text-muted">
+            <p className="mt-3 text-center font-sans text-xs text-muted">
               {isZh ? "③ 复核 · 通过/待定/拒绝（可点击）" : "③ Review (clickable)"}
             </p>
           </div>

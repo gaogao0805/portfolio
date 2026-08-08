@@ -11,6 +11,12 @@ export type ProjectSection = {
   body: LocalizedList;
 };
 
+/** 详情页顶部悬浮章节导航的一项（id = 页内锚点） */
+export type ProjectTocItem = {
+  id: string;
+  label: LocalizedText;
+};
+
 export type ProjectGameRules = {
   eyebrow: LocalizedText;
   heading: LocalizedText;
@@ -103,6 +109,12 @@ export type Project = {
   gameItems?: ProjectGameItem[];
   /** 游戏类项目的玩法说明 */
   gameRules?: ProjectGameRules;
+  /** 详情页顶部悬浮章节导航（不配则不显示） */
+  toc?: ProjectTocItem[];
+  /** 「我的职责」叙事段落（hero 卡下方的独立板块） */
+  roleDetail?: LocalizedList;
+  /** 核心金句横幅（showcase 与正文之间的停顿点） */
+  insight?: { text: LocalizedText };
   sections: ProjectSection[];
 };
 
@@ -138,6 +150,29 @@ const allProjects: Project[] = [
     tools: { zh: "Figma、Claude Code、Codex", en: "Figma, Claude Code, Codex" },
     duration: { zh: "", en: "" },
     link: "https://go2ready.com/download/?utm_source=a",
+    toc: [
+      { id: "overview", label: { zh: "概览", en: "Overview" } },
+      { id: "architecture", label: { zh: "架构", en: "Architecture" } },
+      { id: "design-system", label: { zh: "设计系统", en: "Design System" } },
+      { id: "features", label: { zh: "核心功能", en: "Features" } },
+      { id: "screens", label: { zh: "界面", en: "Screens" } },
+    ],
+    roleDetail: {
+      zh: [
+        "主导「就绪」从早期概念到上线的整体体验设计——覆盖用户调研、交互设计、UI 设计、设计系统搭建与研发对接。",
+        "重点负责 AI 对话功能与 Memory 分类储存体系的设计：构建用户偏好、能力、行为、反馈四类数据结构，并处理模型运行不确定性带来的加载状态与降级方案。",
+      ],
+      en: [
+        "Owned the end-to-end experience of Ready, from early concept to launch — spanning research, interaction design, UI, the design system, and developer handoff.",
+        "Focused on the AI conversation feature and the Memory categorization system: four data structures for preferences, skills, behaviors, and feedback, plus loading states and graceful degradation for model uncertainty.",
+      ],
+    },
+    insight: {
+      text: {
+        zh: "那么，一个 App，怎么装下求职和招聘两个世界？",
+        en: "So how can one app hold two worlds — job seeking and hiring — at once?",
+      },
+    },
     sections: [],
   },
   {
@@ -173,6 +208,13 @@ const allProjects: Project[] = [
     tools: { zh: "Figma", en: "Figma" },
     duration: { zh: "", en: "" },
     link: "",
+    toc: [
+      { id: "overview", label: { zh: "概览", en: "Overview" } },
+      { id: "competitors", label: { zh: "竞品分析", en: "Competitors" } },
+      { id: "users", label: { zh: "用户分析", en: "Users" } },
+      { id: "direction", label: { zh: "设计方向", en: "Direction" } },
+      { id: "screens", label: { zh: "功能展示", en: "Features" } },
+    ],
     sections: [],
   },
   {
@@ -211,9 +253,13 @@ const allProjects: Project[] = [
     tools: { zh: "", en: "" },
     duration: { zh: "持续整理中", en: "Ongoing collection" },
     link: "",
+    toc: [
+      { id: "overview", label: { zh: "概览", en: "Overview" } },
+      { id: "cases", label: { zh: "游戏案例", en: "Game cases" } },
+    ],
     gameItems: [
       {
-        theme: "dark",
+        theme: "light",
         title: {
           zh: "鹅难财：从五道口到 CBD",
           en: "Goose Fortune: From Wudaokou to CBD",
@@ -376,6 +422,12 @@ const allProjects: Project[] = [
         en: "Players take the roles of users, companies, and hackers. Information submission, theft, reporting, and defense create a system of checks and balances, with distinct abilities and winning conditions for each role.",
       },
     },
+    toc: [
+      { id: "overview", label: { zh: "概览", en: "Overview" } },
+      { id: "background", label: { zh: "项目背景", en: "Background" } },
+      { id: "rules", label: { zh: "游戏规则", en: "Rules" } },
+      { id: "components", label: { zh: "组件设计", en: "Components" } },
+    ],
     sections: [],
   },
   {
@@ -402,6 +454,10 @@ const allProjects: Project[] = [
     tools: { zh: "Figma、Photoshop、Illustrator", en: "Figma, Photoshop, Illustrator" },
     duration: { zh: "持续整理中", en: "Ongoing" },
     link: "",
+    toc: [
+      { id: "overview", label: { zh: "概览", en: "Overview" } },
+      { id: "gallery", label: { zh: "视觉案例", en: "Gallery" } },
+    ],
     gallery: [
       "/images/cdn/cover.7w7ixgeh8m.webp",
       "/images/cdn/frame-8.70b1i04ssk.webp",

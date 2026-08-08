@@ -102,7 +102,7 @@ function MetricGrid({
           <p className="display text-3xl text-accent sm:text-4xl">
             <AnimatedMetricValue value={metric.value[locale]} />
           </p>
-          <p className="mt-2 font-mono text-xs uppercase tracking-wider text-fg">
+          <p className="mt-2 font-sans text-xs uppercase tracking-wider text-fg">
             {metric.label[locale]}
           </p>
           {metric.description ? (
@@ -176,7 +176,7 @@ function SocialProofGallery({
     >
       <motion.span
         variants={itemVariants}
-        className="block font-mono text-xs uppercase tracking-wider text-muted"
+        className="block font-sans text-xs uppercase tracking-wider text-muted"
       >
         {socialProof.eyebrow[locale]}
       </motion.span>
@@ -282,7 +282,7 @@ export function GameCollectionShowcase({
           transition={{ duration: 0.55, ease: EASE }}
           className="max-w-2xl"
         >
-          <span className="font-mono text-xs uppercase tracking-wider text-muted">
+          <span className="font-sans text-xs uppercase tracking-wider text-muted">
             {locale === "zh" ? "游戏案例" : "Game cases"}
           </span>
           <h2 className="display mt-2 text-2xl sm:text-4xl">
@@ -345,7 +345,7 @@ export function GameCollectionShowcase({
                         }}
                       />
                       <span
-                        className={`font-mono text-xs transition-colors ${
+                        className={`font-sans text-xs transition-colors ${
                           isActive
                             ? "text-accent"
                             : activeItemIsLight
@@ -360,7 +360,7 @@ export function GameCollectionShowcase({
                           isActive
                             ? activeItemIsLight
                               ? "text-[#171717]"
-                              : "text-fg"
+                              : "text-white"
                             : activeItemIsLight
                               ? "text-black/45 group-hover:text-[#171717]"
                               : "text-white/45 group-hover:text-white"
@@ -391,7 +391,7 @@ export function GameCollectionShowcase({
               variants={staggerVariants}
               data-nav-theme={isLight ? "light" : "dark"}
               className={`group/case min-h-[calc(100vh-73px)] scroll-mt-[73px] ${
-                isLight ? "theme-light bg-white text-[#171717]" : "bg-[#101017] text-fg"
+                isLight ? "theme-light bg-white text-[#171717]" : "theme-dark bg-[#101017]"
               }`}
             >
               <div className="mx-auto grid max-w-6xl gap-8 px-4 py-14 sm:px-8 sm:py-20 lg:grid-cols-[200px_1fr]">
@@ -402,7 +402,7 @@ export function GameCollectionShowcase({
                     <motion.div variants={staggerVariants}>
                       <motion.span
                         variants={itemVariants}
-                        className="font-mono text-xs uppercase tracking-wider text-accent"
+                        className="font-sans text-xs uppercase tracking-wider text-accent"
                       >
                         {String(index + 1).padStart(2, "0")}
                       </motion.span>
@@ -442,7 +442,7 @@ export function GameCollectionShowcase({
                         className="mt-6 grid gap-4 border-t border-line pt-5 sm:grid-cols-2"
                       >
                         <div>
-                          <dt className="font-mono text-xs uppercase tracking-wider text-muted">
+                          <dt className="font-sans text-xs uppercase tracking-wider text-muted">
                             {locale === "zh" ? "我的职责" : "My role"}
                           </dt>
                           <dd className={`mt-2 text-sm ${isLight ? "text-[#171717]" : "text-fg"}`}>
@@ -451,7 +451,7 @@ export function GameCollectionShowcase({
                         </div>
                         {item.duration ? (
                           <div>
-                            <dt className="font-mono text-xs uppercase tracking-wider text-muted">
+                            <dt className="font-sans text-xs uppercase tracking-wider text-muted">
                               {locale === "zh" ? "周期" : "Duration"}
                             </dt>
                             <dd className={`mt-2 text-sm ${isLight ? "text-[#171717]" : "text-fg"}`}>
@@ -502,7 +502,7 @@ export function GameCollectionShowcase({
           className="border-t border-line bg-white text-center"
         >
           <div className="mx-auto max-w-6xl px-4 py-16 sm:px-8 sm:py-24">
-            <p className="font-mono text-xs uppercase tracking-wider text-muted">
+            <p className="font-sans text-xs uppercase tracking-wider text-muted">
               {locale === "zh" ? "更多游戏" : "More games"}
             </p>
             <p className="display mt-3 text-3xl text-[#171717] sm:text-4xl">

@@ -49,7 +49,7 @@ export function NewsDanmaku({
   answer: string;
 }) {
   return (
-    <div data-nav-theme="dark" className="bg-[#0a0a10]">
+    <div data-nav-theme="light" className="bg-bg-gray">
       <style>{`
         @keyframes danmaku {
           0% { transform: translateX(100vw); }
@@ -69,21 +69,21 @@ export function NewsDanmaku({
                 top: row.top,
                 animation: `danmaku ${row.duration}s linear infinite`,
                 animationDelay: `${row.delay}s`,
-                opacity: 0.35,
+                opacity: 0.5,
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={src}
                 alt=""
-                className="h-auto max-h-16 rounded-md border border-white/10 sm:max-h-20"
+                className="h-auto max-h-16 rounded-md border border-black/10 sm:max-h-20"
                 draggable={false}
               />
             </div>
           );
         })}
-        <div className="absolute inset-0 flex items-center justify-center bg-black/40 px-6">
-          <p className="max-w-2xl text-center text-lg leading-relaxed text-white/90 sm:text-2xl md:text-3xl">
+        <div className="absolute inset-0 flex items-center justify-center bg-white/35 px-6">
+          <p className="max-w-2xl text-center text-lg leading-relaxed text-fg sm:text-2xl md:text-3xl">
             {quote}
           </p>
         </div>
@@ -95,14 +95,14 @@ export function NewsDanmaku({
           {/* 左：问题（默认头像） */}
           <ChatBubble side="left" delay={0.1}>
             <div className="flex items-end gap-3 pr-12 sm:pr-24">
-              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white/10">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-black/5">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.4)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="8" r="4" />
                   <path d="M20 21a8 8 0 0 0-16 0" />
                 </svg>
               </div>
-              <div className="rounded-2xl rounded-bl-sm bg-white/8 px-5 py-4">
-                <p className="text-base leading-relaxed text-white/70 sm:text-lg">
+              <div className="rounded-2xl rounded-bl-sm bg-black/5 px-5 py-4">
+                <p className="text-base leading-relaxed text-fg/75 sm:text-lg">
                   {question}
                 </p>
               </div>
@@ -121,7 +121,7 @@ export function NewsDanmaku({
                 />
               </div>
               <div className="order-1 rounded-2xl rounded-br-sm bg-accent/15 px-5 py-4">
-                <p className="text-base leading-relaxed text-white/80 sm:text-lg">
+                <p className="text-base leading-relaxed text-fg/85 sm:text-lg">
                   {answer}
                 </p>
               </div>

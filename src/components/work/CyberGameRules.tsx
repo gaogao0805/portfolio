@@ -24,7 +24,7 @@ const relationships = [
   {
     from: "company",
     to: "user",
-    tone: "text-[#d9b8ff]",
+    tone: "text-[#9752ff]",
     labelZh: "隐瞒泄露或保护信息，获取信任",
     labelEn: "Leak data for trust",
     zh: "公司可以选择偷偷泄露信息且不被发现，以此骗取信任；也可以保护用户信息，正常获取信任。",
@@ -33,7 +33,7 @@ const relationships = [
   {
     from: "user",
     to: "company",
-    tone: "text-[#ffb8cb]",
+    tone: "text-[#fa457c]",
     labelZh: "发现公司违规，举报并追回信息",
     labelEn: "Report and regain data",
     zh: "网民发现公司存在违规行为后，可以发起举报；举报成功即可追回被泄露的信息。",
@@ -42,7 +42,7 @@ const relationships = [
   {
     from: "company",
     to: "hacker",
-    tone: "text-[#ffb8cb]",
+    tone: "text-[#fa457c]",
     labelZh: "每 4 回合筑起防火墙，也可抽卡获得",
     labelEn: "Build firewall every 4 rounds",
     zh: "公司每四回合可使用一次「建立防火墙」，也可通过抽取技能卡获得该技能。",
@@ -51,7 +51,7 @@ const relationships = [
   {
     from: "hacker",
     to: "company",
-    tone: "text-[#d9b8ff]",
+    tone: "text-[#9752ff]",
     labelZh: "每 3 回合攻破防火墙，也可抽卡获得",
     labelEn: "Breach firewall every 3 rounds",
     zh: "黑客每三回合可使用一次「攻破防火墙」，也可通过抽取技能卡获得该技能。",
@@ -60,7 +60,7 @@ const relationships = [
   {
     from: "hacker",
     to: "user",
-    tone: "text-[#ffb8cb]",
+    tone: "text-[#fa457c]",
     labelZh: "窃取网名，并借投票扰乱判断",
     labelEn: "Steal names and disrupt voting",
     zh: "黑客可以窃取网民的网名信息，并利用投票权混淆网民的判断。",
@@ -69,7 +69,7 @@ const relationships = [
   {
     from: "user",
     to: "hacker",
-    tone: "text-[#d9b8ff]",
+    tone: "text-[#9752ff]",
     labelZh: "凭小道消息识破伪装并举报",
     labelEn: "Identify and report through Grapevine",
     zh: "网民可使用「小道消息」，推断并举报伪装在人群中的黑客。",
@@ -113,10 +113,10 @@ function RoleFigure({
           alt={item[locale]}
           fill
           sizes="160px"
-          className="object-cover object-top"
+          className="object-cover object-top invert"
         />
       </div>
-      <p className="mt-1 text-center text-sm font-semibold text-white">
+      <p className="mt-1 text-center text-sm font-semibold text-fg">
         {item[locale]}
       </p>
     </div>
@@ -133,14 +133,14 @@ export function CyberGameRules({
   const isZh = locale === "zh";
 
   return (
-    <section data-nav-theme="dark" className="bg-[#2d2d2d] text-white">
+    <section data-nav-theme="light" className="theme-light bg-bg-gray">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-8 sm:py-28">
         <div className="max-w-2xl">
           <p className="kicker">{rules.eyebrow[locale]}</p>
           <h2 className="display mt-4 text-3xl leading-none sm:text-5xl">
             {rules.heading[locale]}
           </h2>
-          <p className="mt-5 text-base leading-relaxed text-white/60 sm:mt-6 sm:text-lg">
+          <p className="mt-5 text-base leading-relaxed text-muted sm:mt-6 sm:text-lg">
             {rules.introduction[locale]}
           </p>
         </div>
@@ -183,34 +183,34 @@ export function CyberGameRules({
                   fontSize="11"
                   fontWeight="600"
                   textAnchor="middle"
-                  style={{ paintOrder: "stroke", stroke: "#2d2d2d", strokeWidth: 5 }}
+                  style={{ paintOrder: "stroke", stroke: "#f5f5f5", strokeWidth: 5 }}
                 >
-                  <text fill="#d9b8ff">
+                  <text fill="#9752ff">
                     <textPath href="#label-left-purple" startOffset="50%">
                       {locale === "zh" ? relationships[0].labelZh : relationships[0].labelEn}
                     </textPath>
                   </text>
-                  <text fill="#ffb8cb">
+                  <text fill="#fa457c">
                     <textPath href="#label-left-pink" startOffset="50%">
                       {locale === "zh" ? relationships[1].labelZh : relationships[1].labelEn}
                     </textPath>
                   </text>
-                  <text fill="#ffb8cb">
+                  <text fill="#fa457c">
                     <textPath href="#label-right-pink" startOffset="50%">
                       {locale === "zh" ? relationships[2].labelZh : relationships[2].labelEn}
                     </textPath>
                   </text>
-                  <text fill="#d9b8ff">
+                  <text fill="#9752ff">
                     <textPath href="#label-right-purple" startOffset="50%">
                       {locale === "zh" ? relationships[3].labelZh : relationships[3].labelEn}
                     </textPath>
                   </text>
-                  <text fill="#ffb8cb">
+                  <text fill="#fa457c">
                     <textPath href="#label-bottom-pink" startOffset="50%">
                       {locale === "zh" ? relationships[4].labelZh : relationships[4].labelEn}
                     </textPath>
                   </text>
-                  <text fill="#d9b8ff">
+                  <text fill="#9752ff">
                     <textPath href="#label-bottom-purple" startOffset="50%">
                       {locale === "zh" ? relationships[5].labelZh : relationships[5].labelEn}
                     </textPath>
@@ -230,7 +230,7 @@ export function CyberGameRules({
             <h3 className="text-xl font-bold italic text-[#fa457c] sm:text-2xl">
               {isZh ? "胜利条件" : "Winning conditions"}
             </h3>
-            <div className="mt-8 divide-y divide-white/10 border-y border-white/10">
+            <div className="mt-8 divide-y divide-black/10 border-y border-black/10">
               {wins.map((item) => (
                 <div
                   key={item.role}
@@ -239,7 +239,7 @@ export function CyberGameRules({
                   <RoleFigure role={item.role} locale={locale} className="h-24 sm:h-32" />
                   <div>
                     <h4 className="text-base font-bold sm:text-lg">{roles[item.role][locale]}</h4>
-                    <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-white/70 sm:mt-3 sm:space-y-2 sm:text-base">
+                    <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-fg/75 sm:mt-3 sm:space-y-2 sm:text-base">
                       {item[locale].map((line) => (
                         <li key={line} className="flex gap-2">
                           <span className="text-[#fa457c]">•</span>
@@ -254,18 +254,18 @@ export function CyberGameRules({
           </div>
         </div>
 
-        <div className="mt-20 border-t border-white/10 pt-14 sm:mt-32 sm:pt-20">
+        <div className="mt-20 border-t border-black/10 pt-14 sm:mt-32 sm:pt-20">
           <h3 className="text-xl font-bold italic text-[#fa457c] sm:text-2xl">
             {isZh ? "玩法介绍" : "Gameplay setup"}
           </h3>
 
           <div className="mt-8 grid gap-5 sm:mt-10 sm:gap-6 lg:grid-cols-[1.7fr_0.78fr_0.78fr] lg:items-stretch">
-            <section className="flex min-w-0 flex-col border border-white/15 p-4 sm:p-6">
-              <div className="flex items-center justify-between border-b border-white/15 pb-4">
+            <section className="flex min-w-0 flex-col border border-black/10 p-4 sm:p-6">
+              <div className="flex items-center justify-between border-b border-black/10 pb-4">
                 <p className="font-semibold">
                   {isZh ? "人群阵营" : "Populace"}
                 </p>
-                <span className="font-mono text-xs text-white/35">01</span>
+                <span className="font-sans text-xs text-black/35">01</span>
               </div>
 
               <div className="mt-5 grid flex-1 gap-5 md:mt-6 md:grid-cols-[1fr_auto_170px] md:items-center md:gap-6">
@@ -284,16 +284,16 @@ export function CyberGameRules({
                       <p className="mt-2 text-center text-xs sm:mt-3 sm:text-sm">{isZh ? "黑客 1–2 人" : "Hackers, 1–2 players"}</p>
                     </div>
                   </div>
-                  <p className="mt-3 text-center text-xs leading-relaxed text-white/40">
+                  <p className="mt-3 text-center text-xs leading-relaxed text-black/45">
                     {isZh ? "黑客以人群身份隐藏在游戏中" : "Hackers remain hidden among the populace"}
                   </p>
                 </div>
 
-                <div className="hidden text-3xl text-white/50 md:block">→</div>
-                <div className="text-center text-2xl text-white/40 md:hidden">↓</div>
+                <div className="hidden text-3xl text-black/50 md:block">→</div>
+                <div className="text-center text-2xl text-black/45 md:hidden">↓</div>
 
                 <div className="mx-auto w-fit md:mx-0">
-                  <p className="text-center text-xs text-white/50">
+                  <p className="text-center text-xs text-black/50">
                     {isZh ? "初始信息块" : "Initial information"}
                   </p>
                   <div className="mt-4 grid grid-cols-2 gap-x-5 gap-y-4">
@@ -302,7 +302,7 @@ export function CyberGameRules({
                     <Token src="/images/cdn/cyber-token-hacker.1hsx1trl6y.webp" count="×9" alt={isZh ? "黑客普通信息块" : "Hacker information token"} />
                     <Token src="/images/cdn/cyber-token-hacker.1hsx1trl6y.webp" count="×3" alt={isZh ? "黑客高级信息块" : "Advanced hacker information token"} outlined />
                   </div>
-                  <div className="mt-3 grid grid-cols-2 gap-x-5 text-center text-[11px] leading-tight text-white/45">
+                  <div className="mt-3 grid grid-cols-2 gap-x-5 text-center text-[11px] leading-tight text-black/45">
                     <span>{isZh ? "普通信息块" : "Standard"}</span>
                     <span>{isZh ? "高级信息块" : "Advanced"}</span>
                   </div>
@@ -310,12 +310,12 @@ export function CyberGameRules({
               </div>
             </section>
 
-            <section className="flex min-w-0 flex-col border border-white/15 p-4 sm:p-6">
-              <div className="flex items-center justify-between border-b border-white/15 pb-4">
+            <section className="flex min-w-0 flex-col border border-black/10 p-4 sm:p-6">
+              <div className="flex items-center justify-between border-b border-black/10 pb-4">
                 <p className="font-semibold">
                   {isZh ? "公司阵营" : "Company"}
                 </p>
-                <span className="font-mono text-xs text-white/35">02</span>
+                <span className="font-sans text-xs text-black/35">02</span>
               </div>
 
               <div className="grid flex-1 grid-rows-[168px_44px_1fr] pt-5 sm:grid-rows-[196px_52px_1fr] sm:pt-6">
@@ -328,14 +328,14 @@ export function CyberGameRules({
                   {isZh ? "公司 2–3 人" : "Companies, 2–3 players"}
                 </p>
 
-                <div className="border-t border-white/10 pt-5 text-center">
-                  <p className="font-mono text-xs uppercase tracking-wider text-[#fa457c]">
+                <div className="border-t border-black/10 pt-5 text-center">
+                  <p className="font-sans text-xs uppercase tracking-wider text-[#fa457c]">
                     {isZh ? "接收信息" : "Information intake"}
                   </p>
-                  <p className="mt-3 text-sm leading-relaxed text-white/80">
+                  <p className="mt-3 text-sm leading-relaxed text-fg/80">
                     {isZh ? "每回合接收人群阵营提交的一个信息块" : "Receive one information block from the populace each turn"}
                   </p>
-                  <p className="mt-2 text-xs leading-relaxed text-white/40">
+                  <p className="mt-2 text-xs leading-relaxed text-black/45">
                     {isZh
                       ? "类别由抽取的「隐私协议卡」决定"
                       : "The Privacy Agreement card determines its category"}
@@ -344,12 +344,12 @@ export function CyberGameRules({
               </div>
             </section>
 
-            <section className="flex min-w-0 flex-col border border-white/15 p-4 sm:p-6">
-              <div className="flex items-center justify-between border-b border-white/15 pb-4">
+            <section className="flex min-w-0 flex-col border border-black/10 p-4 sm:p-6">
+              <div className="flex items-center justify-between border-b border-black/10 pb-4">
                 <p className="font-semibold">
                   {isZh ? "局外人" : "Outsider"}
                 </p>
-                <span className="font-mono text-xs text-white/35">03</span>
+                <span className="font-sans text-xs text-black/35">03</span>
               </div>
 
               <div className="grid flex-1 grid-rows-[168px_44px_1fr] pt-5 sm:grid-rows-[196px_52px_1fr] sm:pt-6">
@@ -362,11 +362,11 @@ export function CyberGameRules({
                   {isZh ? "智慧大脑（主持人）" : "Wisdom Brain (moderator)"}
                 </p>
 
-                <div className="border-t border-white/10 pt-5 text-center">
-                  <p className="font-mono text-xs uppercase tracking-wider text-[#fa457c]">
+                <div className="border-t border-black/10 pt-5 text-center">
+                  <p className="font-sans text-xs uppercase tracking-wider text-[#fa457c]">
                     {isZh ? "主持与计分" : "Moderation & scoring"}
                   </p>
-                  <p className="mt-3 text-sm leading-relaxed text-white/80">
+                  <p className="mt-3 text-sm leading-relaxed text-fg/80">
                     {isZh
                       ? "不加入任何阵营，负责推进游戏流程并记录双方得分。"
                       : "Joins neither side, runs the game, and records both sides' scores."}
@@ -401,7 +401,7 @@ function Token({
         height={168}
         className={`h-14 w-14 rounded-full ${outlined ? "ring-2 ring-black" : ""}`}
       />
-      <span className="text-sm text-white/80">{count}</span>
+      <span className="text-sm text-fg/80">{count}</span>
     </div>
   );
 }

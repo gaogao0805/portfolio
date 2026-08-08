@@ -245,7 +245,7 @@ export function MoodDirection({ locale }: { locale: Locale }) {
     <section data-nav-theme="light" className="theme-light bg-white">
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-8 sm:py-24">
         <Reveal>
-          <p className="font-mono text-xs uppercase tracking-[0.25em] text-black/40">
+          <p className="font-sans text-xs uppercase tracking-[0.25em] text-black/40">
             Product Direction
           </p>
           <h2 className="display mt-3 text-3xl leading-[1.15] text-black sm:text-5xl">
@@ -274,7 +274,7 @@ export function MoodDirection({ locale }: { locale: Locale }) {
         {/* 产品目标：四张卡 */}
         <div className="mt-12">
           <Reveal>
-            <p className="font-mono text-xs uppercase tracking-[0.25em] text-black/40">
+            <p className="font-sans text-xs uppercase tracking-[0.25em] text-black/40">
               {isZh ? "产品目标" : "Product goals"}
             </p>
           </Reveal>
@@ -297,7 +297,7 @@ export function MoodDirection({ locale }: { locale: Locale }) {
         {/* 设计策略：一句话宣言 */}
         <Reveal>
           <blockquote className="mt-14 rounded-2xl border border-black/10 bg-gradient-to-r from-[#FF6FA5]/[0.06] to-[#FF9448]/[0.06] px-6 py-8 text-center sm:px-10">
-            <p className="font-mono text-xs uppercase tracking-[0.25em] text-black/40">
+            <p className="font-sans text-xs uppercase tracking-[0.25em] text-black/40">
               Design Strategy · 设计策略
             </p>
             <p className="mx-auto mt-4 max-w-3xl text-lg leading-relaxed text-black/80 sm:text-xl">

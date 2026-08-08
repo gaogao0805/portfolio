@@ -963,7 +963,7 @@ export function AgentHomeShowcase({ locale }: { locale: Locale }) {
             ))}
           </div>
 
-          <p className="mt-8 font-mono text-xs text-muted">
+          <p className="mt-8 font-sans text-xs text-muted">
             {isZh
               ? "点击 Tab 切换找工作 / 招人才 · 复刻自 App 真实首页"
               : "Tap the tabs to switch roles · recreated from the real app home"}

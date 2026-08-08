@@ -743,13 +743,13 @@ export function AgentChatShowcase({ locale }: { locale: Locale }) {
               </div>
               <AgentChatPlay replayKey={replayKey} agent={agent} script={script} />
               <div className="mt-2 flex items-center justify-between">
-                <p className="font-mono text-xs text-muted">
+                <p className="font-sans text-xs text-muted">
                   {isZh ? "对话自动播放 · 复刻自 App 真实聊天界面" : "Auto-playing conversation · recreated from the real app chat"}
                 </p>
                 <button
                   type="button"
                   onClick={() => setReplayKey((k) => k + 1)}
-                  className="font-mono text-xs text-muted underline underline-offset-4 transition-colors hover:text-fg"
+                  className="font-sans text-xs text-muted underline underline-offset-4 transition-colors hover:text-fg"
                 >
                   {isZh ? "重新播放" : "Replay"}
                 </button>

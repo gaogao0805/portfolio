@@ -116,7 +116,7 @@ function Em({ children }: { children: React.ReactNode }) {
 
 function Legend({ locale }: { locale: Locale }) {
   return (
-    <div className="flex items-center gap-4 font-mono text-[11px] tracking-wider text-black/45">
+    <div className="flex items-center gap-4 font-sans text-[11px] tracking-wider text-black/45">
       {(["yes", "partial", "no"] as const).map((mark) => (
         <span key={mark} className="flex items-center gap-1">
           <MarkGlyph mark={mark} className="h-3.5 w-3.5" />
@@ -134,7 +134,7 @@ function FeatureTable({ locale }: { locale: Locale }) {
     <div>
       <YesGradientDefs />
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-black/40">
+        <p className="font-sans text-[11px] uppercase tracking-[0.2em] text-black/40">
           {isZh ? "功能对照" : "Feature comparison"}
         </p>
         <Legend locale={locale} />
@@ -195,7 +195,7 @@ export function MoodCompetitors({ locale }: { locale: Locale }) {
     <section data-nav-theme="light" className="theme-light bg-white">
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-8 sm:py-20">
         <Reveal>
-          <p className="font-mono text-xs uppercase tracking-[0.25em] text-black/40">
+          <p className="font-sans text-xs uppercase tracking-[0.25em] text-black/40">
             USER RESEARCH
           </p>
           <h2 className="display mt-3 text-3xl leading-[1.15] text-black sm:text-5xl">

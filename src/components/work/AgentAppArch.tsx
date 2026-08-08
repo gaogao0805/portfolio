@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "motion/react";
 import type { Locale } from "@/i18n/config";
 
@@ -7,6 +8,8 @@ import type { Locale } from "@/i18n/config";
  * 产品架构三连屏（叙事节奏：过渡提问 → 三层思路 → 完整框架图）。
  * 框架图内容来自 frontend-app-demo 的真实导航结构（AppNavigator.tsx）：
  * 3 个主 Tab（首页/消息/我的）+ 各栈页面。
+ * 三层卡与路径全图联动：悬停/点按卡片，在地图中定位对应层
+ * （入口层=三个 Tab 列，匹配层=委托动线节点，支撑层=简历与隐私节点）。
  */
 
 const SYSTEM_FONT =
@@ -23,14 +26,36 @@ const TEXT_TERTIARY = "#BBC1C9";
 
 function BeatBackground({ isZh }: { isZh: boolean }) {
   return (
-    <section data-nav-theme="dark" style={{ backgroundColor: "#2A2C2C", fontFamily: SYSTEM_FONT }}>
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-8 sm:py-28">
+    <section
+      data-nav-theme="dark"
+      className="relative overflow-hidden"
+      style={{ fontFamily: SYSTEM_FONT }}
+    >
+      {/* 全幅真实照片背景（Unsplash 握手图，暗化处理托住白字） */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/images/hiring-handshake.jpg"
+        alt=""
+        aria-hidden
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+      <div className="absolute inset-0 bg-black/55" aria-hidden />
+      <div className="relative mx-auto max-w-6xl px-4 py-24 text-center sm:px-8 sm:py-36">
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, margin: "-100px" }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="text-xs uppercase tracking-[0.3em] text-white/60"
+        >
+          {isZh ? "Background · 现状" : "Background"}
+        </motion.p>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, margin: "-100px" }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-4xl text-3xl font-bold leading-snug text-white sm:text-5xl sm:leading-snug"
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.08 }}
+          className="mx-auto mt-5 max-w-3xl text-3xl font-bold leading-snug text-white sm:text-5xl sm:leading-snug"
         >
           {isZh ? (
             <>
@@ -46,17 +71,6 @@ function BeatBackground({ isZh }: { isZh: boolean }) {
             </>
           )}
         </motion.p>
-        {/* 呼吸圆点 */}
-        <div className="mt-10 flex gap-2.5">
-          {Array.from({ length: 12 }).map((_, i) => (
-            <motion.span
-              key={i}
-              className="h-1.5 w-1.5 rounded-full bg-white"
-              animate={{ opacity: [0.2, 0.9, 0.2] }}
-              transition={{ duration: 1.8, repeat: Infinity, delay: i * 0.13, ease: "easeInOut" }}
-            />
-          ))}
-        </div>
       </div>
     </section>
   );
@@ -199,14 +213,36 @@ function BeatStatus({ isZh }: { isZh: boolean }) {
 
 function BeatIntro({ isZh }: { isZh: boolean }) {
   return (
-    <section data-nav-theme="dark" style={{ backgroundColor: "#2A2C2C", fontFamily: SYSTEM_FONT }}>
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-8 sm:py-28">
+    <section
+      data-nav-theme="dark"
+      className="relative overflow-hidden"
+      style={{ fontFamily: SYSTEM_FONT }}
+    >
+      {/* 全幅真实照片背景（Unsplash 手机图，暗化处理托住白字） */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/images/app-two-worlds.jpg"
+        alt=""
+        aria-hidden
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+      <div className="absolute inset-0 bg-black/60" aria-hidden />
+      <div className="relative mx-auto max-w-6xl px-4 py-24 text-center sm:px-8 sm:py-36">
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, margin: "-100px" }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="text-xs uppercase tracking-[0.3em] text-white/60"
+        >
+          {isZh ? "Core Question · 核心设问" : "Core Question"}
+        </motion.p>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, margin: "-100px" }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-4xl text-3xl font-bold leading-snug text-white sm:text-5xl sm:leading-snug"
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.08 }}
+          className="mx-auto mt-5 max-w-3xl text-3xl font-bold leading-snug text-white sm:text-5xl sm:leading-snug"
         >
           {isZh ? (
             <>
@@ -224,24 +260,13 @@ function BeatIntro({ isZh }: { isZh: boolean }) {
             </>
           )}
         </motion.p>
-        {/* 呼吸圆点 */}
-        <div className="mt-10 flex gap-2.5">
-          {Array.from({ length: 12 }).map((_, i) => (
-            <motion.span
-              key={i}
-              className="h-1.5 w-1.5 rounded-full bg-white"
-              animate={{ opacity: [0.2, 0.9, 0.2] }}
-              transition={{ duration: 1.8, repeat: Infinity, delay: i * 0.13, ease: "easeInOut" }}
-            />
-          ))}
-        </div>
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, margin: "-100px" }}
-          transition={{ duration: 0.5, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-8 max-w-2xl text-sm leading-relaxed sm:text-base"
-          style={{ color: "rgba(255,255,255,0.55)" }}
+          transition={{ duration: 0.5, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+          className="mx-auto mt-7 max-w-2xl text-sm leading-relaxed sm:text-base"
+          style={{ color: "rgba(255,255,255,0.7)" }}
         >
           {isZh
             ? "就绪允许你同时身为求职者和招聘者——两种身份完全隔离，互不干扰。"
@@ -252,7 +277,7 @@ function BeatIntro({ isZh }: { isZh: boolean }) {
   );
 }
 
-/* ================= ② 三层方向卡 ================= */
+/* ================= ② 三层方向卡（与路径全图联动） ================= */
 
 const LAYERS = [
   {
@@ -261,7 +286,8 @@ const LAYERS = [
     en: "ENTRY",
     descZh: "三个 Tab 装下两个身份：首页看机会、消息接进展、我的管简历和岗位，求职招聘共用一套骨架。",
     descEn: "Three tabs, two identities: Home for opportunities, Messages for progress, Profile for resume & jobs — one skeleton for both sides.",
-    rotate: -2,
+    footZh: "对应下方：三个 Tab 入口",
+    footEn: "Maps to: the three tab columns",
   },
   {
     num: "2",
@@ -269,7 +295,8 @@ const LAYERS = [
     en: "MATCHING",
     descZh: "委托是核心动线：创建 → 问卷评估 → 授权简历 → 经纪人寻访 → 复核撮合，两端在这里交汇。",
     descEn: "The delegate flow is the spine: create → evaluate → authorize → scout → review. Both sides meet here.",
-    rotate: 0.8,
+    footZh: "对应下方：绿色委托动线",
+    footEn: "Maps to: the delegate flow",
   },
   {
     num: "3",
@@ -277,87 +304,153 @@ const LAYERS = [
     en: "FOUNDATION",
     descZh: "在线简历与匿名体系托底：可编辑、可匿名、可授权，隐私设置贯穿所有流程。",
     descEn: "The online resume and anonymity system back everything: editable, maskable, authorizable — privacy runs through every flow.",
-    rotate: 2,
+    footZh: "对应下方：简历与隐私节点",
+    footEn: "Maps to: resume & privacy nodes",
   },
 ];
 
-function Paperclip() {
+function LayerCard({
+  l,
+  active,
+  dimmed,
+  isZh,
+  onToggle,
+}: {
+  l: (typeof LAYERS)[number];
+  active: boolean;
+  dimmed: boolean;
+  isZh: boolean;
+  onToggle: () => void;
+}) {
+  const [hover, setHover] = useState(false);
+  const hoverable = hover && !dimmed && !active;
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={PRIMARY_SOFT} strokeWidth="2.2" strokeLinecap="round">
-      <path d="M21 12.5l-8.5 8.5a5.5 5.5 0 0 1-7.8-7.8l8.5-8.5a3.7 3.7 0 0 1 5.2 5.2l-8.4 8.4a1.85 1.85 0 0 1-2.6-2.6l7.8-7.8" />
-    </svg>
+    <div
+      role="button"
+      tabIndex={0}
+      aria-pressed={active}
+      onClick={onToggle}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onToggle();
+        }
+      }}
+      className="relative h-full cursor-pointer select-none rounded-2xl border bg-white p-6 transition-all duration-300"
+      style={{
+        borderColor: active ? PRIMARY_ACTIVE : hoverable ? "#BFE9DA" : "#E7ECF0",
+        boxShadow: active
+          ? "0 22px 48px rgba(2,168,126,0.22)"
+          : hoverable
+            ? "0 10px 24px rgba(16,24,40,0.08)"
+            : "0 1px 3px rgba(16,24,40,0.05)",
+        transform: active ? "translateY(-4px)" : hoverable ? "translateY(-2px)" : "none",
+        opacity: dimmed ? 0.45 : 1,
+      }}
+    >
+      <div className="flex items-start justify-between">
+        <div>
+          <p
+            className="text-[20px] font-bold transition-colors duration-300"
+            style={{ color: active ? PRIMARY : "#000000" }}
+          >
+            {l.zh}
+          </p>
+          <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-[1.5px]" style={{ color: TEXT_TERTIARY }}>
+            {l.en}
+          </p>
+        </div>
+        <span
+          className="text-[46px] font-bold leading-none transition-transform duration-300"
+          style={{
+            backgroundImage: "linear-gradient(135deg, #8FEACC, #02A87E)",
+            WebkitBackgroundClip: "text",
+            backgroundClip: "text",
+            color: "transparent",
+            transform: active ? "scale(1.14)" : "none",
+            transformOrigin: "top right",
+          }}
+        >
+          {l.num}
+        </span>
+      </div>
+      <div className="my-4 border-t border-dashed" style={{ borderColor: "#DDE2E8" }} />
+      <p className="text-[13px] leading-relaxed" style={{ color: "#4B5563" }}>
+        {isZh ? l.descZh : l.descEn}
+      </p>
+      <p
+        className="mt-3 flex items-center gap-1.5 text-[11px] transition-colors duration-300"
+        style={{ color: active ? PRIMARY_ACTIVE : "#9EA7B3" }}
+      >
+        <span
+          aria-hidden
+          className="inline-block transition-transform duration-300"
+          style={{ transform: active ? "translateX(2px)" : "none" }}
+        >
+          →
+        </span>
+        {isZh ? l.footZh : l.footEn}
+      </p>
+    </div>
   );
 }
 
-function BeatLayers({ isZh }: { isZh: boolean }) {
+function BeatLayers({
+  isZh,
+  activeLayer,
+  onActive,
+}: {
+  isZh: boolean;
+  activeLayer: number;
+  onActive: (layer: number) => void;
+}) {
   return (
-    <section
-      data-nav-theme="light"
-      className="theme-light relative overflow-hidden"
-      style={{ background: "linear-gradient(180deg, #E9F8F1 0%, #FFFFFF 72%)", fontFamily: SYSTEM_FONT }}
-    >
-      {/* 顶部网点 */}
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-40"
-        style={{
-          backgroundImage: "radial-gradient(rgba(111,205,174,0.4) 1.2px, transparent 1.2px)",
-          backgroundSize: "14px 14px",
-          maskImage: "linear-gradient(180deg, black, transparent)",
-          WebkitMaskImage: "linear-gradient(180deg, black, transparent)",
-        }}
-      />
-      <div className="relative mx-auto max-w-6xl px-4 py-14 sm:px-8 sm:py-24">
-        <motion.h2
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-100px" }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="display text-3xl leading-[1.15] sm:text-5xl"
-        >
-          {isZh ? "三层，撑起一个 App" : "Three layers, one app"}
-        </motion.h2>
+    <>
+      <motion.h2
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, margin: "-100px" }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        className="display text-3xl leading-[1.15] sm:text-5xl"
+      >
+        {isZh ? "三层，撑起一个 App" : "Three layers, one app"}
+      </motion.h2>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {LAYERS.map((l, i) => (
+      <div className="mt-12 grid gap-6 md:grid-cols-3">
+        {LAYERS.map((l, i) => {
+          const id = i + 1;
+          return (
             <motion.div
               key={l.num}
-              initial={{ opacity: 0, y: 22, rotate: l.rotate * 2 }}
-              whileInView={{ opacity: 1, y: 0, rotate: l.rotate }}
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, margin: "-80px" }}
               transition={{ duration: 0.55, delay: 0.1 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="relative rounded-2xl bg-white p-6 shadow-[0_10px_28px_rgba(0,0,0,0.07)]"
+              className="h-full"
             >
-              <span className="absolute -top-2.5 left-6">
-                <Paperclip />
-              </span>
-              <div className="flex items-start justify-between">
-                <div>
-                  <p className="text-[20px] font-bold text-black">{l.zh}</p>
-                  <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-[1.5px]" style={{ color: TEXT_TERTIARY }}>
-                    {l.en}
-                  </p>
-                </div>
-                <span
-                  className="text-[46px] font-bold leading-none"
-                  style={{
-                    backgroundImage: "linear-gradient(135deg, #8FEACC, #02A87E)",
-                    WebkitBackgroundClip: "text",
-                    backgroundClip: "text",
-                    color: "transparent",
-                  }}
-                >
-                  {l.num}
-                </span>
-              </div>
-              <div className="my-4 border-t border-dashed" style={{ borderColor: "#DDE2E8" }} />
-              <p className="text-[13px] leading-relaxed" style={{ color: "#4B5563" }}>
-                {isZh ? l.descZh : l.descEn}
-              </p>
+              <LayerCard
+                l={l}
+                isZh={isZh}
+                active={activeLayer === id}
+                dimmed={activeLayer !== 0 && activeLayer !== id}
+                onToggle={() => onActive(activeLayer === id ? 0 : id)}
+              />
             </motion.div>
-          ))}
-        </div>
+          );
+        })}
       </div>
-    </section>
+
+      <div className="mb-5 mt-10 flex items-center gap-2">
+        <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: PRIMARY_ACTIVE }} />
+        <p className="text-[12px]" style={{ color: "#9EA7B3" }}>
+          {isZh
+            ? "点击上方卡片，在路径全图中定位这一层；再次点击取消"
+            : "Click a card above to locate that layer in the map; click again to clear"}
+        </p>
+      </div>
+    </>
   );
 }
 
@@ -390,7 +483,7 @@ const ChatTabIcon = ({ color = PRIMARY }: { color?: string }) => (
 const UserTabIcon = ({ color = PRIMARY }: { color?: string }) => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
     <path
-      d="M8.47145 15.2478C8.35366 14.8206 8.62861 14.3834 9.06772 14.3238C12.2115 13.8971 15.4327 14.2239 18.458 15.3043C19.6824 15.7416 20.4998 16.9017 20.5 18.2018V19.7047C20.5 21.5182 18.8939 22.9113 17.0986 22.6549L16.0078 22.4996C13.1837 22.0962 10.3163 22.0962 7.49219 22.4996L6.40137 22.6549C4.60614 22.9113 3 21.5182 3 19.7047V18.2018C3.00018 16.9017 3.81765 15.7416 5.04199 15.3043C5.22001 15.2407 5.3987 15.1797 5.57801 15.1213C5.97392 14.9923 6.39095 15.228 6.50161 15.6295C6.61101 16.0263 6.37945 16.4357 5.98844 16.5645C5.84046 16.6133 5.69293 16.6639 5.5459 16.7164C4.91872 16.9406 4.50018 17.5357 4.5 18.2018V19.7047C4.5 20.6054 5.29785 21.2979 6.18945 21.1705L7.28027 21.0143C10.245 20.5908 13.255 20.5908 16.2197 21.0143L17.3105 21.1705C18.2022 21.2979 19 20.6054 19 19.7047V18.2018C18.9998 17.5357 18.5813 16.9406 17.9541 16.7164C15.1743 15.7236 12.2151 15.4189 9.32523 15.802C8.94216 15.8528 8.57416 15.6203 8.47145 15.2478Z"
+      d="M8.47145 15.2478C8.35366 14.8206 8.62861 14.3834 9.06772 14.3238C12.2115 13.8971 15.4327 14.2239 18.458 15.3043C19.6824 15.7416 20.4998 16.9017 20.5 18.2018V19.7047C20.5 21.5182 18.8939 22.9113 17.0986 22.6549L16.0078 22.4996C13.1837 22.0962 10.3163 22.0962 7.49219 22.4996L6.40137 22.6549C4.60614 22.9113 3 21.5182 3 19.7047V18.2018C3.00018 16.9017 3.81765 15.7416 5.04199 15.3043C5.22001 15.2407 5.3987 15.1797 5.57801 15.1213C5.97392 14.9923 6.39095 15.228 6.50161 15.6295C6.61101 16.0263 6.37945 16.4357 5.98844 16.5645C5.84046 16.6133 5.69293 16.6639 5.5459 16.7164C4.91872 16.9406 4.50018 17.5357 4.5 18.2018V19.7047C4.5 20.6054 5.29785 21.2979 6.18945 21.1705L7.28027 21.0143C10.245 20.5908 13.255 20.5908 16.2197 21.0143L17.3105 21.1705C18.2022 21.2979 19 19.7047 19 19.7047V18.2018C18.9998 17.5357 18.5813 16.9406 17.9541 16.7164C15.1743 15.7236 12.2151 15.4189 9.32523 15.802C8.94216 15.8528 8.57416 15.6203 8.47145 15.2478Z"
       fill={color}
     />
     <circle cx="4.57143" cy="4.57143" r="4.57143" transform="matrix(-1 0 0 1 16 2)" stroke={color} strokeWidth="1.5" />
@@ -401,6 +494,8 @@ interface MNode {
   name: string;
   note?: string;
   hot?: boolean;
+  /** 所属架构层：2=匹配层 3=支撑层（入口层由树的深度推导，无需标注）；子节点自动继承 */
+  layer?: number;
   children?: MNode[];
 }
 
@@ -409,6 +504,7 @@ const HOME_FLOWS: MNode[] = [
   {
     name: "委托卡 / 「+」新建",
     note: "委托区",
+    layer: 2,
     children: [
       {
         name: "创建委托",
@@ -448,18 +544,20 @@ const HOME_FLOWS: MNode[] = [
 
 /** 消息 Tab：两类会话 + 新建（ConversationsListScreen） */
 const CHAT_FLOWS: MNode[] = [
-  { name: "经纪人 AI 会话", children: [{ name: "AI 对话", hot: true }] },
+  { name: "经纪人 AI 会话", layer: 2, children: [{ name: "AI 对话", hot: true }] },
   {
     name: "人与人会话",
+    layer: 2,
     children: [{ name: "对话", children: [{ name: "对方主页" }, { name: "岗位详情" }] }],
   },
-  { name: "「+」新建会话", children: [{ name: "选择经纪人 → AI 对话" }] },
+  { name: "「+」新建会话", layer: 2, children: [{ name: "选择经纪人 → AI 对话" }] },
 ];
 
 /** 我的 Tab：经纪人卡 / 宫格 / 资料库（ProfileScreen） */
 const PROFILE_FLOWS: MNode[] = [
   {
     name: "经纪人卡（C/B）",
+    layer: 2,
     children: [
       {
         name: "经纪人详情",
@@ -468,7 +566,7 @@ const PROFILE_FLOWS: MNode[] = [
       { name: "「对话」→ AI 对话" },
     ],
   },
-  { name: "求职期望", children: [{ name: "期望详情 → 开启委托", note: "→ 授权委托" }] },
+  { name: "求职期望", layer: 2, children: [{ name: "期望详情 → 开启委托", note: "→ 授权委托" }] },
   {
     name: "岗位管理",
     note: "B端",
@@ -476,24 +574,56 @@ const PROFILE_FLOWS: MNode[] = [
   },
   {
     name: "我的资料库",
+    layer: 3,
     children: [{ name: "附件管理 → 在线简历", hot: true, note: "含「对外展示」匿名切换" }],
   },
-  { name: "对外资料包" },
+  { name: "对外资料包", layer: 3 },
   { name: "已投递岗位" },
-  { name: "头像 / 齿轮", children: [{ name: "个人信息 / 设置（账号·屏蔽·隐私）" }] },
+  { name: "头像 / 齿轮", layer: 3, children: [{ name: "个人信息 / 设置（账号·屏蔽·隐私）" }] },
 ];
 
-function MTreeNode({ node }: { node: MNode }) {
+function MTreeNode({
+  node,
+  depth,
+  inheritedLayer,
+  activeLayer,
+}: {
+  node: MNode;
+  depth: number;
+  inheritedLayer?: number;
+  activeLayer: number;
+}) {
+  const effLayer = node.layer ?? inheritedLayer;
+  let dim = false;
+  let emphasized = false;
+  if (activeLayer === 1) {
+    dim = depth > 0;
+    emphasized = depth === 0;
+  } else if (activeLayer === 2 || activeLayer === 3) {
+    dim = effLayer !== activeLayer;
+    emphasized = effLayer === activeLayer;
+  }
   return (
     <div>
-      <div className="flex items-center gap-1.5 py-[3px]">
+      <div
+        className="flex items-center gap-1.5 py-[3px] transition-opacity duration-300"
+        style={{ opacity: dim ? 0.15 : 1 }}
+      >
         <span className="h-px w-2 shrink-0" style={{ backgroundColor: TRUNK }} />
         <span
-          className="whitespace-nowrap rounded-lg px-2.5 py-1 text-[12px]"
+          className="whitespace-nowrap rounded-lg px-2.5 py-1 text-[12px] transition-all duration-300"
           style={
             node.hot
               ? { backgroundColor: PRIMARY_ACTIVE, color: "#FFFFFF", fontWeight: 500 }
-              : { backgroundColor: "#FFFFFF", border: "1px solid #E5E7EB", color: "#1a1a1a" }
+              : emphasized
+                ? {
+                    backgroundColor: PRIMARY_BG_LIGHT,
+                    border: `1px solid ${PRIMARY_ACTIVE}`,
+                    color: "#0B5B47",
+                    fontWeight: 500,
+                    boxShadow: "0 2px 10px rgba(2,168,126,0.18)",
+                  }
+                : { backgroundColor: "#FFFFFF", border: "1px solid #E5E7EB", color: "#1a1a1a" }
           }
         >
           {node.name}
@@ -507,7 +637,13 @@ function MTreeNode({ node }: { node: MNode }) {
       {node.children && (
         <div className="ml-[5px] border-l border-dashed pl-2.5" style={{ borderColor: TRUNK }}>
           {node.children.map((c) => (
-            <MTreeNode key={c.name} node={c} />
+            <MTreeNode
+              key={c.name}
+              node={c}
+              depth={depth + 1}
+              inheritedLayer={effLayer}
+              activeLayer={activeLayer}
+            />
           ))}
         </div>
       )}
@@ -520,18 +656,34 @@ function MindColumn({
   en,
   icon,
   flows,
+  activeLayer,
 }: {
   tab: string;
   en: string;
   icon: React.ReactNode;
   flows: MNode[];
+  activeLayer: number;
 }) {
+  const colActive = activeLayer === 1;
+  const headDim = activeLayer === 2 || activeLayer === 3;
   return (
-    <div>
-      <div className="flex items-center gap-2.5">
+    <div
+      className="rounded-2xl border bg-white p-5 transition-all duration-300"
+      style={{
+        borderColor: colActive ? PRIMARY_ACTIVE : "#E7ECF0",
+        boxShadow: colActive
+          ? "0 20px 44px rgba(2,168,126,0.18)"
+          : "0 1px 2px rgba(16,24,40,0.04)",
+        transform: colActive ? "translateY(-4px)" : "none",
+      }}
+    >
+      <div
+        className="flex items-center gap-2.5 transition-opacity duration-300"
+        style={{ opacity: headDim ? 0.25 : 1 }}
+      >
         <span
           className="flex h-10 w-10 items-center justify-center rounded-xl border-[1.5px] bg-white"
-          style={{ borderColor: PRIMARY_SOFT }}
+          style={{ borderColor: colActive ? PRIMARY_ACTIVE : PRIMARY_SOFT }}
         >
           {icon}
         </span>
@@ -544,48 +696,100 @@ function MindColumn({
       </div>
       <div className="ml-[19px] mt-2 border-l border-dashed pl-3" style={{ borderColor: TRUNK }}>
         {flows.map((f) => (
-          <MTreeNode key={f.name} node={f} />
+          <MTreeNode key={f.name} node={f} depth={0} activeLayer={activeLayer} />
         ))}
       </div>
     </div>
   );
 }
 
-function BeatTree({ isZh }: { isZh: boolean }) {
+const LAYER_NAMES_ZH = ["", "入口层", "匹配层", "支撑层"];
+const LAYER_NAMES_EN = ["", "Entry", "Matching", "Foundation"];
+
+function BeatTree({
+  isZh,
+  activeLayer,
+  onActive,
+}: {
+  isZh: boolean;
+  activeLayer: number;
+  onActive: (layer: number) => void;
+}) {
   return (
-    <section data-nav-theme="light" className="theme-light bg-white" style={{ fontFamily: SYSTEM_FONT }}>
-      <div className="mx-auto max-w-6xl px-4 pb-16 pt-4 sm:px-8 sm:pb-24">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="overflow-x-auto rounded-3xl"
-          style={{ backgroundColor: "#FBFBFB" }}
-        >
-          <div className="min-w-[980px] px-8 py-8">
-            <div className="mb-6 flex items-baseline justify-between">
-              <p className="text-[15px] font-bold text-black">
-                {isZh ? "路径全图 · 从哪进，到哪去" : "Full map · every entry, every destination"}
-              </p>
-              <div className="flex items-center gap-6 text-[11px]" style={{ color: "#656D76" }}>
-                <span className="flex items-center gap-1.5">
-                  <span className="h-3 w-3 rounded" style={{ backgroundColor: PRIMARY_ACTIVE }} />
-                  {isZh ? "下方有互动复刻" : "Recreated below"}
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="h-3 w-3 rounded border bg-white" style={{ borderColor: "#DDE2E8" }} />
-                  {isZh ? "普通页面" : "Regular page"}
-                </span>
-              </div>
-            </div>
-            <div className="grid grid-cols-3 gap-8">
-              <MindColumn tab="首页" en="Home" icon={<HomeTabIcon />} flows={HOME_FLOWS} />
-              <MindColumn tab="消息" en="Messages" icon={<ChatTabIcon />} flows={CHAT_FLOWS} />
-              <MindColumn tab="我的" en="Profile" icon={<UserTabIcon />} flows={PROFILE_FLOWS} />
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: false, margin: "-80px" }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="overflow-x-auto rounded-3xl"
+      style={{ backgroundColor: "#FBFBFB", border: "1px solid #EEF1F4" }}
+    >
+      <div className="min-w-[980px] px-8 py-8">
+        <div className="mb-6 flex items-baseline justify-between">
+          <p className="text-[15px] font-bold text-black">
+            {isZh ? "路径全图 · 从哪进，到哪去" : "Full map · every entry, every destination"}
+          </p>
+          <div className="flex items-center gap-4">
+            {activeLayer > 0 && (
+              <button
+                type="button"
+                onClick={() => onActive(0)}
+                className="flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium transition-transform duration-200 hover:scale-[1.05]"
+                style={{
+                  backgroundColor: PRIMARY_BG_LIGHT,
+                  color: PRIMARY,
+                  border: `1px solid ${PRIMARY_SOFT}`,
+                }}
+              >
+                {isZh ? `已定位：${LAYER_NAMES_ZH[activeLayer]}` : `Focused: ${LAYER_NAMES_EN[activeLayer]}`}
+                <span aria-hidden>✕</span>
+              </button>
+            )}
+            <div className="flex items-center gap-6 text-[11px]" style={{ color: "#656D76" }}>
+              <span className="flex items-center gap-1.5">
+                <span className="h-3 w-3 rounded" style={{ backgroundColor: PRIMARY_ACTIVE }} />
+                {isZh ? "下方有互动复刻" : "Recreated below"}
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="h-3 w-3 rounded border bg-white" style={{ borderColor: "#DDE2E8" }} />
+                {isZh ? "普通页面" : "Regular page"}
+              </span>
             </div>
           </div>
-        </motion.div>
+        </div>
+        <div className="grid grid-cols-3 gap-5">
+          <MindColumn tab="首页" en="Home" icon={<HomeTabIcon />} flows={HOME_FLOWS} activeLayer={activeLayer} />
+          <MindColumn tab="消息" en="Messages" icon={<ChatTabIcon />} flows={CHAT_FLOWS} activeLayer={activeLayer} />
+          <MindColumn tab="我的" en="Profile" icon={<UserTabIcon />} flows={PROFILE_FLOWS} activeLayer={activeLayer} />
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+/* ================= ②+③ 合并板块：三层卡 + 路径全图 ================= */
+
+function BeatArchitecture({ isZh }: { isZh: boolean }) {
+  const [activeLayer, setActiveLayer] = useState(0);
+  return (
+    <section
+      data-nav-theme="light"
+      className="theme-light relative overflow-hidden"
+      style={{ background: "linear-gradient(180deg, #E9F8F1 0%, #FFFFFF 48%)", fontFamily: SYSTEM_FONT }}
+    >
+      {/* 顶部网点 */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-40"
+        style={{
+          backgroundImage: "radial-gradient(rgba(111,205,174,0.4) 1.2px, transparent 1.2px)",
+          backgroundSize: "14px 14px",
+          maskImage: "linear-gradient(180deg, black, transparent)",
+          WebkitMaskImage: "linear-gradient(180deg, black, transparent)",
+        }}
+      />
+      <div className="relative mx-auto max-w-6xl px-4 py-14 sm:px-8 sm:py-24">
+        <BeatLayers isZh={isZh} activeLayer={activeLayer} onActive={setActiveLayer} />
+        <BeatTree isZh={isZh} activeLayer={activeLayer} onActive={setActiveLayer} />
       </div>
     </section>
   );
@@ -600,8 +804,7 @@ export function AgentAppArch({ locale }: { locale: Locale }) {
       <BeatBackground isZh={isZh} />
       <BeatStatus isZh={isZh} />
       <BeatIntro isZh={isZh} />
-      <BeatLayers isZh={isZh} />
-      <BeatTree isZh={isZh} />
+      <BeatArchitecture isZh={isZh} />
     </>
   );
 }

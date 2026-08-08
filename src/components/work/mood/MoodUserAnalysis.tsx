@@ -231,7 +231,7 @@ export function MoodUserAnalysis({ locale }: { locale: Locale }) {
     <section data-nav-theme="light" className="theme-light bg-white">
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-8 sm:py-20">
         <Reveal>
-          <p className="font-mono text-xs uppercase tracking-[0.25em] text-black/40">
+          <p className="font-sans text-xs uppercase tracking-[0.25em] text-black/40">
             USER RESEARCH
           </p>
           <h2 className="display mt-3 text-3xl leading-[1.15] text-black sm:text-5xl">
@@ -261,7 +261,7 @@ export function MoodUserAnalysis({ locale }: { locale: Locale }) {
           <div className="mt-10 grid grid-cols-1 gap-12 md:grid-cols-2">
             {/* 左：测试得分分布 */}
             <div className="min-w-0">
-              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-black/40">
+              <p className="font-sans text-[11px] uppercase tracking-[0.2em] text-black/40">
                 {isZh ? "测试得分分布" : "Test score distribution"}
               </p>
               <div className="mt-4">
@@ -308,7 +308,7 @@ export function MoodUserAnalysis({ locale }: { locale: Locale }) {
 
             {/* 右：问卷最高得分项 */}
             <div className="min-w-0">
-              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-black/40">
+              <p className="font-sans text-[11px] uppercase tracking-[0.2em] text-black/40">
                 {isZh ? "问卷最高得分项" : "Top-scoring survey item"}
               </p>
               <div className="mt-6 flex items-center gap-6">

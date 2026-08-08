@@ -172,7 +172,7 @@ function BigSwatch({ name, bg, hexes, darkText }: { name: string; bg: string; he
           {name}
         </span>
         {hexes.map((h) => (
-          <span key={h} className="font-mono text-[10px]" style={{ color: fg }}>
+          <span key={h} className="font-sans text-[10px]" style={{ color: fg }}>
             {h}
           </span>
         ))}
@@ -197,7 +197,7 @@ function SmallSwatch({ name, value, light }: { name: string; value: string; ligh
       <p className="mt-1.5 truncate text-[11px] leading-tight" style={{ color: "#000" }}>
         {name}
       </p>
-      <p className="truncate font-mono text-[9px] leading-tight" style={{ color: TEXT_TERTIARY }}>
+      <p className="truncate font-sans text-[9px] leading-tight" style={{ color: TEXT_TERTIARY }}>
         {value}
       </p>
     </div>
@@ -330,12 +330,12 @@ export function AgentDesignSystem({ locale }: { locale: Locale }) {
                   <span className="rounded-full px-2.5 py-0.5 text-[11px] font-medium" style={{ backgroundColor: PRIMARY_BG_LIGHT, color: PRIMARY }}>
                     {currentRow?.[0]}
                   </span>
-                  <span className="rounded-full px-2.5 py-0.5 font-mono text-[11px]" style={{ backgroundColor: "#F1F2F4", color: TEXT_SECONDARY }}>
+                  <span className="rounded-full px-2.5 py-0.5 font-sans text-[11px]" style={{ backgroundColor: "#F1F2F4", color: TEXT_SECONDARY }}>
                     {currentSize}px / {LINE_HEIGHTS[currentSize]}
                   </span>
                 </div>
                 <SnapSlider count={SLIDER_SIZES.length} index={sizeIdx} onChange={setSizeIdx} />
-                <div className="mt-0.5 flex justify-between font-mono text-[9px]" style={{ color: TEXT_TERTIARY }}>
+                <div className="mt-0.5 flex justify-between font-sans text-[9px]" style={{ color: TEXT_TERTIARY }}>
                   <span>10</span>
                   <span>20</span>
                 </div>
@@ -367,7 +367,7 @@ export function AgentDesignSystem({ locale }: { locale: Locale }) {
                           就绪 Ready
                         </span>
                         <span
-                          className="font-mono text-[10px]"
+                          className="font-sans text-[10px]"
                           style={{ color: active ? PRIMARY : TEXT_TERTIARY, fontWeight: active ? 600 : 400 }}
                         >
                           {usage} · {size}px
@@ -390,7 +390,7 @@ export function AgentDesignSystem({ locale }: { locale: Locale }) {
                         <span className="text-[20px] text-black" style={{ fontWeight: weight }}>
                           Aa
                         </span>
-                        <span className="mt-1 font-mono text-[9px]" style={{ color: selected ? PRIMARY : TEXT_TERTIARY }}>
+                        <span className="mt-1 font-sans text-[9px]" style={{ color: selected ? PRIMARY : TEXT_TERTIARY }}>
                           {weight}
                         </span>
                       </button>
@@ -430,13 +430,13 @@ export function AgentDesignSystem({ locale }: { locale: Locale }) {
                   <span className="rounded-full px-2.5 py-0.5 text-[11px] font-medium" style={{ backgroundColor: PRIMARY_BG_LIGHT, color: PRIMARY }}>
                     {SPACING_USES[spaceIdx]}
                   </span>
-                  <span className="rounded-full px-2.5 py-0.5 font-mono text-[11px]" style={{ backgroundColor: "#F1F2F4", color: TEXT_SECONDARY }}>
+                  <span className="rounded-full px-2.5 py-0.5 font-sans text-[11px]" style={{ backgroundColor: "#F1F2F4", color: TEXT_SECONDARY }}>
                     {SPACINGS[spaceIdx]}px
                   </span>
                 </div>
                 <div className="mt-auto">
                   <SnapSlider count={SPACINGS.length} index={spaceIdx} onChange={setSpaceIdx} />
-                  <div className="mt-0.5 flex justify-between font-mono text-[9px]" style={{ color: TEXT_TERTIARY }}>
+                  <div className="mt-0.5 flex justify-between font-sans text-[9px]" style={{ color: TEXT_TERTIARY }}>
                     <span>4</span>
                     <span>28</span>
                   </div>
@@ -477,13 +477,13 @@ export function AgentDesignSystem({ locale }: { locale: Locale }) {
                   <span className="rounded-full px-2.5 py-0.5 text-[11px] font-medium" style={{ backgroundColor: PRIMARY_BG_LIGHT, color: PRIMARY }}>
                     {RADIUS_USES[currentRadius]}
                   </span>
-                  <span className="rounded-full px-2.5 py-0.5 font-mono text-[11px]" style={{ backgroundColor: "#F1F2F4", color: TEXT_SECONDARY }}>
+                  <span className="rounded-full px-2.5 py-0.5 font-sans text-[11px]" style={{ backgroundColor: "#F1F2F4", color: TEXT_SECONDARY }}>
                     {currentRadius}
                   </span>
                 </div>
                 <div className="mt-auto">
                   <SnapSlider count={RADII.length} index={radiusIdx} onChange={setRadiusIdx} />
-                  <div className="mt-0.5 flex justify-between font-mono text-[9px]" style={{ color: TEXT_TERTIARY }}>
+                  <div className="mt-0.5 flex justify-between font-sans text-[9px]" style={{ color: TEXT_TERTIARY }}>
                     <span>2</span>
                     <span>999</span>
                   </div>

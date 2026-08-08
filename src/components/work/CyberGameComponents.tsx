@@ -385,7 +385,7 @@ function CardTypeTag({
   locale: Locale;
 }) {
   return (
-    <span className="inline-flex shrink-0 items-center rounded-full border border-line bg-white px-3 py-1.5 font-mono text-xs font-semibold text-fg">
+    <span className="inline-flex shrink-0 items-center rounded-full border border-line bg-white px-3 py-1.5 font-sans text-xs font-semibold text-fg">
       {locale === "zh" ? `共 ${count} 种卡` : `${count} card types total`}
     </span>
   );
@@ -469,7 +469,7 @@ function CardCarousel({
       </div>
 
       <div className="mt-4 flex items-center justify-center gap-3 sm:mt-5 sm:gap-4">
-        <span className="font-mono text-xs font-semibold text-muted">
+        <span className="font-sans text-xs font-semibold text-muted">
           {activeIndex + 1} / {cards.length}
         </span>
         <div className="flex items-center gap-2">
@@ -532,7 +532,7 @@ function InformationBlockTray({
           <h4 className="display text-xl sm:text-3xl">{title}</h4>
           <p className="mt-2 text-sm leading-relaxed text-muted">{subtitle}</p>
         </div>
-        <span className="shrink-0 rounded-full border border-line px-3 py-1.5 font-mono text-[11px] font-semibold text-fg">
+        <span className="shrink-0 rounded-full border border-line px-3 py-1.5 font-sans text-[11px] font-semibold text-fg">
           {high ? "2 pts" : "1 pt"}
         </span>
       </div>
@@ -740,7 +740,7 @@ function FinalShowcaseCarousel({ locale }: { locale: Locale }) {
       </div>
 
       <div className="mt-5 flex items-center justify-center gap-4">
-        <span className="font-mono text-xs font-semibold text-muted">
+        <span className="font-sans text-xs font-semibold text-muted">
           {activeIndex + 1} / {finalShowcaseImages.length}
         </span>
         <div className="flex items-center gap-2">
@@ -796,7 +796,7 @@ export function CyberGameComponents({ locale }: { locale: Locale }) {
         <div className="mt-10 border-t border-line pt-8 sm:mt-16 sm:pt-10">
           <div className="flex flex-wrap items-end justify-between gap-4 sm:gap-6">
             <div>
-              <span className="font-mono text-xs text-muted">01</span>
+              <span className="font-sans text-xs text-muted">01</span>
               <h3 className="display mt-2 text-xl sm:text-3xl">
                 {isZh ? "角色卡" : "Character cards"}
               </h3>
@@ -818,7 +818,7 @@ export function CyberGameComponents({ locale }: { locale: Locale }) {
         <div className="mt-12 border-t border-line pt-8 sm:mt-16 sm:pt-10">
           <div className="flex flex-wrap items-end justify-between gap-4 sm:gap-6">
             <div>
-              <span className="font-mono text-xs text-muted">02</span>
+              <span className="font-sans text-xs text-muted">02</span>
               <h3 className="display mt-2 text-xl sm:text-3xl">
                 {isZh ? "隐私协议卡" : "Privacy agreement cards"}
               </h3>
@@ -840,7 +840,7 @@ export function CyberGameComponents({ locale }: { locale: Locale }) {
         <div className="mt-12 border-t border-line pt-8 sm:mt-16 sm:pt-10">
           <div className="flex flex-wrap items-end justify-between gap-4 sm:gap-6">
             <div>
-              <span className="font-mono text-xs text-muted">03</span>
+              <span className="font-sans text-xs text-muted">03</span>
               <h3 className="display mt-2 text-xl sm:text-3xl">
                 {isZh ? "技能卡" : "Skill cards"}
               </h3>
@@ -895,7 +895,7 @@ export function CyberGameComponents({ locale }: { locale: Locale }) {
         <div className="mt-12 border-t border-line pt-8 sm:mt-16 sm:pt-10">
           <div className="flex flex-wrap items-end justify-between gap-4 sm:gap-6">
             <div>
-              <span className="font-mono text-xs text-muted">04</span>
+              <span className="font-sans text-xs text-muted">04</span>
               <h3 className="display mt-2 text-xl sm:text-3xl">
                 {isZh ? "事件卡" : "Event cards"}
               </h3>
@@ -916,7 +916,7 @@ export function CyberGameComponents({ locale }: { locale: Locale }) {
 
         <div className="mt-12 border-t border-line pt-8 sm:mt-16 sm:pt-10">
           <div className="max-w-3xl">
-            <span className="font-mono text-xs text-muted">05</span>
+            <span className="font-sans text-xs text-muted">05</span>
             <h3 className="display mt-2 text-xl sm:text-3xl">
               {isZh ? "信息块" : "Information blocks"}
             </h3>
@@ -962,7 +962,7 @@ export function CyberGameComponents({ locale }: { locale: Locale }) {
 
           <div className="mt-12 border-t border-line pt-8 sm:mt-16 sm:pt-10">
             <div className="max-w-3xl">
-              <span className="font-mono text-xs text-muted">06</span>
+              <span className="font-sans text-xs text-muted">06</span>
               <h3 className="display mt-2 text-xl sm:text-3xl">
                 {isZh ? "计分表" : "Score tables"}
               </h3>
@@ -980,7 +980,7 @@ export function CyberGameComponents({ locale }: { locale: Locale }) {
 
           <div className="mt-12 border-t border-line pt-8 sm:mt-16 sm:pt-10">
             <div className="max-w-3xl">
-              <span className="font-mono text-xs text-muted">07</span>
+              <span className="font-sans text-xs text-muted">07</span>
               <h3 className="display mt-2 text-xl sm:text-3xl">
                 {isZh ? "最终展示图" : "Final showcase"}
               </h3>
