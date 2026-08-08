@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "motion/react";
 const SEEN_KEY = "intro-seen-v1";
 
 /**
- * 首次进场序列（每个会话一次，且只在首页）：黑场 → 签名 logo 从左到右
+ * 首次进场序列（每个会话一次，且只在首页）：白场 → 签名 logo 从左到右
  * 扫入点亮 → 停顿 → 整体上滑退场。sessionStorage 记位，刷新不再播。
  * 挂载后才渲染（SSR 无感），播放期间锁滚动。
  */
@@ -44,7 +44,7 @@ export function Intro() {
           <motion.img
             src="/logo.svg"
             alt=""
-            className="h-16 w-auto invert sm:h-24"
+            className="h-16 w-auto sm:h-24"
             initial={{ clipPath: "inset(0 100% 0 0)", opacity: 0.4 }}
             animate={{ clipPath: "inset(0 0% 0 0)", opacity: 1 }}
             transition={{ duration: 0.9, ease: [0.65, 0, 0.35, 1], delay: 0.15 }}
@@ -56,7 +56,7 @@ export function Intro() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.9, duration: 0.4 }}
           >
-            <span className="font-mono text-[10px] uppercase tracking-[0.35em] text-muted">
+            <span className="font-sans text-[10px] uppercase tracking-[0.35em] text-muted">
               Portfolio
             </span>
           </motion.div>

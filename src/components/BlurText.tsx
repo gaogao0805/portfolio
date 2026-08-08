@@ -33,6 +33,9 @@ const BlurText = ({
   // 强调片段：text 中首个 emText 子串用 emClassName 高亮（按字符下标匹配，逐词/逐字都安全）
   emText = "",
   emClassName = "serif-em",
+  // 逐字模式下，在该字符下标之后插入一个「仅移动端生效」的整行占位，
+  // 利用 flex-wrap 把标题在移动端折成两行（桌面端 display:none，保持单行）；-1 = 不折行
+  mobileBreakAfter = -1,
 }) => {
   const elements = animateBy === "words" ? text.split(" ") : text.split("");
   const [inView, setInView] = useState(false);
@@ -109,7 +112,7 @@ const BlurText = ({
 
           const content = segment === " " ? " " : segment;
 
-          return (
+          const span = (
             <motion.span
               className="inline-block will-change-[transform,filter,opacity]"
               key={index}
@@ -124,6 +127,10 @@ const BlurText = ({
               {animateBy === "words" && index < elements.length - 1 && " "}
             </motion.span>
           );
+          // 指定下标后追加移动端整行占位（flex-basis:100% 强制折行）
+          return index === mobileBreakAfter
+            ? [span, <span key="br" aria-hidden className="hidden basis-full max-sm:block" />]
+            : span;
         });
       })()}
     </p>

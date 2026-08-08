@@ -17,6 +17,7 @@ const dictionaries = {
       work: "作品",
       about: "关于",
       contact: "联系",
+      resume: "简历",
       langLabel: "EN",
     },
     home: {
@@ -53,6 +54,9 @@ const dictionaries = {
       titleEm: "精选",
       subtitle: "从 AI 产品到视觉设计与游戏卡牌，这些是我参与的项目。",
       subtitleShort: "AI 产品、视觉与游戏卡牌——我参与的项目。",
+      // 板块简介（作品区标题旁的完整介绍段落）
+      intro:
+        "从 AI 产品的 0 到 1，到视觉设计与游戏卡牌——这里收着我认真做过的项目。它们不只停在方案里：有人正在用，也有完整的玩法与设计系统。",
       viewProject: "查看项目",
     },
     project: {
@@ -218,7 +222,7 @@ const dictionaries = {
           ],
         },
       ],
-      viewDetails: "查看详情",
+      viewDetails: "查看简历",
     },
     contact: {
       kicker: "联系",
@@ -248,6 +252,7 @@ const dictionaries = {
       work: "Work",
       about: "About",
       contact: "Contact",
+      resume: "Resume",
       langLabel: "中",
     },
     home: {
@@ -282,6 +287,9 @@ const dictionaries = {
       subtitle:
         "From AI products to visual design and game cards — here's what I've worked on.",
       subtitleShort: "AI products, visual design & game cards — what I've worked on.",
+      // 板块简介（作品区标题旁的完整介绍段落）
+      intro:
+        "From 0→1 AI products to visual design and game cards — projects I actually shipped. People use them, and each carries a full design system behind it.",
       viewProject: "View project",
     },
     project: {
@@ -447,7 +455,7 @@ const dictionaries = {
           ],
         },
       ],
-      viewDetails: "View details",
+      viewDetails: "View resume",
     },
     contact: {
       kicker: "Contact",

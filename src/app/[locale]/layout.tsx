@@ -4,6 +4,7 @@ import "../globals.css";
 import { isLocale, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { Nav } from "@/components/Nav";
+import { Dock } from "@/components/Dock";
 import { Footer } from "@/components/Footer";
 import { LanyardProvider } from "@/components/lanyard/LanyardProvider";
 import { Intro } from "@/components/Intro";
@@ -63,14 +64,11 @@ export default async function LocaleLayout({
         />
         <LanyardProvider role={role}>
           <Intro />
-          {/* 桌面导航只留文字，不显示图标（想恢复图标把 hideIcons 去掉即可） */}
-          <Nav
-            locale={locale}
-            nav={dict.nav}
-            hideIcons
-          />
+          <Nav locale={locale} nav={dict.nav} />
           <main className="relative z-10 flex-1">{children}</main>
           <Footer locale={locale} dict={dict} />
+          {/* 底部悬浮 Dock：全站主导航（手机导航栏式） */}
+          <Dock locale={locale} nav={dict.nav} />
         </LanyardProvider>
       </body>
     </html>

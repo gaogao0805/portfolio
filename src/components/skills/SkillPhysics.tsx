@@ -251,10 +251,10 @@ export function SkillPhysics({
   return (
     <div>
       <div className="flex items-end justify-between gap-4">
-        <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
+        <h2 className="font-sans text-xs uppercase tracking-wider text-muted">
           {skillsTitle} · {toolsTitle}
         </h2>
-        <span className="shrink-0 font-mono text-xs text-muted/70">
+        <span className="shrink-0 font-sans text-xs text-muted/70">
           {hint}
         </span>
       </div>
@@ -280,7 +280,7 @@ export function SkillPhysics({
               >
                 {active.label}
               </span>
-              <span className="font-mono text-[11px] uppercase tracking-wider text-muted">
+              <span className="font-sans text-[11px] uppercase tracking-wider text-muted">
                 {active.kind === "tool"
                   ? `${toolsTitle} · ${active.group}`
                   : skillsTitle}

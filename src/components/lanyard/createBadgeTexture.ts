@@ -2,7 +2,7 @@
  * 在 canvas 上画出工牌正面（头像 + 姓名 + 职位 + 联系方式），返回 PNG dataURL。
  * 这张图会被贴到 3D 工牌的正面。只能在浏览器端调用。
  *
- * 白色卡面（深色背景上更清晰）+ 电光绿 / 紫色点缀。
+ * 白色卡面 + 深青 / 紫色点缀。
  * 想换头像照片：把 avatar 传进来（见 LanyardProvider），否则用首字母圆形占位。
  */
 export type BadgeOptions = {
@@ -14,7 +14,7 @@ export type BadgeOptions = {
   avatar?: HTMLImageElement | null;
 };
 
-const ACCENT = "#19ffe7"; // 青色品牌色
+const ACCENT = "#0db5a2"; // 深青品牌色
 const PURPLE = "#6d5bff"; // 次强调
 const CARD = "#ffffff"; // 卡面白
 const INK = "#0b0b0f"; // 深色文字

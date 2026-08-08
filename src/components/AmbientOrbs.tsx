@@ -1,6 +1,8 @@
 /**
- * 环境漂移光斑（Sora 式氛围背景层）：浅色 section 用。
- * 纯 CSS 动画、无 JS；父级需 relative + overflow-hidden，内容层需盖在 z-10。
+ * 环境漂移光斑（Sora 式氛围背景层）：浅色页面/section 用。
+ * 纯 CSS 动画、无 JS。两种用法：
+ * 1. 整页氛围：外层包 `fixed inset-0 -z-10`（首页即用此法，板块透明浮于其上，无交界断层）；
+ * 2. 局部板块：父级需 relative + overflow-hidden，内容层需盖在 z-10。
  * 配色：品牌青 + 次强调紫 + 暖桃，全部低透明度，白底上呈粉彩感。
  */
 export function AmbientOrbs() {

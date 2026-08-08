@@ -26,7 +26,7 @@ export function CopyButton({
   return (
     <button
       onClick={onCopy}
-      className="rounded-full border border-line px-3 py-1 font-mono text-xs text-muted transition-colors hover:border-accent hover:text-accent"
+      className="rounded-full border border-line px-3 py-1 font-sans text-xs text-muted transition-colors hover:border-accent hover:text-accent"
     >
       {done ? copied : copy}
     </button>

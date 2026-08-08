@@ -45,10 +45,10 @@ export function ProjectCard({
             />
           ) : null}
           <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent" />
-          <span className="absolute left-5 top-4 font-mono text-xs font-bold tracking-widest text-black/70">
+          <span className="absolute left-5 top-4 font-sans text-xs font-bold tracking-widest text-black/70">
             {project.glyph}
           </span>
-          <span className="absolute right-5 top-4 font-mono text-xs text-black/60">
+          <span className="absolute right-5 top-4 font-sans text-xs text-black/60">
             {project.year}
           </span>
           {/* hover 时上滑出现的 CTA 条 */}
