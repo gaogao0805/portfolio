@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -38,30 +38,85 @@ export default async function AboutPage({
       {/* 板块一（白色）：头部 + 优势亮点 */}
       <section data-nav-theme="light" className="theme-light bg-bg-light">
         <div className="mx-auto max-w-5xl px-5 pb-16 pt-14 sm:px-8 sm:pb-20 sm:pt-20">
+          {/* 头部：职位胶囊 + 首页同款大陈述（得意黑 + serif 名牌 + 装帧引号），右侧拍立得 */}
           <Reveal>
-            <Link
-              href={`/${locale}#about`}
-              className="text-sm text-muted transition-colors hover:text-accent"
-            >
-              ← {a.kicker}
-            </Link>
-          </Reveal>
-
-          {/* 头部：姓名 + 职位 + 一句话（头像 / 期望城市暂时隐藏） */}
-          <Reveal>
-            <div className="mt-10 flex flex-col gap-8 sm:flex-row sm:items-end">
-              {/* 头像（site.avatar）暂时隐藏，需要时恢复 */}
+            <div className="mt-10 flex flex-col gap-12 sm:flex-row sm:items-center sm:justify-between sm:gap-16">
               <div>
                 <span className="inline-block rounded-full bg-accent px-3 py-1 text-xs font-semibold text-black">
                   {a.role}
                 </span>
-                <h1 className="display mt-4 text-5xl leading-[1.05] sm:text-7xl">
-                  {a.title}
-                </h1>
-                {/* 期望城市（about.preferred）暂时隐藏，需要时恢复 */}
+                <div className="mt-6 flex flex-col gap-3 sm:gap-5">
+                  <p
+                    className={`display ${
+                      locale === "zh"
+                        ? "font-smiley-cjk text-2xl sm:text-[2.75rem] xl:text-[3.2rem]"
+                        : "text-2xl sm:text-[2rem]"
+                    }`}
+                  >
+                    {locale === "zh" ? (
+                      <>
+                        你好，我是<em className="serif-em">Zoey</em>，
+                      </>
+                    ) : (
+                      <>
+                        Hi, I&apos;m <em className="serif-em">Zoey</em> —
+                      </>
+                    )}
+                  </p>
+                  <h1
+                    className={`display relative max-w-xl leading-[1.45] sm:max-w-none ${
+                      locale === "zh"
+                        ? "font-smiley-cjk text-2xl sm:text-[2.75rem] xl:text-[3.2rem]"
+                        : "text-2xl sm:text-[2rem]"
+                    }`}
+                  >
+                    {/* 装帧引号：CSS 直角括号对 */}
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute -left-4 -top-4 h-5 w-5 select-none border-l-[3px] border-t-[3px] border-accent/60 sm:-left-9 sm:-top-5 sm:h-6 sm:w-6"
+                    />
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute -bottom-4 -right-4 h-5 w-5 select-none border-b-[3px] border-r-[3px] border-accent/60 sm:-bottom-5 sm:-right-9 sm:h-6 sm:w-6"
+                    />
+                    {locale === "zh" ? (
+                      <>
+                        以克制的设计语言，
+                        <br />
+                        赋予每个细节恰到好处的意义。
+                      </>
+                    ) : (
+                      <>
+                        a restrained design language,
+                        <br />
+                        giving every detail its right meaning.
+                      </>
+                    )}
+                  </h1>
+                </div>
+              </div>
+              {/* 拍立得：首页同款（白框微斜、签名落款、hover 回正）；移动端排在文字下方居中 */}
+              <div className="group w-56 shrink-0 rotate-[-3deg] self-center bg-white p-2.5 pb-3 shadow-[0_16px_40px_rgba(0,0,0,0.14)] transition-transform duration-500 hover:rotate-0 sm:w-64">
+                <div className="relative aspect-[4/5] overflow-hidden bg-black">
+                  <Image
+                    src="/avatar.jpg"
+                    alt={locale === "zh" ? "Zoey 的照片" : "Photo of Zoey"}
+                    fill
+                    sizes="240px"
+                    className="object-cover"
+                    unoptimized
+                  />
+                </div>
+                <div className="mt-2.5 flex h-8 items-center justify-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/logo.svg"
+                    alt=""
+                    className="h-5 w-auto opacity-70"
+                  />
+                </div>
               </div>
             </div>
-            <p className="mt-8 max-w-2xl text-2xl text-muted">{a.lead}</p>
           </Reveal>
 
           {/* 优势亮点 bento（about.highlights）暂时隐藏，需要时恢复 */}

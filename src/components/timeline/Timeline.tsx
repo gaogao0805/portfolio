@@ -39,7 +39,7 @@ const TONES = {
       boxShadow: "0 0 14px 3px rgba(25,255,231,0.55)",
     },
     cometGlow: "shadow-[0_0_16px_4px_rgba(25,255,231,0.65)]",
-    backdrop: "from-bg-soft",
+    backdrop: "bg-bg-soft",
   },
   light: {
     nodeOff: {
@@ -55,7 +55,7 @@ const TONES = {
       boxShadow: "0 0 14px 3px rgba(13,181,162,0.4)",
     },
     cometGlow: "shadow-[0_0_16px_4px_rgba(13,181,162,0.45)]",
-    backdrop: "from-bg-gray",
+    backdrop: "bg-bg-gray",
   },
 } as const;
 
@@ -129,25 +129,27 @@ export function TimelineSection({
 
   return (
     <section ref={ref} className={className}>
-      {/* 粘性章节标题：吸附在导航栏下，直到本章节滚完 */}
-      <div className="sticky top-[69px] z-30 sm:top-[61px]">
-        {/* 背景：上部实心、下缘渐隐，滚过的内容自然没入 */}
+      {/* 粘性章节标题：吸附在视口顶，直到本章节滚完
+          （top-0：header 已非常驻，无需留位；上方无缝隙也就不会漏滚动文字） */}
+      <div className="sticky top-0 z-30">
+        {/* 背景：与板块同色的实心遮罩，滚过的内容干净没入
+            （曾用渐隐，半透明区会透出残影文字） */}
         <div
           aria-hidden
-          className={`absolute inset-x-0 top-0 h-[calc(100%+24px)] bg-gradient-to-b ${t.backdrop} from-[75%] to-transparent`}
+          className={`absolute inset-x-0 top-0 h-[calc(100%+12px)] ${t.backdrop}`}
         />
-        <div className="relative flex items-center gap-3 pb-5 pl-8 pt-2">
+        <div className="relative flex items-center gap-3 pb-5 pl-8 pt-5">
           <motion.span
             aria-hidden
             initial={false}
             animate={active ? "on" : "off"}
             variants={{ off: t.nodeOff, on: t.nodeOn }}
             transition={{ type: "spring", stiffness: 320, damping: 22 }}
-            className="absolute left-[1px] top-[13px] h-[9px] w-[9px] rotate-45 border-2"
+            className="absolute left-[1px] top-[25px] h-[9px] w-[9px] rotate-45 border-2"
           />
-          <span className="font-mono text-xs text-accent">{index}</span>
+          <span className="font-sans text-xs text-accent">{index}</span>
           <h2
-            className={`font-mono text-sm font-semibold uppercase tracking-[0.2em] transition-colors duration-500 ${
+            className={`font-sans text-sm font-semibold uppercase tracking-[0.2em] transition-colors duration-500 ${
               active ? "text-fg" : "text-muted"
             }`}
           >
@@ -205,7 +207,7 @@ export function TimelineItem({
         className="absolute left-0 top-[6px] h-[11px] w-[11px] rounded-full border-2"
       />
       <span
-        className={`relative font-mono text-sm transition-colors duration-500 ${
+        className={`relative font-sans text-sm transition-colors duration-500 ${
           active ? "text-accent" : "text-muted"
         }`}
       >

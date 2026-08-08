@@ -1,19 +1,21 @@
 @import "tailwindcss";
 
 /* ----------------------------------------------------------------
-   主题 token —— 「大胆 / 个性化」深色基调 + 电光绿强调色
+   主题 token —— 明亮基调（白底 + 灰阶文字层级）+ 深青强调色
    想换配色：改下面几个变量即可。
+   注意：部分作品 showcase 板块为硬编码深色（作品内容本身的视觉），
+   不随这些变量翻转。
 ----------------------------------------------------------------- */
 @theme {
-  --color-bg: #000000;
-  --color-bg-soft: #14141b;
+  --color-bg: #ffffff;
+  --color-bg-soft: #f0f0f0;
   --color-bg-light: #ffffff;
   --color-bg-gray: #f5f5f5;
-  --color-fg: #f4f4f0;
-  --color-muted: #8a8a99;
-  --color-accent: #19ffe7; /* 青色，品牌色 */
+  --color-fg: #1a1a1a;
+  --color-muted: #666666;
+  --color-accent: #0db5a2; /* 深青，品牌色（白底可读版电光青） */
   --color-accent-2: #6d5bff; /* 紫，次强调 */
-  --color-line: #26262f;
+  --color-line: #e0e0e0;
 
   /* 字体栈 —— 系统字体（苹方优先），零加载、秒开。 */
   --font-display: "PingFang SC", "Space Grotesk", ui-sans-serif, system-ui,
@@ -24,17 +26,21 @@
     monospace;
 }
 
-/* 得意黑斜体：仅首页 Hero 主标题与首页板块大标题使用（.font-smiley）。
-   子集只含上述文案字形 + ASCII + 常用标点（14KB）；
+/* 得意黑斜体：首页 Hero 主标题与板块大标题（.font-smiley），
+   首页 About 大标题用「仅中文」变体（.font-smiley-cjk，见下方 unicode-range 说明）。
+   子集只含上述文案字形 + ASCII + 常用标点（约 15KB）；
+   当前文案：我是/让每一步，都顺理成章/好的设计，是让人看不见的光/项目精选/
+   你好，以克制的设计语言，赋予每个细节恰到好处的意义。/
+   项目名：就绪/心绪轨迹/游戏与互动设计/运营视觉/鹅难财：从五道口到
    改了这些文案要重新生成，否则新增字符会掉回苹方——
-   注意：重新生成后必须递增文件名版本号（-v2→-v3…），
+   注意：重新生成后必须递增文件名版本号（-v5→-v6…），
    同名文件会被浏览器缓存旧子集，新字形照样不生效：
    pyftsubset SmileySans-Oblique-3.otf --flavor=woff2 --desubroutinize \
      --text="<新文案>" --unicodes="U+0020-007E,U+3000-303F,U+FF00-FFEF,U+2014,U+2018-201D,U+2026" \
-     --output-file=public/fonts/SmileySans-Oblique-hero-v3.woff2 */
+     --output-file=public/fonts/SmileySans-Oblique-hero-v6.woff2 */
 @font-face {
   font-family: "Smiley Sans";
-  src: url("/fonts/SmileySans-Oblique-hero-v2.woff2") format("woff2");
+  src: url("/fonts/SmileySans-Oblique-hero-v5.woff2") format("woff2");
   font-weight: 400;
   font-style: normal; /* 字体本身就是斜体设计，声明为 regular */
   font-display: swap;
@@ -44,8 +50,25 @@
   font-family: "Smiley Sans", var(--font-display);
 }
 
+/* 得意黑「仅中文」版：同一字体文件 + unicode-range 只接管中文字形，
+   拉丁字母/数字落回 --font-display（苹方）。
+   用于中英混排标题——中文得意黑、西文苹方（如首页 About 大标题）。 */
+@font-face {
+  font-family: "Smiley Sans CJK";
+  src: url("/fonts/SmileySans-Oblique-hero-v5.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+3000-303F, U+4E00-9FFF, U+FF00-FFEF, U+2014, U+2018-201D,
+    U+2026;
+}
+
+.font-smiley-cjk {
+  font-family: "Smiley Sans CJK", var(--font-display);
+}
+
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 /* 锚点跳转平滑滚动（原生，无 JS 依赖） */
@@ -62,6 +85,15 @@ body {
   line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/* 防横向溢出：个别元素超宽时不允许撑出横向滚动——手机上横向可拖/可缩小
+   会露出浏览器灰色背底（看起来像页面两侧漏灰边）。
+   用 clip 而不是 hidden：clip 不创建滚动容器，position:sticky 不受影响；
+   不支持的旧浏览器自动忽略该声明，退化为现状。 */
+html,
+body {
+  overflow-x: clip;
 }
 
 /* 自定义鼠标光标（public/cursor.svg）。尖端对齐点击位置 (0,0)。
@@ -86,6 +118,8 @@ select {
   color: #000;
 }
 
+/* 浅色板块兜底：基础变量已全站明亮，此处与基础值一致，
+   用于在硬编码深色父级内强制浅色文字/变量（如 showcase 内嵌浅色区） */
 .theme-light {
   --color-fg: #1a1a1a !important;
   --color-muted: #666666 !important;
@@ -93,6 +127,18 @@ select {
   --color-bg-soft: #f0f0f0 !important;
   --color-accent: #0db5a2 !important;
   color: #1a1a1a !important;
+}
+
+/* 深色板块（作品内容视觉，如暗色 showcase 面板、暗色导航态）：
+   局部恢复旧深色 token，内部组件写法无需改动 */
+.theme-dark {
+  --color-bg: #000000 !important;
+  --color-bg-soft: #14141b !important;
+  --color-fg: #f4f4f0 !important;
+  --color-muted: #8a8a99 !important;
+  --color-line: #26262f !important;
+  --color-accent: #19ffe7 !important;
+  color: #f4f4f0 !important;
 }
 
 /* 超大展示标题（行高 1.15：中文字形满 em 框，过窄会叠字） */
@@ -104,9 +150,15 @@ select {
 }
 
 /* 得意黑仅单字重：叠加 .display 时接管字体并压住它的 700，避免浏览器合成假粗体 */
-.display.font-smiley {
+.display.font-smiley,
+.display.font-smiley-cjk {
   font-family: "Smiley Sans", var(--font-display);
   font-weight: 400;
+}
+
+/* 仅中文变体：font-family 栈不同（拉丁落回苹方），字重压平同理 */
+.display.font-smiley-cjk {
+  font-family: "Smiley Sans CJK", var(--font-display);
 }
 
 /* 小标签 kicker */

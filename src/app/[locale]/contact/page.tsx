@@ -16,7 +16,7 @@ export default async function ContactPage({
   const c = dict.contact;
 
   return (
-    <div className="mx-auto max-w-4xl px-5 py-20 sm:px-8 sm:py-28">
+    <div data-nav-theme="light" className="mx-auto max-w-4xl px-5 py-20 sm:px-8 sm:py-28">
       <Reveal>
         <p className="kicker">{c.kicker}</p>
         <h1 className="display mt-4 text-6xl sm:text-8xl">{c.title}</h1>
@@ -27,7 +27,7 @@ export default async function ContactPage({
       <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
         {/* 邮箱 */}
         <div className="flex flex-col justify-between gap-6 bg-bg p-8">
-          <p className="font-mono text-xs uppercase tracking-wider text-muted">
+          <p className="font-sans text-xs uppercase tracking-wider text-muted">
             {c.emailTitle}
           </p>
           <div>
@@ -46,7 +46,7 @@ export default async function ContactPage({
         {/* 手机（可在 site.ts 关闭） */}
         {site.showPhone ? (
           <div className="flex flex-col justify-between gap-6 bg-bg p-8">
-            <p className="font-mono text-xs uppercase tracking-wider text-muted">
+            <p className="font-sans text-xs uppercase tracking-wider text-muted">
               {c.callTitle}
             </p>
             <div>
@@ -71,7 +71,7 @@ export default async function ContactPage({
       {/* 社交 */}
       <Reveal>
         <section className="mt-16">
-          <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
+          <h2 className="font-sans text-xs uppercase tracking-wider text-muted">
             {c.socialTitle}
           </h2>
           <div className="mt-6 flex flex-col divide-y divide-line border-y border-line">
