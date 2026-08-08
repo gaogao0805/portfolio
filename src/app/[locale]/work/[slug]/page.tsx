@@ -65,6 +65,7 @@ export default async function ProjectPage({
     { label: dict.project.team, value: project.team[locale] },
     { label: dict.project.tools, value: project.tools[locale] },
     { label: dict.project.duration, value: project.duration[locale] },
+    { label: dict.project.metric, value: project.metricBadge?.[locale] ?? "" },
     // 年份单独放在头部卡片右上角，不进 meta 列
   ].filter((m) => m.value.trim().length > 0);
   const isPosterCollection = slug === "event-visual";

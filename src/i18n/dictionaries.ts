@@ -69,6 +69,7 @@ const dictionaries = {
       next: "下一个项目",
       prev: "上一个项目",
       visit: "访问 / 体验",
+      metric: "产品数据",
     },
     about: {
       kicker: "关于我",
@@ -302,6 +303,7 @@ const dictionaries = {
       next: "Next project",
       prev: "Previous project",
       visit: "Visit / try it",
+      metric: "Metrics",
     },
     about: {
       kicker: "About",

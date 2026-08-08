@@ -115,6 +115,8 @@ export type Project = {
   roleDetail?: LocalizedList;
   /** 核心金句横幅（showcase 与正文之间的停顿点） */
   insight?: { text: LocalizedText };
+  /** hero 卡 meta 行的数据项（如「日活 300+」，不配则不显示） */
+  metricBadge?: LocalizedText;
   sections: ProjectSection[];
 };
 
@@ -173,6 +175,7 @@ const allProjects: Project[] = [
         en: "So how can one app hold two worlds — job seeking and hiring — at once?",
       },
     },
+    metricBadge: { zh: "日活 200-300", en: "200-300 DAU" },
     sections: [],
   },
   {
