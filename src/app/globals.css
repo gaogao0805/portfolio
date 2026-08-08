@@ -437,36 +437,6 @@ select {
   font-weight: 500;
 }
 
-/* ----------------------------------------------------------------
-   环境漂移光斑（浅色区氛围背景层，Sora 式）。
-   纯 CSS 动画，容器绝对定位铺满父级，父级需 relative + overflow-hidden。
------------------------------------------------------------------ */
-.ambient-orbs {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.ambient-orbs span {
-  position: absolute;
-  display: block;
-  border-radius: 9999px;
-  filter: blur(90px);
-  animation: orb-drift 32s ease-in-out infinite alternate;
-  will-change: transform;
-}
-
-@keyframes orb-drift {
-  from {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  to {
-    transform: translate3d(6vw, -5vh, 0) scale(1.12);
-  }
-}
-
 /* 情绪版旅程虚线：持续流动（配合 stroke-dasharray 的周期 13） */
 @keyframes dash-flow {
   to {
